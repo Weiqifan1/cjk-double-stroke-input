@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "double-stroke-input", "double-stroke-input\double-stroke-input.csproj", "{13EC0A3B-7BA1-4520-823A-D875C8450A02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-double-stroke-input", "test-double-stroke-input\test-double-stroke-input.csproj", "{E40F1ED1-7063-436F-B494-36D471B7A12C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13EC0A3B-7BA1-4520-823A-D875C8450A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13EC0A3B-7BA1-4520-823A-D875C8450A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13EC0A3B-7BA1-4520-823A-D875C8450A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13EC0A3B-7BA1-4520-823A-D875C8450A02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E40F1ED1-7063-436F-B494-36D471B7A12C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E40F1ED1-7063-436F-B494-36D471B7A12C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E40F1ED1-7063-436F-B494-36D471B7A12C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E40F1ED1-7063-436F-B494-36D471B7A12C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
