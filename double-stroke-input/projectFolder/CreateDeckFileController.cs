@@ -7,7 +7,7 @@ public class CreateDeckFileController
     public void myFunction()
     {
         Console.WriteLine("Hello, this is my function.");
-        GenerateJundaMap genJunda = new GenerateJundaMap();
+        GenerateFileMaps genJunda = new GenerateFileMaps();
         genJunda.Run();
     }
     
