@@ -24,13 +24,18 @@ public class GenerateFileMaps
         var codepointMap = generateCodepointMap();
         //var idsMap = generateIdsMap();
         //扌目趴  虫木竺
-        //var codeExceptions = generateCodeExceptions();
+        var codeExceptions = generateCodeExceptions();
         
         var test = "";
     }
 
     private Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptions()
     {
+        //generate exception code for these characters:
+        //扌目趴  虫木竺
+        //金飣車糽言馬門
+        
+        
         throw new NotImplementedException();
     }
     
