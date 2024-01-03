@@ -19,12 +19,19 @@ public class GenerateFileMaps
         //var heisigTradPath = "../../../projectFolder/StaticFiles/heisigTrad.txt";
         //var heisigTradLines = removeIntroductionLines(heisigTradPath, 3);
        
-        var jundaMap = generateJundaMap();
-        var tzaiMap = generateTzaiMap();
+        //var jundaMap = generateJundaMap();
+        //var tzaiMap = generateTzaiMap();
         var codepointMap = generateCodepointMap();
-        var idsMap = generateIdsMap();
+        //var idsMap = generateIdsMap();
+        //扌目趴  虫木竺
+        var codeExceptions = generateCodeExceptions();
         
         var test = "";
+    }
+
+    private Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptions()
+    {
+        throw new NotImplementedException();
     }
     
     public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap()
