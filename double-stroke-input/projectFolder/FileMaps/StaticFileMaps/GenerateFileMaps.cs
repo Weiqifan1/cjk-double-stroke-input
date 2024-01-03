@@ -31,12 +31,30 @@ public class GenerateFileMaps
 
     private Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptions()
     {
+        
+        throw new NotImplementedException();
+        
+        
         //generate exception code for these characters:
+        //and write tests for them
         //扌目趴  虫木竺
         //金飣車糽言馬門
         
+        //s   "手","扌"   "121"
+        //d    "目"  "25111"
+        //f    "足","𧾷"   "251(215|2121";   //251215  2512121
+        //j    "虫"  "251214"
+        //k    "木","朩"  "1234"
+        //l     "竹","⺮","ケ" "314314"
         
-        throw new NotImplementedException();
+        //t     "金"   "34112431"
+        //y    "食","飠"    "34(1|4)(51154|511211)"    
+        // "344511211"  "34451154",  "34151154",  "341511211",
+        //g     "車"    "1251112"
+        //h     "糸"    "(554234|554444)"   "554234"  "554444"
+        //v      "言","訁"    "(1|4)111251"     "1111251"    "4111251"
+        //b      "馬"    "(12|21)11254444"    "1211254444"   "2111254444"
+        //n     "𠁣","𠃛","門"    "25112511"
     }
     
     public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap()
