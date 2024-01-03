@@ -1,4 +1,5 @@
-﻿using double_stroke_input.projectFolder.FileMaps;
+﻿using System.Text;
+using double_stroke_input.projectFolder.FileMaps;
 using Microsoft.VisualBasic;
 
 namespace double_stroke_input.projectFolder.StaticFileMaps;
@@ -18,9 +19,9 @@ public class GenerateFileMaps
         //var heisigTradPath = "../../../projectFolder/StaticFiles/heisigTrad.txt";
         //var heisigTradLines = removeIntroductionLines(heisigTradPath, 3);
        
-        //var jundaMap = generateJundaMap();
-        //var tzaiMap = generateTzaiMap();
-        //var codepointMap = generateCodepointMap();
+        var jundaMap = generateJundaMap();
+        var tzaiMap = generateTzaiMap();
+        var codepointMap = generateCodepointMap();
         var idsMap = generateIdsMap();
         
         var test = "";
@@ -31,8 +32,11 @@ public class GenerateFileMaps
         var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
         var idsLines = removeIntroductionLines(idsPath, 2);
         UtilityFunctions util = new UtilityFunctions();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> result = new Dictionary<UnicodeCharacter, IdsBasicRecord>();
-        Dictionary<string, string> tempDictionary = new Dictionary<string, string>();
+        Dictionary<UnicodeCharacter, IdsBasicRecord> result = 
+            new Dictionary<UnicodeCharacter, IdsBasicRecord>();
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
+            new Dictionary<UnicodeCharacter, List<UnicodeCharacter>>();
+        var charsToRemove = irrelevantShapeAndLatinCharacters();
         //List<UnicodeCharacter> rolledOutIds(character, )
         //IdsBasicRecord record = new IdsBasicRecord(input, );
         foreach (string input in idsLines)
@@ -40,7 +44,8 @@ public class GenerateFileMaps
             string[] splitstr = 
                 input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
             UnicodeCharacter character = util.firstUnicodeCharacter(splitstr[1]);
-            tempDictionary.Add(character.Value, splitstr[2]);
+            List<UnicodeCharacter> strSplitIds = util.CreateUnicodeCharacters(splitstr[2]);
+            tempDictionary.Add(character, strSplitIds);
         }
         
         foreach (string input in idsLines)
@@ -49,8 +54,24 @@ public class GenerateFileMaps
                 input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
             UnicodeCharacter character = util.firstUnicodeCharacter(splitstr[1]);
             List<UnicodeCharacter> rolldOutids = generateRolledOutids(character, tempDictionary);
-            IdsBasicRecord basic = new IdsBasicRecord(input, rolldOutids);
+            var rolledOutWithNoShape = removeUnvantedCharacters(rolldOutids, charsToRemove);
+            IdsBasicRecord basic = new IdsBasicRecord(input, rolldOutids, rolledOutWithNoShape);
             result.Add(character, basic);
+        }
+        return result;
+    }
+
+    private List<UnicodeCharacter> removeUnvantedCharacters(
+        List<UnicodeCharacter> rolldOutids, 
+        List<UnicodeCharacter> charsToRemove)
+    {
+        List<UnicodeCharacter> result = new List<UnicodeCharacter>();
+        foreach (var VARIABLE in rolldOutids)
+        {
+            if (!charsToRemove.Contains(VARIABLE))
+            {
+                result.Add(VARIABLE);
+            }
         }
         return result;
     }
@@ -265,21 +286,106 @@ public class GenerateFileMaps
         return result;
     }
     
-    private List<UnicodeCharacter> generateRolledOutids(UnicodeCharacter character, Dictionary<string, string> tempDictionary)
+    private List<UnicodeCharacter> generateRolledOutids(
+        UnicodeCharacter character,
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
     {
-        //TODO: this code should be rewritten with ai, it is created with tab, and the ai didnt know what i wanted.
-        List<UnicodeCharacter> rolledOutIds = new List<UnicodeCharacter>();
-        /*
-        if (tempDictionary.ContainsKey(character.Value))
-        {
-            string[] rolledOutIdsArray = tempDictionary[character.Value].Split(',');
-            foreach (string rolledOutId in rolledOutIdsArray)
-            {
-                UnicodeCharacter rolledOutCharacter = util.firstUnicodeCharacter(rolledOutId);
-                rolledOutIds.Add(rolledOutCharacter);
-            }
-        }*/
-        return rolledOutIds;
+        UtilityFunctions util = new UtilityFunctions();
+        List<UnicodeCharacter> temporaryRollOut = tempDictionary.GetValueOrDefault(character);
+        return Helper(temporaryRollOut, tempDictionary);
     }
 
+    private List<UnicodeCharacter> Helper(
+        List<UnicodeCharacter> temporaryRollOut,
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
+    {
+        List<List<UnicodeCharacter>> rolledOutSingleLines = 
+            new List<List<UnicodeCharacter>>();
+        Boolean eachSublistEmptyOrLengthOne = false;
+        foreach (var eachLetter in temporaryRollOut)
+        {
+            var valueFromDict = tempDictionary.GetValueOrDefault(eachLetter);
+            List<UnicodeCharacter> toAdd = valueFromDict == null || valueFromDict.Count == 0
+                ? new List<UnicodeCharacter>() {eachLetter}
+                : valueFromDict;
+            rolledOutSingleLines.Add(toAdd);
+            if (valueFromDict?.Count > 1)
+                eachSublistEmptyOrLengthOne = true;
+        }
+        temporaryRollOut = rolledOutSingleLines.SelectMany(subList => subList).ToList();
+        if (eachSublistEmptyOrLengthOne)
+        {
+            return Helper(temporaryRollOut, tempDictionary);   // Recursive call
+        }
+        return temporaryRollOut;
+    }
+    
+    private List<UnicodeCharacter> irrelevantShapeAndLatinCharacters()
+    {
+        UtilityFunctions util = new UtilityFunctions();
+        List<UnicodeCharacter> result = new List<UnicodeCharacter>();
+        string ideographicDiscription = ideographicCharacterRange();
+        string asciiStr = GetAllAsciiCharacters();
+        var ideographics = util.CreateUnicodeCharacters(ideographicDiscription);
+        var ascii = util.CreateUnicodeCharacters(asciiStr);
+        return ideographics.Concat(ascii).ToList();
+    }
+
+    private string ideographicCharacterRange()
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0x2FF0; i <= 0x2FFF; i++)
+        {
+            sb.Append(char.ConvertFromUtf32(i)); // Converts int to Unicode character and appends it to string builder
+        }
+        string output = sb.ToString(); // Holds all the characters from U+2FF0 to U+2FFF
+        return output;
+    }
+
+    public string GetAllAsciiCharacters()
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i <= 127; i++)
+        {
+            sb.Append((char)i);
+        }
+        return sb.ToString();
+    }
+    
+    /*
+    private List<UnicodeCharacter> generateRolledOutids(
+        UnicodeCharacter character,
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
+    {
+        UtilityFunctions util = new UtilityFunctions();
+        //TODO: this code should be rewritten with ai, it is created with tab, and the ai didnt know what i wanted.
+        List<UnicodeCharacter> temporaryRollOut = tempDictionary.GetValueOrDefault(character);
+        List<List<UnicodeCharacter>> rolledOutSingleLines = new List<List<UnicodeCharacter>>();
+        Boolean eachSublistEmptyOrLengthOne = true;
+        do
+        {
+            eachSublistEmptyOrLengthOne = false;
+            foreach (var eachLetter in temporaryRollOut)
+            {
+                var valueFromDict = tempDictionary.GetValueOrDefault(eachLetter);
+                if (valueFromDict == null || valueFromDict.Count == 0)
+                {
+                    rolledOutSingleLines.Add(
+                        new List<UnicodeCharacter>() { eachLetter });
+                }
+                else if (valueFromDict.Count == 1)
+                {
+                    rolledOutSingleLines.Add(valueFromDict);
+                }
+                else
+                {
+                    rolledOutSingleLines.Add(valueFromDict);
+                    eachSublistEmptyOrLengthOne = true;
+                }
+            }
+            temporaryRollOut = rolledOutSingleLines.SelectMany(subList => subList).ToList();
+        } while (eachSublistEmptyOrLengthOne);
+
+        return temporaryRollOut;
+    }*/
 }

@@ -2,5 +2,6 @@
 
 public record IdsBasicRecord(
     string rawIds,
-    List<UnicodeCharacter> rolledOutIds
+    List<UnicodeCharacter> rolledOutIds,
+    List<UnicodeCharacter> rolledOutIdsWithNoShape
     );

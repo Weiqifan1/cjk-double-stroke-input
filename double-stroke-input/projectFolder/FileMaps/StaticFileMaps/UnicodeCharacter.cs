@@ -36,4 +36,18 @@ public class UnicodeCharacter
   
         return char.IsHighSurrogate(input[0]) && char.IsLowSurrogate(input[1]);  
     }
+    
+    
+    public override bool Equals(object obj)
+    {
+        if (obj == null || !(obj is UnicodeCharacter))
+            return false;
+        
+        return value == ((UnicodeCharacter) obj).Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return value != null ? value.GetHashCode() : 0;
+    }
 }
