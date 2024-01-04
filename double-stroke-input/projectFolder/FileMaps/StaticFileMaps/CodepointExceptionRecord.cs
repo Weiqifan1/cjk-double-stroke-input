@@ -4,8 +4,11 @@
 //hvor element er UnicodeCodepoint, dvs. der skal bruge
 //flere 
 public record CodepointExceptionRecord(
+    UnicodeCharacter character,
     UnicodeCharacter alphabetLetter,
-    List<string> rawCodepoints);
+    string rawCodepoint,
+    List<UnicodeCharacter> mistakenMatches
+    );
 
 
 ////扌目趴  虫木竺

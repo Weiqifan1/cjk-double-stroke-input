@@ -4,7 +4,7 @@ public class UnicodeCharacter
 {
     private string value;
 
-    public UnicodeCharacter(string value, string fullLine)
+    public UnicodeCharacter(string value)
     {
         if (value.Length < 1 || value.Length > 2)
         {

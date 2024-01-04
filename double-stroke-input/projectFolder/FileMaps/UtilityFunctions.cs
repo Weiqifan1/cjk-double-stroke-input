@@ -18,13 +18,13 @@ public class UtilityFunctions
             if (char.IsHighSurrogate(input[i]) && i + 1 < input.Length && char.IsLowSurrogate(input[i + 1]))
             {
                 // Unicode character is a surrogate pair
-                characters.Add(new UnicodeCharacter(input.Substring(i, 2) ,input));
+                characters.Add(new UnicodeCharacter(input.Substring(i, 2)));
                 i++; // because we processed two chars
             }
             else
             {
                 // Unicode character is a single char
-                characters.Add(new UnicodeCharacter(input[i].ToString(), input));
+                characters.Add(new UnicodeCharacter(input[i].ToString()));
             }
         }
         return characters;
