@@ -22,15 +22,15 @@ public class GenerateFileMaps
         //var jundaMap = generateJundaMap();
         //var tzaiMap = generateTzaiMap();
         var codeExceptions = generateCodeExceptions();
-
-        var codepointMap = generateCodepointMap(codeExceptions);
-        //var idsMap = generateIdsMap();
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = generateIdsMap();
+        var codepointMap = generateCodepointMap(codeExceptions, idsMap);
+        //
         //扌目趴  虫木竺
         
         var test = "";
     }
 
-    private Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptions()
+    public Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptions()
     {
         
         UnicodeCharacter uniHandOne = new UnicodeCharacter("手");
@@ -305,14 +305,15 @@ public class GenerateFileMaps
     }
     
     public Dictionary<UnicodeCharacter, CodepointRecord> generateCodepointMap(
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions)
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions,
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
         const int introLinesCount = 87;
         const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
 
         var codepointLines = removeIntroductionLines(codepointPath, introLinesCount);
         var uniDict = GenerateUniDictionary(codepointLines);
-        var result = GenerateFinalUnicodeMap(uniDict, codeExceptions);
+        var result = GenerateFinalUnicodeMap(uniDict, codeExceptions, idsMap);
         return result;
     }
 
@@ -337,19 +338,33 @@ public class GenerateFileMaps
 
     private Dictionary<UnicodeCharacter, CodepointRecord> GenerateFinalUnicodeMap(
         Dictionary<string, List<string>> uniDict, 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions)
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
-        //TODO: use codeException to change strokes
         var finalUnicodeMap = new Dictionary<UnicodeCharacter, CodepointRecord>();
         foreach (var entry in uniDict)
         {
             var character = new UnicodeCharacter(entry.Key);
-            finalUnicodeMap[character] = new CodepointRecord(entry.Value[0]);
+            CodepointRecord prelimEntry = generateCodepointRecord(entry, codeExceptions, idsMap);
+            finalUnicodeMap[character] = prelimEntry; 
         }
         return finalUnicodeMap;
     }
-    
-/*
+
+    private CodepointRecord generateCodepointRecord(
+        KeyValuePair<string, List<string>> entry, 
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
+    {
+        //TODO: implement codeRecord
+        
+        CodepointRecord result = new CodepointRecord("");
+
+        string test = "";
+        return result;
+    }
+
+    /*
     public Dictionary<UnicodeCharacter, CodepointRecord> generateCodepointMap()
     {
         var codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
