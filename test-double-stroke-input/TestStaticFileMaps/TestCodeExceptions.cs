@@ -18,7 +18,7 @@ public class TestCodeExceptions
         
         GenerateFileMaps gen = new GenerateFileMaps(); 
         var codeExceptions = gen.generateCodeExceptions();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateIdsMap();
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateBasicIdsMap();
         var codepointMap = gen.generateCodepointMap(codeExceptions, idsMap);
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions = 
             gen.generateFoundEsceptionsMap(codepointMap, codeExceptions, idsMap);

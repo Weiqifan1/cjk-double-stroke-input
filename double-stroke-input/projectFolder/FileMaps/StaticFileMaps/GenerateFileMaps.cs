@@ -271,7 +271,42 @@ public class GenerateFileMaps
         //b      "馬"    "(12|21)11254444"    "1211254444"   "2111254444"
         //n     "𠁣","𠃛","門"    "25112511"
     }
+
+    public Dictionary<UnicodeCharacter, IdsBasicRecord> generateBasicIdsMap()
+    {
+        var ids = generateIdsMap();
+        return ids;
+    }
+
+    private Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap()
+    {
+        var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
+        var idsLines = removeIntroductionLines(idsPath, 2);
+        UtilityFunctions util = new UtilityFunctions();
+        Dictionary<UnicodeCharacter, IdsBasicRecord> result = 
+            new Dictionary<UnicodeCharacter, IdsBasicRecord>();
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
+            new Dictionary<UnicodeCharacter, List<UnicodeCharacter>>();
+        var charsToRemove = irrelevantShapeAndLatinCharacters();
+
+        foreach (string input in idsLines)
+        {
+            string[] splitstr = 
+                input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+            UnicodeCharacter character = util.firstUnicodeCharacter(splitstr[1]);
+            List<UnicodeCharacter> strSplitIds = util.CreateUnicodeCharacters(splitstr[2]);
+
+            tempDictionary.TryAdd(character, strSplitIds);
+            List<UnicodeCharacter> rolldOutids = generateRolledOutids(character, tempDictionary);
+            var rolledOutWithNoShape = removeUnvantedCharacters(rolldOutids, charsToRemove);
+            IdsBasicRecord basic = new IdsBasicRecord(input, rolldOutids, rolledOutWithNoShape);
+        
+            result.TryAdd(character, basic);
+        }
+        return result;
+    }
     
+    /*
     public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap()
     {
         var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
@@ -305,7 +340,8 @@ public class GenerateFileMaps
         }
         return result;
     }
-
+*/
+    
     private List<UnicodeCharacter> removeUnvantedCharacters(
         List<UnicodeCharacter> rolldOutids, 
         List<UnicodeCharacter> charsToRemove)
