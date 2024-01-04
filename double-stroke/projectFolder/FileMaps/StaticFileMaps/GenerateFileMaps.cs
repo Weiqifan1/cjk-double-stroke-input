@@ -1,8 +1,9 @@
 ﻿using System.Text;
-using double_stroke_input.projectFolder.FileMaps;
+using double_stroke.projectFolder.FileMaps;
+using double_stroke.projectFolder.StaticFileMaps;
 using Microsoft.VisualBasic;
 
-namespace double_stroke_input.projectFolder.StaticFileMaps;
+namespace double_stroke.projectFolder.StaticFileMaps;
 
 
 using System.Data;
@@ -21,9 +22,13 @@ public class GenerateFileMaps
        
         //var jundaMap = generateJundaMap();
         //var tzaiMap = generateTzaiMap();
+        var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
+        const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
+
         var codeExceptions = generateCodeExceptions();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = generateIdsMap();
-        var codepointMap = generateCodepointMap(codeExceptions, idsMap);
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = generateIdsMap(idsPath);
+        var codepointMap = generateCodepointMap(
+            codeExceptions, idsMap, codepointPath);
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions = 
             generateFoundEsceptionsMap(codepointMap, codeExceptions, idsMap);
         
@@ -272,15 +277,8 @@ public class GenerateFileMaps
         //n     "𠁣","𠃛","門"    "25112511"
     }
 
-    public Dictionary<UnicodeCharacter, IdsBasicRecord> generateBasicIdsMap()
+    public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
     {
-        var ids = generateIdsMap();
-        return ids;
-    }
-
-    private Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap()
-    {
-        var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
         var idsLines = removeIntroductionLines(idsPath, 2);
         UtilityFunctions util = new UtilityFunctions();
         Dictionary<UnicodeCharacter, IdsBasicRecord> result = 
@@ -359,11 +357,10 @@ public class GenerateFileMaps
     
     public Dictionary<UnicodeCharacter, CodepointBasicRecord> generateCodepointMap(
         Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions,
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap,
+        string codepointPath)
     {
         const int introLinesCount = 87;
-        const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
-
         var codepointLines = removeIntroductionLines(codepointPath, introLinesCount);
         var uniDict = GenerateUniDictionary(codepointLines);
         var result = GenerateFinalUnicodeMap(uniDict, codeExceptions, idsMap);

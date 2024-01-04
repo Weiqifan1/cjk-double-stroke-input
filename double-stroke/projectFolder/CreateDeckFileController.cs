@@ -1,4 +1,23 @@
-﻿using double_stroke_input.projectFolder.StaticFileMaps;
+﻿using double_stroke.projectFolder.StaticFileMaps;
+
+namespace double_stroke.projectFolder;
+
+public class CreateDeckFileController
+{
+    public void myFunction()
+    {
+        Console.WriteLine("Hello, this is my function.");
+        GenerateFileMaps genJunda = new GenerateFileMaps();
+        genJunda.Run();
+    }
+    
+}
+
+/*
+ using double_stroke_input.projectFolder.StaticFileMaps;
+using System.Collections.Generic;
+using double_stroke_input.projectFolder.StaticFileMaps;
+using double_stroke_input.projectFolder.YourNamespace;
 
 namespace test_double_stroke_input.TestStaticFileMaps;
 
@@ -29,3 +48,5 @@ public class TestCodeExceptions
         
     }
 }
+
+ */

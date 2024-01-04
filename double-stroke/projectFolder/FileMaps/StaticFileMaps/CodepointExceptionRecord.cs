@@ -1,4 +1,4 @@
-﻿namespace double_stroke_input.projectFolder.StaticFileMaps;
+﻿namespace double_stroke.projectFolder.StaticFileMaps;
 
 //this should end up as a dictionary with element to codepointExceptionRecord, 
 //hvor element er UnicodeCodepoint, dvs. der skal bruge

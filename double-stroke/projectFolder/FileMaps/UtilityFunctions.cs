@@ -1,6 +1,6 @@
-﻿using double_stroke_input.projectFolder.StaticFileMaps;
+﻿using double_stroke.projectFolder.StaticFileMaps;
 
-namespace double_stroke_input.projectFolder.FileMaps;
+namespace double_stroke.projectFolder.FileMaps;
 
 public class UtilityFunctions
 {

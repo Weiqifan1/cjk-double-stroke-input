@@ -1,4 +1,4 @@
-﻿namespace double_stroke_input.projectFolder.StaticFileMaps;
+﻿namespace double_stroke.projectFolder.StaticFileMaps;
 
 public record FrequencyRecord(
     WritingSystemEnum system,
