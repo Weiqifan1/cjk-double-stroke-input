@@ -24,10 +24,27 @@ public class GenerateFileMaps
         var codeExceptions = generateCodeExceptions();
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = generateIdsMap();
         var codepointMap = generateCodepointMap(codeExceptions, idsMap);
+        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions = 
+            generateFoundEsceptionsMap(codepointMap, codeExceptions, idsMap);
+        
         //
         //扌目趴  虫木竺
         
         var test = "";
+    }
+
+    public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> generateFoundEsceptionsMap(
+        Dictionary<UnicodeCharacter, CodepointBasicRecord> codepointMap, 
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
+    {
+        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> result =
+            new Dictionary<UnicodeCharacter, CodepointWithExceptionRecord>();
+
+        
+        
+        
+        return result;
     }
 
     public Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptions()
@@ -304,7 +321,7 @@ public class GenerateFileMaps
         return result;
     }
     
-    public Dictionary<UnicodeCharacter, CodepointRecord> generateCodepointMap(
+    public Dictionary<UnicodeCharacter, CodepointBasicRecord> generateCodepointMap(
         Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions,
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
@@ -336,40 +353,40 @@ public class GenerateFileMaps
         return uniDict;
     }
 
-    private Dictionary<UnicodeCharacter, CodepointRecord> GenerateFinalUnicodeMap(
+    private Dictionary<UnicodeCharacter, CodepointBasicRecord> GenerateFinalUnicodeMap(
         Dictionary<string, List<string>> uniDict, 
         Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
-        var finalUnicodeMap = new Dictionary<UnicodeCharacter, CodepointRecord>();
+        var finalUnicodeMap = new Dictionary<UnicodeCharacter, CodepointBasicRecord>();
         foreach (var entry in uniDict)
         {
             var character = new UnicodeCharacter(entry.Key);
-            CodepointRecord prelimEntry = generateCodepointRecord(entry, codeExceptions, idsMap);
+            CodepointBasicRecord prelimEntry = generateCodepointRecord(entry, codeExceptions, idsMap);
             finalUnicodeMap[character] = prelimEntry; 
         }
         return finalUnicodeMap;
     }
 
-    private CodepointRecord generateCodepointRecord(
+    private CodepointBasicRecord generateCodepointRecord(
         KeyValuePair<string, List<string>> entry, 
         Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
         //TODO: implement codeRecord
         
-        CodepointRecord result = new CodepointRecord("");
+        CodepointBasicRecord result = new CodepointBasicRecord("");
 
         string test = "";
         return result;
     }
 
     /*
-    public Dictionary<UnicodeCharacter, CodepointRecord> generateCodepointMap()
+    public Dictionary<UnicodeCharacter, CodepointBasicRecord> generateCodepointMap()
     {
         var codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
         var codepointLines = removeIntroductionLines(codepointPath, 87);
-        //var dictionary = new Dictionary<UnicodeCharacter, CodepointRecord>();
+        //var dictionary = new Dictionary<UnicodeCharacter, CodepointBasicRecord>();
         UtilityFunctions util = new UtilityFunctions();
         Dictionary<string, List<string>> uniDict = new Dictionary<string, List<string>>();
         
@@ -394,8 +411,8 @@ public class GenerateFileMaps
             }
         }
 
-        Dictionary<UnicodeCharacter, CodepointRecord> finalUnicodeMap =
-            new Dictionary<UnicodeCharacter, CodepointRecord>();
+        Dictionary<UnicodeCharacter, CodepointBasicRecord> finalUnicodeMap =
+            new Dictionary<UnicodeCharacter, CodepointBasicRecord>();
         foreach (var entry in uniDict)
         {
             var character = new UnicodeCharacter(entry.Key, entry.Value[0]);
@@ -406,11 +423,11 @@ public class GenerateFileMaps
             }
             else
             {
-                var codepointRecord = new CodepointRecord(entry.Value[0]);
+                var codepointRecord = new CodepointBasicRecord(entry.Value[0]);
                 finalUnicodeMap.Add(character, codepointRecord);
             }
 
-            //var codepointRecord = new CodepointRecord(entry.Value);
+            //var codepointRecord = new CodepointBasicRecord(entry.Value);
             //finalUnicodeMap.Add(character, codepointRecord);
         }
         return finalUnicodeMap;

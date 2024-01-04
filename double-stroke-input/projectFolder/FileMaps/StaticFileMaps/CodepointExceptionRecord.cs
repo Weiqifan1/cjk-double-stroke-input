@@ -15,7 +15,7 @@ public record CodepointExceptionRecord(
 /// 金飣車糽言馬門
 /// 
 /*
- public record CodepointRecord(
+ public record CodepointBasicRecord(
     //UnicodeCharacter[] codepointNumbers,
     string rawCodepoint
     );
