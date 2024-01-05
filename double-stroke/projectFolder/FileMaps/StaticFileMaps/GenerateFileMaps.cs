@@ -25,12 +25,13 @@ public class GenerateFileMaps
         var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
         const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
 
-        var codeExceptions = generateCodeExceptions();
+        var codeExceptionsFromCharacter = generateCodeExceptionsFromCharacter();
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = generateIdsMap(idsPath);
         var codepointMap = generateCodepointMap(
-            codeExceptions, idsMap, codepointPath);
+            codeExceptionsFromCharacter, idsMap, codepointPath);
+        var codeExceptionsFromCodepoint = generateCodeExceptionsFromCodepoint();
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions = 
-            generateFoundEsceptionsMap(codepointMap, codeExceptions, idsMap);
+            generateFoundEsceptionsMap(codepointMap, codeExceptionsFromCharacter, codeExceptionsFromCodepoint, idsMap);
         
         //
         //扌目趴  虫木竺
@@ -40,36 +41,156 @@ public class GenerateFileMaps
 
     public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> generateFoundEsceptionsMap(
         Dictionary<UnicodeCharacter, CodepointBasicRecord> codepointMap, 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromids,
+        Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint,
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> result =
             new Dictionary<UnicodeCharacter, CodepointWithExceptionRecord>();
 
+        int numberofmissing = 0;
         foreach (KeyValuePair<UnicodeCharacter, CodepointBasicRecord> item in codepointMap)
         {
             UnicodeCharacter key = item.Key;
             CodepointBasicRecord value = item.Value;
 
-            CodepointWithExceptionRecord newitem = generateCodepointWithExceptionRecord(key, value, codeExceptions, idsMap);
+            CodepointWithExceptionRecord newitem = generateCodepointWithExceptionRecord(
+                numberofmissing, 
+                key, 
+                value, 
+                codeExceptionsFromids, 
+                codeExceptionsFromCodepoint, 
+                idsMap);
             result.Add(key, newitem);
         }
+        Console.WriteLine(numberofmissing);
         return result;
     }
 
     private CodepointWithExceptionRecord generateCodepointWithExceptionRecord(
+        int numberofmissing,
         UnicodeCharacter key, 
         CodepointBasicRecord value, 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsIds,
+        Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint,
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
-        //TODO: implement codepoint with exception
-        
-        CodepointWithExceptionRecord record = new CodepointWithExceptionRecord(key.Value);
+        //CodepointWithExceptionRecord? record = null;
+        IdsBasicRecord? idsLookup = idsMap.GetValueOrDefault(key);
+        CodepointExceptionRecord? exceptionMatchByIds = 
+            getExceptionMatchByIdsElement(numberofmissing, key, value, idsLookup, codeExceptionsIds);
+        List<CodepointExceptionRecord> exceptionMatchByCodepoint = 
+            getExceptionMatchByCodepoint(numberofmissing, key, value, idsLookup, codeExceptionsFromCodepoint);
+        string codepointAfterExp = getCodepointAfterExp(value, exceptionMatchByCodepoint);
+        CodepointWithExceptionRecord record = new CodepointWithExceptionRecord(
+            exceptionMatchByIds,
+            exceptionMatchByCodepoint,
+            value,
+            codepointAfterExp,
+            key,
+            idsLookup);
         return record;
     }
 
-    public Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptions()
+    private string getCodepointAfterExp(
+        CodepointBasicRecord value, 
+        List<CodepointExceptionRecord> exceptionsByCodepoint)
+    {
+        HashSet<string> allvalues = new HashSet<string>();
+        int longestNum = 0;
+        foreach (var VARIABLE in exceptionsByCodepoint)
+        {
+            if (value.rawCodepoint.StartsWith(VARIABLE.rawCodepoint) && 
+                VARIABLE.rawCodepoint.Length > longestNum)
+            {
+                longestNum = VARIABLE.rawCodepoint.Length;
+            }
+        }
+
+        string result = value.rawCodepoint.Substring(longestNum);
+        return result;
+    }
+
+    private string getCodevalueMinusException(
+        UnicodeCharacter key, 
+        CodepointBasicRecord value, 
+        CodepointExceptionRecord exceptionMatch)
+    {
+        if (!value.rawCodepoint.StartsWith(exceptionMatch.rawCodepoint))
+        {
+            throw new FormatException("The found exception doesnt match the original full codepoint for character: " + 
+                                      key.Value + " val: " + value.rawCodepoint + " exception: " + exceptionMatch.character);
+        }
+
+        string remainder = value.rawCodepoint.Substring(exceptionMatch.rawCodepoint.Length);
+        return remainder;
+    }
+
+    private List<CodepointExceptionRecord> getExceptionMatchByCodepoint(
+        int numberofmissing, 
+        UnicodeCharacter key, 
+        CodepointBasicRecord value, 
+        IdsBasicRecord? idsLookup, 
+        Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint)
+    {
+        List<CodepointExceptionRecord> result = new List<CodepointExceptionRecord>();
+        foreach (var VARIABLE in codeExceptionsFromCodepoint)
+        {
+            if (value.rawCodepoint.StartsWith(VARIABLE.Key))
+            {
+                result = codeExceptionsFromCodepoint.GetValueOrDefault(VARIABLE.Key);
+                return result;
+            }
+        }
+        return new List<CodepointExceptionRecord>();
+    }
+    
+    private CodepointExceptionRecord? getExceptionMatchByIdsElement(
+        int numberofmissing, 
+        UnicodeCharacter key, 
+        CodepointBasicRecord value, 
+        IdsBasicRecord? idsLookup, 
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions)
+    {
+        if (idsLookup == null  && numberofmissing < 10) 
+        {
+            throw new FormatException("key is not in ids: " + key + " val: " + value);
+        }
+        else if (idsLookup != null)
+        {
+            var firstIdsMatch = idsLookup.rolledOutIdsWithNoShape[0];
+            var exceptionMatch = codeExceptions.GetValueOrDefault(firstIdsMatch);
+            return exceptionMatch;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Dictionary<string, List<CodepointExceptionRecord>> generateCodeExceptionsFromCodepoint()
+    {
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> exceptFromChar = 
+            generateCodeExceptionsFromCharacter();
+        Dictionary<string, List<CodepointExceptionRecord>> result =
+            new Dictionary<string, List<CodepointExceptionRecord>>();
+        foreach (KeyValuePair<UnicodeCharacter, CodepointExceptionRecord> item in exceptFromChar)
+        {
+            string key = item.Value.rawCodepoint;
+
+            if (result.ContainsKey(key))
+            {
+                result[key].Add(item.Value);
+            }
+            else
+            {
+                result[key] = new List<CodepointExceptionRecord>() { item.Value };
+            }
+        }
+        return result;
+    }
+
+    public Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptionsFromCharacter()
     {
         
         UnicodeCharacter uniHandOne = new UnicodeCharacter("手");

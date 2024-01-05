@@ -3,37 +3,36 @@ using double_stroke.projectFolder.StaticFileMaps;
 
 public class Tests
 {
+    private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions; 
+    
     [SetUp]
     public void Setup()
     {
-    }
-
-    [Test]
-    public void Test1()
-    {
-        Console.WriteLine("test start");
-        
-        //var idsPath = "../doule-stroke/projectFolder/StaticFiles/ids.txt";
-        //const string codepointPath = "../double-stroke/projectFolder/StaticFiles/codepoint-character-sequence.txt";
-
-        //var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
-        //const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
-
         string testDirectory = TestContext.CurrentContext.TestDirectory;
 
         string idsPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
         string codepointPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\codepoint-character-sequence.txt");
         
         GenerateFileMaps gen = new GenerateFileMaps();
-        var codeExceptions = gen.generateCodeExceptions();
+        var codeExceptionsFromIds = gen.generateCodeExceptionsFromCharacter();
+        var codeExceptionsFromCodepoint = gen.generateCodeExceptionsFromCodepoint();
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateIdsMap(idsPath);
         var codepointMap = gen.generateCodepointMap(
-            codeExceptions, idsMap, codepointPath);
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions = 
-            gen.generateFoundEsceptionsMap(codepointMap, codeExceptions, idsMap);
+            codeExceptionsFromIds, idsMap, codepointPath);
+        foundExceptions = gen.generateFoundEsceptionsMap(codepointMap, codeExceptionsFromIds, codeExceptionsFromCodepoint, idsMap);
+
+    }
+
+    [Test]
+    public void Test1()
+    {
+        Console.WriteLine("test start");
+
+        var result1 = foundExceptions[new UnicodeCharacter("扳")];
         
-        // Test code here
-        Assert.True(idsMap.Count > 0);
+        Console.WriteLine("next");
+        
+        
         Console.WriteLine("test end");
     }
 }

@@ -1,4 +1,9 @@
 ﻿namespace double_stroke.projectFolder.StaticFileMaps;
 
 public record CodepointWithExceptionRecord(
-    string originalCodepoint);
+    CodepointExceptionRecord? idsException,
+    List<CodepointExceptionRecord> codepointExceptions,
+    CodepointBasicRecord originalCodepoint,
+    string codepointAfterExceptionremoval,
+    UnicodeCharacter letter,
+    IdsBasicRecord? idsLookup);
