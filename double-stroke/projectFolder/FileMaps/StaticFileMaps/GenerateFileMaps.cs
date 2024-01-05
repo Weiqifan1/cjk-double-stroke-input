@@ -46,10 +46,27 @@ public class GenerateFileMaps
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> result =
             new Dictionary<UnicodeCharacter, CodepointWithExceptionRecord>();
 
-        
-        
-        
+        foreach (KeyValuePair<UnicodeCharacter, CodepointBasicRecord> item in codepointMap)
+        {
+            UnicodeCharacter key = item.Key;
+            CodepointBasicRecord value = item.Value;
+
+            CodepointWithExceptionRecord newitem = generateCodepointWithExceptionRecord(key, value, codeExceptions, idsMap);
+            result.Add(key, newitem);
+        }
         return result;
+    }
+
+    private CodepointWithExceptionRecord generateCodepointWithExceptionRecord(
+        UnicodeCharacter key, 
+        CodepointBasicRecord value, 
+        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
+    {
+        //TODO: implement codepoint with exception
+        
+        CodepointWithExceptionRecord record = new CodepointWithExceptionRecord(key.Value);
+        return record;
     }
 
     public Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptions()
@@ -363,6 +380,7 @@ public class GenerateFileMaps
         const int introLinesCount = 87;
         var codepointLines = removeIntroductionLines(codepointPath, introLinesCount);
         var uniDict = GenerateUniDictionary(codepointLines);
+        //var test = uniDict.GetValueOrDefault("鰠");
         var result = GenerateFinalUnicodeMap(uniDict, codeExceptions, idsMap);
         return result;
     }
@@ -376,6 +394,11 @@ public class GenerateFileMaps
             if (!input.StartsWith("U+")) continue;
             string[] splitstr = 
                 input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+            if (splitstr[1] == "鰠^")
+            {
+                string test = "";
+            }
+
             var character = util.firstUnicodeCharacter(splitstr[1]);
             if (!uniDict.ContainsKey(character.Value)) 
             {
@@ -394,6 +417,11 @@ public class GenerateFileMaps
         var finalUnicodeMap = new Dictionary<UnicodeCharacter, CodepointBasicRecord>();
         foreach (var entry in uniDict)
         {
+            if (entry.Key == "鰠")
+            {
+                string test = "";
+            }
+
             var character = new UnicodeCharacter(entry.Key);
             CodepointBasicRecord prelimEntry = generateCodepointRecord(entry, codeExceptions, idsMap);
             finalUnicodeMap[character] = prelimEntry; 
@@ -407,8 +435,13 @@ public class GenerateFileMaps
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
         //TODO: implement codeRecord
-        
-        CodepointBasicRecord result = new CodepointBasicRecord("");
+        if (entry.Value.Count != 1)
+        {
+            throw new FormatException("CodepointBasicRecord is given badly formatted: " + entry);
+        }
+
+        string firstItemInEntry = entry.Value[0];
+        CodepointBasicRecord result = new CodepointBasicRecord(firstItemInEntry);
 
         string test = "";
         return result;
@@ -690,41 +723,4 @@ public class GenerateFileMaps
         }
         return sb.ToString();
     }
-    
-    /*
-    private List<UnicodeCharacter> generateRolledOutids(
-        UnicodeCharacter character,
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
-    {
-        UtilityFunctions util = new UtilityFunctions();
-        //TODO: this code should be rewritten with ai, it is created with tab, and the ai didnt know what i wanted.
-        List<UnicodeCharacter> temporaryRollOut = tempDictionary.GetValueOrDefault(character);
-        List<List<UnicodeCharacter>> rolledOutSingleLines = new List<List<UnicodeCharacter>>();
-        Boolean eachSublistEmptyOrLengthOne = true;
-        do
-        {
-            eachSublistEmptyOrLengthOne = false;
-            foreach (var eachLetter in temporaryRollOut)
-            {
-                var valueFromDict = tempDictionary.GetValueOrDefault(eachLetter);
-                if (valueFromDict == null || valueFromDict.Count == 0)
-                {
-                    rolledOutSingleLines.Add(
-                        new List<UnicodeCharacter>() { eachLetter });
-                }
-                else if (valueFromDict.Count == 1)
-                {
-                    rolledOutSingleLines.Add(valueFromDict);
-                }
-                else
-                {
-                    rolledOutSingleLines.Add(valueFromDict);
-                    eachSublistEmptyOrLengthOne = true;
-                }
-            }
-            temporaryRollOut = rolledOutSingleLines.SelectMany(subList => subList).ToList();
-        } while (eachSublistEmptyOrLengthOne);
-
-        return temporaryRollOut;
-    }*/
 }

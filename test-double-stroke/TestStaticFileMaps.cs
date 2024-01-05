@@ -11,7 +11,7 @@ public class Tests
     [Test]
     public void Test1()
     {
-        
+        Console.WriteLine("test start");
         
         //var idsPath = "../doule-stroke/projectFolder/StaticFiles/ids.txt";
         //const string codepointPath = "../double-stroke/projectFolder/StaticFiles/codepoint-character-sequence.txt";
@@ -34,5 +34,6 @@ public class Tests
         
         // Test code here
         Assert.True(idsMap.Count > 0);
+        Console.WriteLine("test end");
     }
 }
