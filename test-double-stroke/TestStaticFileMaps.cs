@@ -3,7 +3,9 @@ using double_stroke.projectFolder.StaticFileMaps;
 
 public class Tests
 {
-    private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions; 
+    private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
+    private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+    private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
     private Dictionary<UnicodeCharacter, FrequencyRecord> junda;
     private Dictionary<UnicodeCharacter, FrequencyRecord> tzai;
     
@@ -16,8 +18,8 @@ public class Tests
         string codepointPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\codepoint-character-sequence.txt");
         
         GenerateFileMaps gen = new GenerateFileMaps();
-        var codeExceptionsFromIds = gen.generateCodeExceptionsFromCharacter();
-        var codeExceptionsFromCodepoint = gen.generateCodeExceptionsFromCodepoint();
+        codeExceptionsFromIds = gen.generateCodeExceptionsFromCharacter();
+        codeExceptionsFromCodepoint = gen.generateCodeExceptionsFromCodepoint();
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateIdsMap(idsPath);
         var codepointMap = gen.generateCodepointMap(
             codeExceptionsFromIds, idsMap, codepointPath);
@@ -74,6 +76,45 @@ public class Tests
         
         Assert.AreEqual(missingJunda.Count, 0);
         Assert.AreEqual(missingTzai.Count, 0);
+
+        Console.WriteLine("test end");
+    }
+    
+    [Test]
+    public void IdentifyDetectedExceptionsThatShouldntBeThere()
+    {
+        Console.WriteLine("test start");
+        //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
+        //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+        //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
+        
+        Assert.AreEqual(2+2, 4);
+
+        Console.WriteLine("test end");
+    }
+    
+    [Test]
+    public void IdentifyLackOfExceptionsThatShouldHaveBeenThere()
+    {
+        Console.WriteLine("test start");
+        //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
+        //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+        //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
+        
+        Assert.AreEqual(2+2, 4);
+
+        Console.WriteLine("test end");
+    }
+    
+    [Test]
+    public void IdentifyExceptionsThatShouldHaveBeenADifferetException()
+    {
+        Console.WriteLine("test start");
+        //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
+        //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+        //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
+        
+        Assert.AreEqual(2+2, 4);
 
         Console.WriteLine("test end");
     }
