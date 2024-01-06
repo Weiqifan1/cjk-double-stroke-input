@@ -508,26 +508,53 @@ public class GenerateFileMaps
 
     private Dictionary<string, List<string>> GenerateUniDictionary(IEnumerable<string> codepointLines)
     {
+        //add the missing codepointLines
+        //missing junda:
+        //裏 3 秊  1
+        //missing tzai:
+        // 兀  119  嗀  11
+        List<string> missingChars = new List<string>();
+        string one1 = "U+F9E7\t裏\t4125111213534";// + Environment.NewLine;
+        string two2 = "U+F995\t秊\t31234312"; //+ Environment.NewLine;
+        string three3 = "U+FA0C\t兀\t135"; //+ Environment.NewLine;
+        string four4 = "U+FA0D\t嗀\t1214512513554";// + Environment.NewLine;
+                     
+        missingChars.Add(one1);
+        missingChars.Add(two2);
+        missingChars.Add(three3);
+        missingChars.Add(four4);
+        
         UtilityFunctions util = new UtilityFunctions();
         Dictionary<string, List<string>> uniDict = new Dictionary<string, List<string>>();
         foreach (string input in codepointLines)
         {
-            if (!input.StartsWith("U+")) continue;
-            string[] splitstr = 
-                input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-            if (splitstr[1] == "鰠^")
-            {
-                string test = "";
-            }
-
-            var character = util.firstUnicodeCharacter(splitstr[1]);
-            if (!uniDict.ContainsKey(character.Value)) 
-            {
-                uniDict[character.Value] = new List<string>();
-            }
-            uniDict[character.Value].Add(splitstr[2]);
+            addToUniDict(input, util, uniDict);
         }
+
+        foreach (var VARIABLE in missingChars)
+        {
+            addToUniDict(VARIABLE, util, uniDict);
+        }
+        
         return uniDict;
+    }
+
+    private void addToUniDict(string input, UtilityFunctions util, Dictionary<string, List<string>> uniDict)
+    {
+        if (!input.StartsWith("U+")) return;
+        string[] splitstr = 
+            input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+        if (splitstr[1] == "鰠^")
+        {
+            string test = "";
+        }
+
+        var character = util.firstUnicodeCharacter(splitstr[1]);
+        if (!uniDict.ContainsKey(character.Value)) 
+        {
+            uniDict[character.Value] = new List<string>();
+        }
+        uniDict[character.Value].Add(splitstr[2]);
     }
 
     private Dictionary<UnicodeCharacter, CodepointBasicRecord> GenerateFinalUnicodeMap(
@@ -636,9 +663,9 @@ public class GenerateFileMaps
         return heisigSimp;
     }
 
-    public Dictionary<UnicodeCharacter, FrequencyRecord> generateTzaiMap()
+    public Dictionary<UnicodeCharacter, FrequencyRecord> generateTzaiMap(string tzaiPath)
     {
-        var tzaiPath = "../../../projectFolder/StaticFiles/Tzai2006.txt";
+        //var tzaiPath = "../../../projectFolder/StaticFiles/Tzai2006.txt";
         var tzaiLines = ReadLinesFromFile(tzaiPath);
 
         var allOccurrences = CalculateSumTzai(tzaiLines);
@@ -659,9 +686,9 @@ public class GenerateFileMaps
         return dictionary;
     }
     
-    public Dictionary<UnicodeCharacter, FrequencyRecord> generateJundaMap()
+    public Dictionary<UnicodeCharacter, FrequencyRecord> generateJundaMap(string jundaPath)
     {
-        var jundaPath = "../../../projectFolder/StaticFiles/Junda2005.txt";
+        //var jundaPath = "../../../projectFolder/StaticFiles/Junda2005.txt";
         var jundaLines = ReadLinesFromFile(jundaPath);
         var allOccurrences = CalculateSumJunda(jundaLines);
         var dictionary = new Dictionary<UnicodeCharacter, FrequencyRecord>();
