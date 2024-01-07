@@ -5,7 +5,7 @@ public class Tests
 {
     private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
     private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
-    private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
+    private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint;
     private Dictionary<UnicodeCharacter, FrequencyRecord> junda;
     private Dictionary<UnicodeCharacter, FrequencyRecord> tzai;
     
@@ -18,8 +18,9 @@ public class Tests
         string codepointPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\codepoint-character-sequence.txt");
         
         GenerateFileMaps gen = new GenerateFileMaps();
-        codeExceptionsFromIds = gen.generateCodeExceptionsFromCharacter();
-        codeExceptionsFromCodepoint = gen.generateCodeExceptionsFromCodepoint();
+        CodeExceptions exp = new CodeExceptions();
+        codeExceptionsFromIds = exp.generateCodeExceptionsFromCharacter();
+        codeExceptionsFromCodepoint = exp.generateCodeExceptionsFromCodepoint();
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateIdsMap(idsPath);
         var codepointMap = gen.generateCodepointMap(
             codeExceptionsFromIds, idsMap, codepointPath);

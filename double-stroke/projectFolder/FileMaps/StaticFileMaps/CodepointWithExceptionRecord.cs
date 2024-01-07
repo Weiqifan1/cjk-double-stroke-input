@@ -2,7 +2,7 @@
 
 public record CodepointWithExceptionRecord(
     CodepointExceptionRecord? idsException,
-    List<CodepointExceptionRecord> codepointExceptions,
+    CodepointExceptionRecord? codepointExceptions,
     CodepointBasicRecord originalCodepoint,
     string codepointAfterExceptionremoval,
     UnicodeCharacter letter,
