@@ -82,7 +82,7 @@ public class GenerateFileMaps
             getExceptionMatchByIdsElement(numberofmissing, key, value, idsLookup, codeExceptionsIds);
         CodepointExceptionRecord? exceptionMatchByCodepoint = 
             getExceptionMatchByCodepoint(numberofmissing, key, value, idsLookup, codeExceptionsFromCodepoint);
-        string codepointAfterExp = getCodepointAfterExp(value, exceptionMatchByCodepoint);
+        string codepointAfterExp = getCodepointAfterExp(value, exceptionMatchByCodepoint, exceptionMatchByIds, idsLookup);
         CodepointWithExceptionRecord record = new CodepointWithExceptionRecord(
             exceptionMatchByIds,
             exceptionMatchByCodepoint,
@@ -95,13 +95,17 @@ public class GenerateFileMaps
 
     private string getCodepointAfterExp(
         CodepointBasicRecord value, 
-        CodepointExceptionRecord? exceptionsByCodepoint)
+        CodepointExceptionRecord? exceptionsByCodepoint, 
+        CodepointExceptionRecord? exceptionMatchByIds, 
+        IdsBasicRecord? idsLookup)
     {
         HashSet<string> allvalues = new HashSet<string>();
         int longestNum = 0;
         if (exceptionsByCodepoint != null)
         {
             if (value.rawCodepoint.StartsWith(exceptionsByCodepoint.rawCodepoint) && 
+                idsLookup != null &&
+                exceptionsByCodepoint.allAcceptableElems.Contains(idsLookup.rolledOutIdsWithNoShape[0]) &&
                 exceptionsByCodepoint.rawCodepoint.Length > longestNum)
             {
                 longestNum = exceptionsByCodepoint.rawCodepoint.Length;
