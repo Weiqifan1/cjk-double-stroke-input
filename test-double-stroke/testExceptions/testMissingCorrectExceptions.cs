@@ -1,13 +1,17 @@
-﻿
+﻿namespace test_double_stroke.testExceptions;
+
 using double_stroke.projectFolder.StaticFileMaps;
 
-public class Tests
+public class testMissingCorrectExceptions
 {
+    //TODO: change initials to be a list and ids matches to be a list
+    
     private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
     private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
     private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint;
     private Dictionary<UnicodeCharacter, FrequencyRecord> junda;
     private Dictionary<UnicodeCharacter, FrequencyRecord> tzai;
+    private ExceptionHelper exceptionHelper = new ExceptionHelper();
     
     [SetUp]
     public void Setup()
@@ -37,65 +41,67 @@ public class Tests
         
     }
 
-    [Test]
-    public void IdentifyMissingJundaAndTzaiCharacters()
-    {
-        GenerateFileMaps gen = new GenerateFileMaps();
-        Console.WriteLine("test start");
-        //var result1 = foundExceptions[new UnicodeCharacter("扳")];
-        Console.WriteLine("next");
-
-
-        Dictionary<UnicodeCharacter, FrequencyRecord> missingJunda = new Dictionary<UnicodeCharacter, FrequencyRecord>();
-        Dictionary<UnicodeCharacter, FrequencyRecord> missingTzai = new Dictionary<UnicodeCharacter, FrequencyRecord>();
-        
-        foreach (var VARIABLE in junda.Keys)
-        {
-            if (!foundExceptions.ContainsKey(VARIABLE))
-            {
-                missingJunda.Add(VARIABLE, junda.GetValueOrDefault(VARIABLE));
-            }
-        }
-        foreach (var VARIABLE in tzai.Keys)
-        {
-            if (!foundExceptions.ContainsKey(VARIABLE))
-            {
-                missingTzai.Add(VARIABLE, tzai.GetValueOrDefault(VARIABLE));
-            }
-        }
-        
-        //missing junda:
-        //裏 3 秊  1
-        
-        //missing tzai:
-        // 兀  119  嗀  11
-
-        var result1 = foundExceptions.GetValueOrDefault(new UnicodeCharacter("裏"));
-        var result2 = foundExceptions.GetValueOrDefault(new UnicodeCharacter("秊"));
-        var result3 = foundExceptions.GetValueOrDefault(new UnicodeCharacter("兀"));
-        var result4 = foundExceptions.GetValueOrDefault(new UnicodeCharacter("嗀"));
-        
-        Assert.AreEqual(missingJunda.Count, 0);
-        Assert.AreEqual(missingTzai.Count, 0);
-
-        Console.WriteLine("test end");
-    }
     
     [Test]
-    public void IdentifyDetectedExceptionsThatShouldntBeThere()
+    public void IdentifyLackOfExceptionsThatShouldHaveBeenThere()
     {
-        Console.WriteLine("test start");
+        Console.WriteLine("test start IdentifyLackOfExceptionsThatShouldHaveBeenThere");
+        
         //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
         //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
         //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
         
         Assert.AreEqual(2+2, 4);
 
-        Console.WriteLine("test end");
+        Console.WriteLine("test end IdentifyLackOfExceptionsThatShouldHaveBeenThere");
     }
     
+    
     [Test]
-    public void IdentifyLackOfExceptionsThatShouldHaveBeenThere()
+    public void testHandFullsize_cardsThatMatchStrokesButNotElement()
+    {
+        Console.WriteLine("test start TesthandFullSize");
+        
+        //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
+        //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+        //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
+
+        var handFull = 
+            exceptionHelper.FiltDict_hasCodeNotIds(foundExceptions, "3112", new UnicodeCharacter("手"));
+
+        var finalres = exceptionHelper.displayDict(handFull);
+
+        Assert.AreEqual(2+2, 4);
+
+        Console.WriteLine("test end IdentifyLackOfExceptionsThatShouldHaveBeenThere");
+    }
+    
+    
+    
+    
+    /*
+        //s   "手","扌"   "121"
+        //d    "目"  "25111"
+        //f    "足",  2512134
+        //f     "𧾷"   "251(215|2121)";   //251215  2512121
+        //j    "虫"  "251214"
+        //k    "木","朩"  "1234"
+        //l     "竹","⺮","ケ" "314314"
+
+        //t     "金"   "34112431"
+        //y    "食","飠"    "34(1|4)(51154|511211)"    
+        // "344511211"  "34451154",  "34151154",  "341511211",
+        //g     "車"    "1251112"
+        //h     "糸"    "(554234|554444)"   "554234"  "554444"
+        //v      "言","訁"    "(1|4)111251"     "1111251"    "4111251"
+        //b      "馬"    "(12|21)11254444"    "1211254444"   "2111254444"
+        //n     "𠁣","𠃛","門"    "25112511"
+     */
+    
+    
+    /*
+    [Test]
+    public void IdentifyDetectedExceptionsThatShouldntBeThere()
     {
         Console.WriteLine("test start");
         //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
@@ -118,5 +124,6 @@ public class Tests
         Assert.AreEqual(2+2, 4);
 
         Console.WriteLine("test end");
-    }
+    }*/
+    
 }
