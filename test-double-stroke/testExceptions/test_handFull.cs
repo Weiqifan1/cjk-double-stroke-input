@@ -4,10 +4,10 @@
 using double_stroke.projectFolder.StaticFileMaps;
 
 
-public class test_handFull
+public class test_handFull : testSetup
 {
     //TODO: change initials to be a list and ids matches to be a list
-    
+    /*
     private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
     private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
     private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint;
@@ -42,7 +42,7 @@ public class test_handFull
         tzai = gen.generateTzaiMap(tzaiPath);
         
     }
-
+*/
     
     [Test]
     public void handFull_ThatShouldHaveBeenThere()

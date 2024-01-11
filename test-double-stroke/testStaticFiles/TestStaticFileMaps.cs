@@ -1,8 +1,11 @@
 ﻿
 using double_stroke.projectFolder.StaticFileMaps;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
+using test_double_stroke;
 
-public class Tests
+public class Tests : testSetup
 {
+    /*
     private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
     private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
     private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint;
@@ -35,7 +38,7 @@ public class Tests
         junda = gen.generateJundaMap(jundaPath);
         tzai = gen.generateTzaiMap(tzaiPath);
         
-    }
+    }*/
 
     [Test]
     public void IdentifyMissingJundaAndTzaiCharacters()
