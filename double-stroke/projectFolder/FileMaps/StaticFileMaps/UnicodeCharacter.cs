@@ -10,7 +10,7 @@ public class UnicodeCharacter
         {
             throw new ArgumentException("Invalid length for Unicode character");
         }
-        if (value.Length == 2 && !IsSurrogatePair(value))
+        if (value.Length.Equals(2) && !IsSurrogatePair(value))
         {
             throw new ArgumentException("Invalid length for Unicode character");
         }
@@ -42,8 +42,25 @@ public class UnicodeCharacter
     {
         if (obj == null || !(obj is UnicodeCharacter))
             return false;
-        
-        return value == ((UnicodeCharacter) obj).Value;
+        var unicodeordinalOfValue = GetUnicodeOrdinalLocal(this);
+        var otherItem = GetUnicodeOrdinalLocal(((UnicodeCharacter) obj));
+        return unicodeordinalOfValue.Equals(otherItem);
+    }
+
+    private object GetUnicodeOrdinalLocal(UnicodeCharacter uni)
+    {
+        if (char.IsHighSurrogate(uni.Value[0]) && uni.Value.Length > 1)
+        {
+            int unicodeOrdinal = char.ConvertToUtf32(uni.Value[0], uni.Value[1]);
+            string unicodeString = unicodeOrdinal.ToString();
+            return unicodeString;
+        }
+        else
+        {
+            int unicodeOrdinal = uni.Value[0];
+            string unicodeString = unicodeOrdinal.ToString();
+            return unicodeString;
+        }
     }
 
     public override int GetHashCode()

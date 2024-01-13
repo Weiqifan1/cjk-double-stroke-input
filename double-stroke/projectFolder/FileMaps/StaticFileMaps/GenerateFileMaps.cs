@@ -76,7 +76,16 @@ public class GenerateFileMaps
         Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint,
         Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
     {
+        var localtestvalue = key;
         //CodepointWithExceptionRecord? record = null;
+        var newUnicode = new UnicodeCharacter("劧");
+        var mybool1 = localtestvalue.Equals(newUnicode);
+        if (mybool1)
+        {
+            var mybool2 = localtestvalue.Equals(newUnicode);
+            string test = "";
+        }
+
         IdsBasicRecord? idsLookup = idsMap.GetValueOrDefault(key);
         CodepointExceptionRecord? exceptionMatchByIds = 
             getExceptionMatchByIdsElement(numberofmissing, key, value, idsLookup, codeExceptionsIds);
@@ -156,7 +165,7 @@ public class GenerateFileMaps
         IdsBasicRecord? idsLookup, 
         Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions)
     {
-        if (idsLookup == null  && numberofmissing < 10) 
+        if (idsLookup.Equals(null)  && numberofmissing < 10) 
         {
             throw new FormatException("key is not in ids: " + key + " val: " + value);
         }
@@ -172,11 +181,13 @@ public class GenerateFileMaps
         }
     }
 
+    
+    
     public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
     {
         var idsLines = removeIntroductionLines(idsPath, 2);
         UtilityFunctions util = new UtilityFunctions();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> result = 
+        Dictionary<UnicodeCharacter, IdsBasicRecord> tempResult = 
             new Dictionary<UnicodeCharacter, IdsBasicRecord>();
         Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
             new Dictionary<UnicodeCharacter, List<UnicodeCharacter>>();
@@ -189,14 +200,28 @@ public class GenerateFileMaps
             UnicodeCharacter character = util.firstUnicodeCharacter(splitstr[1]);
             List<UnicodeCharacter> strSplitIds = util.CreateUnicodeCharacters(splitstr[2]);
 
+            if (character.Equals(new UnicodeCharacter("𬔦")))
+            {
+                string testWeird = "";
+            }
+
             tempDictionary.TryAdd(character, strSplitIds);
             List<UnicodeCharacter> rolldOutids = generateRolledOutids(character, tempDictionary);
             var rolledOutWithNoShape = removeUnvantedCharacters(rolldOutids, charsToRemove);
             IdsBasicRecord basic = new IdsBasicRecord(input, rolldOutids, rolledOutWithNoShape);
         
-            result.TryAdd(character, basic);
+            tempResult.TryAdd(character, basic);
         }
-        return result;
+
+        Dictionary<UnicodeCharacter, IdsBasicRecord> endResult = new Dictionary<UnicodeCharacter, IdsBasicRecord>();
+        foreach (var item in tempResult)
+        {
+            //TODO use the old dictonary and generateRolledOutids function 
+        }
+
+
+
+        return endResult;
     }
     
     /*
@@ -301,7 +326,7 @@ public class GenerateFileMaps
         if (!input.StartsWith("U+")) return;
         string[] splitstr = 
             input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-        if (splitstr[1] == "鰠^")
+        if (splitstr[1].Equals("鰠^"))
         {
             string test = "";
         }
@@ -322,7 +347,7 @@ public class GenerateFileMaps
         var finalUnicodeMap = new Dictionary<UnicodeCharacter, CodepointBasicRecord>();
         foreach (var entry in uniDict)
         {
-            if (entry.Key == "鰠")
+            if (entry.Key.Equals("鰠"))
             {
                 string test = "";
             }
@@ -568,7 +593,15 @@ public class GenerateFileMaps
         Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
     {
         UtilityFunctions util = new UtilityFunctions();
-        List<UnicodeCharacter> temporaryRollOut = tempDictionary.GetValueOrDefault(character);
+        List<UnicodeCharacter> temporaryRollOut = new List<UnicodeCharacter>();
+        if (tempDictionary.ContainsKey(character))
+        {
+            if (character.Equals(new UnicodeCharacter("𬔦")))
+            {
+                string test = "";
+            }
+            temporaryRollOut = tempDictionary.GetValueOrDefault(character);
+        }
         return Helper(temporaryRollOut, tempDictionary);
     }
 
@@ -582,7 +615,7 @@ public class GenerateFileMaps
         foreach (var eachLetter in temporaryRollOut)
         {
             var valueFromDict = tempDictionary.GetValueOrDefault(eachLetter);
-            List<UnicodeCharacter> toAdd = valueFromDict == null || valueFromDict.Count == 0
+            List<UnicodeCharacter> toAdd = valueFromDict == null || valueFromDict.Count.Equals(0)
                 ? new List<UnicodeCharacter>() {eachLetter}
                 : valueFromDict;
             rolledOutSingleLines.Add(toAdd);

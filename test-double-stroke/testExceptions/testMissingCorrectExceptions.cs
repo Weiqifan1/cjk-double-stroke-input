@@ -67,7 +67,9 @@ public class testMissingCorrectExceptions : testSetup
         //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
 
         var handFull = 
-            exceptionHelper.FiltDict_hasCodeNotIds(foundExceptions, "3112", new UnicodeCharacter("手"));
+            exceptionHelper.FiltDict_hasCodeNotIds(foundExceptions, 
+                new() {"3112"},
+                new() {new UnicodeCharacter("手")});
 
         var finalres = exceptionHelper.displayDict(handFull);
 

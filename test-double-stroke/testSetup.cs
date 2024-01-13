@@ -19,6 +19,7 @@ public class testSetup
     [OneTimeSetUp]
     public void Setup()
     {
+        //find exceptions in the CodeException file new UnicodeCharacter("手")
         string testDirectory = TestContext.CurrentContext.TestDirectory;
 
         string idsPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");

@@ -6,54 +6,107 @@ using double_stroke.projectFolder.StaticFileMaps;
 public class ExceptionHelper
 {
     
+    public string GetUnicodeOrdinal(UnicodeCharacter uni)
+    {
+        if (char.IsHighSurrogate(uni.Value[0]) && uni.Value.Length > 1)
+        {
+            int unicodeOrdinal = char.ConvertToUtf32(uni.Value[0], uni.Value[1]);
+            string unicodeString = unicodeOrdinal.ToString();
+            return unicodeString;
+        }
+        else
+        {
+            int unicodeOrdinal = uni.Value[0];
+            string unicodeString = unicodeOrdinal.ToString();
+            return unicodeString;
+        }
+    }
+    
+    
+    private bool idsMatchMatch(
+        List<UnicodeCharacter> initialIds, 
+        KeyValuePair<UnicodeCharacter, CodepointWithExceptionRecord> kv)
+    {
+        bool result = false;
+        for (int i = 0; i < initialIds.Count; i++)
+        {
+            var matchEach = kv.Value.idsLookup.rolledOutIdsWithNoShape[0].Equals(initialIds[i]);
+            if (matchEach)
+            {
+                result = true;
+            }
+        }
+        return result;
+    }
+    
+    private bool codepointStartsWithInitialCodepoint(string originalCodepointRawCodepoint, List<string> initialCodepoint)
+    {
+        //kv.Value.originalCodepoint.rawCodepoint.StartsWith(initialCodepoint)
+        bool result = false;
+        for (int i = 0; i < initialCodepoint.Count; i++)
+        {
+            if (originalCodepointRawCodepoint.StartsWith(initialCodepoint[i]))
+            {
+                result = true;
+            }
+        }
+        return result;
+    }
+    
     public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> FiltDict_hasCodeHasIds(
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions, 
-        string initialCodepoint, 
-        UnicodeCharacter initialIds)
+        List<string> initialCodepoint, 
+        List<UnicodeCharacter> initialIds)
     {
         var result = foundExceptions
             .Where(kv => 
-                kv.Value.originalCodepoint.rawCodepoint.StartsWith(initialCodepoint) 
-                && kv.Value.idsLookup.rolledOutIdsWithNoShape[0] == initialIds)
+                codepointStartsWithInitialCodepoint(kv.Value.originalCodepoint.rawCodepoint, initialCodepoint) 
+                && idsMatchMatch(initialIds, kv))
             .ToDictionary(kv => kv.Key, kv => kv.Value);
         return result;
     }
-    
+
+
     public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> FiltDict_hasCodeNotIds(
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions, 
-        string initialCodepoint, 
-        UnicodeCharacter initialIds)
+        List<string> initialCodepoint, 
+        List<UnicodeCharacter> initialIds)
     {
         var result = foundExceptions
-            .Where(kv => 
-                kv.Value.originalCodepoint.rawCodepoint.StartsWith(initialCodepoint) 
-                && kv.Value.idsLookup.rolledOutIdsWithNoShape[0] != initialIds)
+            .Where(kv =>
+                codepointStartsWithInitialCodepoint(kv.Value.originalCodepoint.rawCodepoint, initialCodepoint)
+                && !idsMatchMatch(initialIds, kv))
             .ToDictionary(kv => kv.Key, kv => kv.Value);
         return result;
     }
+
+
+    //kv.Value.idsLookup.rolledOutIdsWithNoShape[0], initialIds, kv
     
+
+
     public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> FiltDict_NotCodeHasIds(
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions, 
-        string initialCodepoint, 
-        UnicodeCharacter initialIds)
+        List<string> initialCodepoint, 
+        List<UnicodeCharacter> initialIds)
     {
         var result = foundExceptions
             .Where(kv => 
-                !kv.Value.originalCodepoint.rawCodepoint.StartsWith(initialCodepoint) 
-                && kv.Value.idsLookup.rolledOutIdsWithNoShape[0] == initialIds)
+                !codepointStartsWithInitialCodepoint(kv.Value.originalCodepoint.rawCodepoint, initialCodepoint)
+                && idsMatchMatch(initialIds, kv))
             .ToDictionary(kv => kv.Key, kv => kv.Value);
         return result;
     }
     
     public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> FiltDict_NotCodeNotIds(
         Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions, 
-        string initialCodepoint, 
-        UnicodeCharacter initialIds)
+        List<string> initialCodepoint, 
+        List<UnicodeCharacter> initialIds)
     {
         var result = foundExceptions
             .Where(kv => 
-                !kv.Value.originalCodepoint.rawCodepoint.StartsWith(initialCodepoint) 
-                && kv.Value.idsLookup.rolledOutIdsWithNoShape[0] != initialIds)
+                !codepointStartsWithInitialCodepoint(kv.Value.originalCodepoint.rawCodepoint, initialCodepoint) 
+                && !idsMatchMatch(initialIds, kv))
             .ToDictionary(kv => kv.Key, kv => kv.Value);
         return result;
     }
