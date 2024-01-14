@@ -15,6 +15,7 @@ using System.IO;
 public class GenerateFileMaps
 {
     private CodeExceptions exp = new CodeExceptions();
+    private GenerateIds genIds = new GenerateIds();
     public void Run()
     {
         Console.WriteLine("Run - GenerateFileMaps.");
@@ -27,7 +28,7 @@ public class GenerateFileMaps
         const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
 
         var codeExceptionsFromCharacter = exp.generateCodeExceptionsFromCharacter();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = generateIdsMap(idsPath);
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
         var codepointMap = generateCodepointMap(
             codeExceptionsFromCharacter, idsMap, codepointPath);
         var codeExceptionsFromCodepoint = exp.generateCodeExceptionsFromCodepoint();
@@ -39,7 +40,61 @@ public class GenerateFileMaps
         
         var test = "";
     }
+    
+    
+    
+    public Dictionary<string, List<string>> GenerateUniDictionary(IEnumerable<string> codepointLines)
+    {
+        //add the missing codepointLines
+        //missing junda:
+        //裏 3 秊  1
+        //missing tzai:
+        // 兀  119  嗀  11
+        List<string> missingChars = new List<string>();
+        string one1 = "U+F9E7\t裏\t4125111213534";// + Environment.NewLine;
+        string two2 = "U+F995\t秊\t31234312"; //+ Environment.NewLine;
+        string three3 = "U+FA0C\t兀\t135"; //+ Environment.NewLine;
+        string four4 = "U+FA0D\t嗀\t1214512513554";// + Environment.NewLine;
+                     
+        missingChars.Add(one1);
+        missingChars.Add(two2);
+        missingChars.Add(three3);
+        missingChars.Add(four4);
+        
+        Dictionary<string, List<string>> uniDict = new Dictionary<string, List<string>>();
+        foreach (string input in codepointLines)
+        {
+            addToUniDict(input, uniDict);
+        }
 
+        foreach (var VARIABLE in missingChars)
+        {
+            addToUniDict(VARIABLE, uniDict);
+        }
+        
+        return uniDict;
+    }
+
+    
+    private void addToUniDict(string input, Dictionary<string, List<string>> uniDict)
+    {
+        if (!input.StartsWith("U+")) return;
+        string[] splitstr = 
+            input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+        if (splitstr[1].Equals("鰠^"))
+        {
+            string test = "";
+        }
+
+        var character = UtilityFunctions.firstUnicodeCharacter(splitstr[1]);
+        if (!uniDict.ContainsKey(character.Value)) 
+        {
+            uniDict[character.Value] = new List<string>();
+        }
+        uniDict[character.Value].Add(splitstr[2]);
+    }
+
+    
     public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> generateFoundEsceptionsMap(
         Dictionary<UnicodeCharacter, CodepointBasicRecord> codepointMap, 
         Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromids,
@@ -183,47 +238,6 @@ public class GenerateFileMaps
 
     
     
-    public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
-    {
-        var idsLines = removeIntroductionLines(idsPath, 2);
-        UtilityFunctions util = new UtilityFunctions();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> tempResult = 
-            new Dictionary<UnicodeCharacter, IdsBasicRecord>();
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
-            new Dictionary<UnicodeCharacter, List<UnicodeCharacter>>();
-        var charsToRemove = irrelevantShapeAndLatinCharacters();
-
-        foreach (string input in idsLines)
-        {
-            string[] splitstr = 
-                input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-            UnicodeCharacter character = util.firstUnicodeCharacter(splitstr[1]);
-            List<UnicodeCharacter> strSplitIds = util.CreateUnicodeCharacters(splitstr[2]);
-
-            if (character.Equals(new UnicodeCharacter("𬔦")))
-            {
-                string testWeird = "";
-            }
-
-            tempDictionary.TryAdd(character, strSplitIds);
-            List<UnicodeCharacter> rolldOutids = generateRolledOutids(character, tempDictionary);
-            var rolledOutWithNoShape = removeUnvantedCharacters(rolldOutids, charsToRemove);
-            IdsBasicRecord basic = new IdsBasicRecord(input, rolldOutids, rolledOutWithNoShape);
-        
-            tempResult.TryAdd(character, basic);
-        }
-
-        Dictionary<UnicodeCharacter, IdsBasicRecord> endResult = new Dictionary<UnicodeCharacter, IdsBasicRecord>();
-        foreach (var item in tempResult)
-        {
-            //TODO use the old dictonary and generateRolledOutids function 
-        }
-
-
-
-        return endResult;
-    }
-    
     /*
     public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap()
     {
@@ -260,20 +274,6 @@ public class GenerateFileMaps
     }
 */
     
-    private List<UnicodeCharacter> removeUnvantedCharacters(
-        List<UnicodeCharacter> rolldOutids, 
-        List<UnicodeCharacter> charsToRemove)
-    {
-        List<UnicodeCharacter> result = new List<UnicodeCharacter>();
-        foreach (var VARIABLE in rolldOutids)
-        {
-            if (!charsToRemove.Contains(VARIABLE))
-            {
-                result.Add(VARIABLE);
-            }
-        }
-        return result;
-    }
     
     public Dictionary<UnicodeCharacter, CodepointBasicRecord> generateCodepointMap(
         Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions,
@@ -281,62 +281,11 @@ public class GenerateFileMaps
         string codepointPath)
     {
         const int introLinesCount = 87;
-        var codepointLines = removeIntroductionLines(codepointPath, introLinesCount);
+        var codepointLines = UtilityFunctions.removeIntroductionLines(codepointPath, introLinesCount);
         var uniDict = GenerateUniDictionary(codepointLines);
         //var test = uniDict.GetValueOrDefault("鰠");
         var result = GenerateFinalUnicodeMap(uniDict, codeExceptions, idsMap);
         return result;
-    }
-
-    private Dictionary<string, List<string>> GenerateUniDictionary(IEnumerable<string> codepointLines)
-    {
-        //add the missing codepointLines
-        //missing junda:
-        //裏 3 秊  1
-        //missing tzai:
-        // 兀  119  嗀  11
-        List<string> missingChars = new List<string>();
-        string one1 = "U+F9E7\t裏\t4125111213534";// + Environment.NewLine;
-        string two2 = "U+F995\t秊\t31234312"; //+ Environment.NewLine;
-        string three3 = "U+FA0C\t兀\t135"; //+ Environment.NewLine;
-        string four4 = "U+FA0D\t嗀\t1214512513554";// + Environment.NewLine;
-                     
-        missingChars.Add(one1);
-        missingChars.Add(two2);
-        missingChars.Add(three3);
-        missingChars.Add(four4);
-        
-        UtilityFunctions util = new UtilityFunctions();
-        Dictionary<string, List<string>> uniDict = new Dictionary<string, List<string>>();
-        foreach (string input in codepointLines)
-        {
-            addToUniDict(input, util, uniDict);
-        }
-
-        foreach (var VARIABLE in missingChars)
-        {
-            addToUniDict(VARIABLE, util, uniDict);
-        }
-        
-        return uniDict;
-    }
-
-    private void addToUniDict(string input, UtilityFunctions util, Dictionary<string, List<string>> uniDict)
-    {
-        if (!input.StartsWith("U+")) return;
-        string[] splitstr = 
-            input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-        if (splitstr[1].Equals("鰠^"))
-        {
-            string test = "";
-        }
-
-        var character = util.firstUnicodeCharacter(splitstr[1]);
-        if (!uniDict.ContainsKey(character.Value)) 
-        {
-            uniDict[character.Value] = new List<string>();
-        }
-        uniDict[character.Value].Add(splitstr[2]);
     }
 
     private Dictionary<UnicodeCharacter, CodepointBasicRecord> GenerateFinalUnicodeMap(
@@ -448,7 +397,7 @@ public class GenerateFileMaps
     public Dictionary<UnicodeCharacter, FrequencyRecord> generateTzaiMap(string tzaiPath)
     {
         //var tzaiPath = "../../../projectFolder/StaticFiles/Tzai2006.txt";
-        var tzaiLines = ReadLinesFromFile(tzaiPath);
+        var tzaiLines = UtilityFunctions.ReadLinesFromFile(tzaiPath);
 
         var allOccurrences = CalculateSumTzai(tzaiLines);
         var dictionary = new Dictionary<UnicodeCharacter, FrequencyRecord>();
@@ -471,7 +420,7 @@ public class GenerateFileMaps
     public Dictionary<UnicodeCharacter, FrequencyRecord> generateJundaMap(string jundaPath)
     {
         //var jundaPath = "../../../projectFolder/StaticFiles/Junda2005.txt";
-        var jundaLines = ReadLinesFromFile(jundaPath);
+        var jundaLines = UtilityFunctions.ReadLinesFromFile(jundaPath);
         var allOccurrences = CalculateSumJunda(jundaLines);
         var dictionary = new Dictionary<UnicodeCharacter, FrequencyRecord>();
 
@@ -518,42 +467,11 @@ public class GenerateFileMaps
         return sum;
     }
     
-    private List<string> removeIntroductionLines(string filePath, int introductoryLineLimmit)
-    {
-        var rawLines = ReadLinesFromFile(filePath);
-        var resultLines = rawLines.Skip(introductoryLineLimmit).ToList();
-        return resultLines;
-    }
-    
-    private List<string> ReadLinesFromFile(string filename)
-    {
-        try
-        {
-            var lines = new List<string>();
-            StreamReader reader = new StreamReader(filename);
-
-            using (reader)
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    lines.Add(line);
-                }
-            }
-
-            return lines;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            return null;
-        }
-    }
     
     
     private Dictionary<UnicodeCharacter, HeisigRecord> generateHeisigMap(WritingSystemEnum system, string path)
     {
-        var heisigSimpLines = removeIntroductionLines(path, 3);
+        var heisigSimpLines = UtilityFunctions.removeIntroductionLines(path, 3);
 
         var dictionary = new Dictionary<UnicodeCharacter, HeisigRecord>();
         int linenumber = 0;
@@ -588,77 +506,5 @@ public class GenerateFileMaps
         return result;
     }
     
-    private List<UnicodeCharacter> generateRolledOutids(
-        UnicodeCharacter character,
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
-    {
-        UtilityFunctions util = new UtilityFunctions();
-        List<UnicodeCharacter> temporaryRollOut = new List<UnicodeCharacter>();
-        if (tempDictionary.ContainsKey(character))
-        {
-            if (character.Equals(new UnicodeCharacter("𬔦")))
-            {
-                string test = "";
-            }
-            temporaryRollOut = tempDictionary.GetValueOrDefault(character);
-        }
-        return Helper(temporaryRollOut, tempDictionary);
-    }
 
-    private List<UnicodeCharacter> Helper(
-        List<UnicodeCharacter> temporaryRollOut,
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
-    {
-        List<List<UnicodeCharacter>> rolledOutSingleLines = 
-            new List<List<UnicodeCharacter>>();
-        Boolean eachSublistEmptyOrLengthOne = false;
-        foreach (var eachLetter in temporaryRollOut)
-        {
-            var valueFromDict = tempDictionary.GetValueOrDefault(eachLetter);
-            List<UnicodeCharacter> toAdd = valueFromDict == null || valueFromDict.Count.Equals(0)
-                ? new List<UnicodeCharacter>() {eachLetter}
-                : valueFromDict;
-            rolledOutSingleLines.Add(toAdd);
-            if (valueFromDict?.Count > 1)
-                eachSublistEmptyOrLengthOne = true;
-        }
-        temporaryRollOut = rolledOutSingleLines.SelectMany(subList => subList).ToList();
-        if (eachSublistEmptyOrLengthOne)
-        {
-            return Helper(temporaryRollOut, tempDictionary);   // Recursive call
-        }
-        return temporaryRollOut;
-    }
-    
-    private List<UnicodeCharacter> irrelevantShapeAndLatinCharacters()
-    {
-        UtilityFunctions util = new UtilityFunctions();
-        List<UnicodeCharacter> result = new List<UnicodeCharacter>();
-        string ideographicDiscription = ideographicCharacterRange();
-        string asciiStr = GetAllAsciiCharacters();
-        var ideographics = util.CreateUnicodeCharacters(ideographicDiscription);
-        var ascii = util.CreateUnicodeCharacters(asciiStr);
-        return ideographics.Concat(ascii).ToList();
-    }
-
-    private string ideographicCharacterRange()
-    {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0x2FF0; i <= 0x2FFF; i++)
-        {
-            sb.Append(char.ConvertFromUtf32(i)); // Converts int to Unicode character and appends it to string builder
-        }
-        string output = sb.ToString(); // Holds all the characters from U+2FF0 to U+2FFF
-        return output;
-    }
-
-    public string GetAllAsciiCharacters()
-    {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i <= 127; i++)
-        {
-            sb.Append((char)i);
-        }
-        return sb.ToString();
-    }
 }

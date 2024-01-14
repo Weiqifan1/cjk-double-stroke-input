@@ -24,12 +24,13 @@ public class testSetup
 
         string idsPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
         string codepointPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\codepoint-character-sequence.txt");
-        
+
+        GenerateIds genIds = new GenerateIds();
         GenerateFileMaps gen = new GenerateFileMaps();
         CodeExceptions exp = new CodeExceptions();
         codeExceptionsFromIds = exp.generateCodeExceptionsFromCharacter();
         codeExceptionsFromCodepoint = exp.generateCodeExceptionsFromCodepoint();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateIdsMap(idsPath);
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
         var codepointMap = gen.generateCodepointMap(
             codeExceptionsFromIds, idsMap, codepointPath);
         foundExceptions = gen.generateFoundEsceptionsMap(codepointMap, codeExceptionsFromIds, codeExceptionsFromCodepoint, idsMap);
