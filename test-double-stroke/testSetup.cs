@@ -8,7 +8,8 @@ public class testSetup
 {
     
     //TODO: change initials to be a list and ids matches to be a list
-    
+
+    protected static Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap;
     protected static Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
     protected static  Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
     protected static  Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint;
@@ -30,7 +31,7 @@ public class testSetup
         CodeExceptions exp = new CodeExceptions();
         codeExceptionsFromIds = exp.generateCodeExceptionsFromCharacter();
         codeExceptionsFromCodepoint = exp.generateCodeExceptionsFromCodepoint();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
+        idsMap = genIds.generateIdsMap(idsPath);
         var codepointMap = gen.generateCodepointMap(
             codeExceptionsFromIds, idsMap, codepointPath);
         foundExceptions = gen.generateFoundEsceptionsMap(codepointMap, codeExceptionsFromIds, codeExceptionsFromCodepoint, idsMap);

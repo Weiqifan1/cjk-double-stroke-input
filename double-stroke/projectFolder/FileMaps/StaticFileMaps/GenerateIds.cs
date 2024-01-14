@@ -4,9 +4,49 @@ namespace double_stroke.projectFolder.StaticFileMaps;
 
 public class GenerateIds
 {
+
+    public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
+    {
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> genRawIds = generateRawIdsMap(idsPath);
+        var endResult = new Dictionary<UnicodeCharacter, IdsBasicRecord>();
+        foreach (var item in genRawIds)
+        {
+            string test = "";
+            //var rolledOutIds = generateRolledOutids(item.Key, tempDictionary);
+            //var rolledOutIdsWithNoShape = UtilityFunctions.removeUnvantedCharacters(rolledOutIds, charsToRemove);
+            //var idsBasicRecord = new IdsBasicRecord(item.Value.rawIds, rolledOutIds, rolledOutIdsWithNoShape);
+            //endResult.Add(item.Key, idsBasicRecord);
+        }
+        return endResult;
+        
+    }
+
+
+    public Dictionary<UnicodeCharacter, List<UnicodeCharacter>> generateRawIdsMap(string idsPath)
+    {
+        var idsLines = UtilityFunctions.removeIntroductionLines(idsPath, 2);
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
+            new Dictionary<UnicodeCharacter, List<UnicodeCharacter>>();
+        var charsToRemove = irrelevantShapeAndLatinCharacters();
+
+        foreach (string eachRawIdsLine in idsLines)
+        {
+            string[] splitstr = 
+                eachRawIdsLine.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+            UnicodeCharacter character = UtilityFunctions.firstUnicodeCharacter(splitstr[1]);
+            List<UnicodeCharacter> strSplitIds = UtilityFunctions.CreateUnicodeCharacters(splitstr[2]);
+
+            if (character.Equals(new UnicodeCharacter("𬔦")))
+            {
+                string testWeird = "";
+            }
+
+            tempDictionary.TryAdd(character, strSplitIds);
+        }
+        return tempDictionary;
+    }
     
-    
-    
+    /*
     public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
     {
         var idsLines = UtilityFunctions.removeIntroductionLines(idsPath, 2);
@@ -90,6 +130,8 @@ public class GenerateIds
         return temporaryRollOut;
     }
     
+    */
+    
     
     
     
@@ -103,8 +145,6 @@ public class GenerateIds
         var ascii = UtilityFunctions.CreateUnicodeCharacters(asciiStr);
         return ideographics.Concat(ascii).ToList();
     }
-    
-    
     
     
 }
