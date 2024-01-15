@@ -7,11 +7,24 @@ public class GenerateIds
 
     public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
     {
+        //IdsBasicRecord(
+        //string rawIds,
+        //    List<UnicodeCharacter> rolledOutIds,
+        //List<UnicodeCharacter> rolledOutIdsWithNoShape
+            
         Dictionary<UnicodeCharacter, List<UnicodeCharacter>> genRawIds = generateRawIdsMap(idsPath);
         var endResult = new Dictionary<UnicodeCharacter, IdsBasicRecord>();
         foreach (var item in genRawIds)
         {
+            if (item.Key.Equals("𠞂"))
+            {
+                var testRes = "";
+            }
+
+            var rollOut = getRecursiveRawId(item.Key, genRawIds);
+            
             string test = "";
+            
             //var rolledOutIds = generateRolledOutids(item.Key, tempDictionary);
             //var rolledOutIdsWithNoShape = UtilityFunctions.removeUnvantedCharacters(rolledOutIds, charsToRemove);
             //var idsBasicRecord = new IdsBasicRecord(item.Value.rawIds, rolledOutIds, rolledOutIdsWithNoShape);
@@ -19,6 +32,28 @@ public class GenerateIds
         }
         return endResult;
         
+    }
+    
+    public List<UnicodeCharacter> getRecursiveRawId(
+        UnicodeCharacter character, 
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> rawIdsDict)
+    {
+        List<UnicodeCharacter> result = new List<UnicodeCharacter>();
+        if (character != null)
+        {
+            result.Add(character);
+            for(int i = 0; i<result.Count; i++)
+            {
+                if (rawIdsDict.TryGetValue(result[i], out var temp))
+                {
+                    if(temp != null && temp.Count != 1)
+                    {
+                        result.AddRange(getRecursiveRawId(temp[i], rawIdsDict));
+                    }
+                }
+            } 
+        }
+        return result;
     }
 
 
