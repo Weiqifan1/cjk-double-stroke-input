@@ -11,7 +11,8 @@ public class GenerateIds
         //string rawIds,
         //    List<UnicodeCharacter> rolledOutIds,
         //List<UnicodeCharacter> rolledOutIdsWithNoShape
-            
+        var latin = latinCharcters();
+        var allUnwanted = irrelevantShapeAndLatinCharacters();
         Dictionary<UnicodeCharacter, List<UnicodeCharacter>> genRawIds = generateRawIdsMap(idsPath);
         var endResult = new Dictionary<UnicodeCharacter, IdsBasicRecord>();
         foreach (var item in genRawIds)
@@ -21,10 +22,16 @@ public class GenerateIds
                 var testRes = "";
             }
 
-            var rollOut = getRecursiveRawId(item.Key, genRawIds);
-            
-            string test = "";
-            
+            List<UnicodeCharacter> rollOut = getRecursiveRawId(item.Key, genRawIds, latin);
+            List<UnicodeCharacter> rollOutNoUnwanted = rollOut.Where(n => !allUnwanted.Contains(n)).ToList();
+            if (rollOutNoUnwanted.Count > 0)
+            {
+                IdsBasicRecord basicRec = new IdsBasicRecord(
+                    genRawIds.GetValueOrDefault(item.Key),
+                    rollOut, 
+                    rollOutNoUnwanted);
+                endResult.Add(item.Key, basicRec);
+            }
             //var rolledOutIds = generateRolledOutids(item.Key, tempDictionary);
             //var rolledOutIdsWithNoShape = UtilityFunctions.removeUnvantedCharacters(rolledOutIds, charsToRemove);
             //var idsBasicRecord = new IdsBasicRecord(item.Value.rawIds, rolledOutIds, rolledOutIdsWithNoShape);
@@ -36,26 +43,44 @@ public class GenerateIds
     
     public List<UnicodeCharacter> getRecursiveRawId(
         UnicodeCharacter character, 
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> rawIdsDict)
+        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> rawIdsDict,
+        List<UnicodeCharacter> unwanted)
     {
-        List<UnicodeCharacter> result = new List<UnicodeCharacter>();
-        if (character != null)
+        List<UnicodeCharacter> resultSet = new List<UnicodeCharacter>();
+        if (character.Value.Equals("𥺛") )//"𢺓" //|| character.Value.Equals()
         {
-            result.Add(character);
-            for(int i = 0; i<result.Count; i++)
-            {
-                if (rawIdsDict.TryGetValue(result[i], out var temp))
-                {
-                    if(temp != null && temp.Count != 1)
-                    {
-                        result.AddRange(getRecursiveRawId(temp[i], rawIdsDict));
-                    }
-                }
-            } 
+            var test = "";
         }
-        return result;
+        if (!rawIdsDict.TryGetValue(character, out List<UnicodeCharacter> listValues))
+            return resultSet; //character not in dictionary
+        foreach (var item in listValues)
+        {
+            if (!unwanted.Contains(item)) //ignore self-references
+            {
+                if (!rawIdsDict.ContainsKey(item) || item.Equals(character))
+                {
+                    resultSet.Add(item);
+                }
+                else
+                {
+                    resultSet.AddRange(getRecursiveRawId(item, rawIdsDict, unwanted));
+                }
+            }
+            //resultSet.AddRange(getRecursiveRawId(item, rawIdsDict, unwanted));
+        }
+        if (character.Value.Equals("𥺛") )//"𢺓" //|| character.Value.Equals()
+        {
+            var test = "";
+        }
+        return resultSet;
     }
 
+    /*
+    if (character.Value.Equals("𢺓") ) //|| character.Value.Equals()
+        {
+            var test = "";
+        }
+     */
 
     public Dictionary<UnicodeCharacter, List<UnicodeCharacter>> generateRawIdsMap(string idsPath)
     {
@@ -175,11 +200,17 @@ public class GenerateIds
     {
         List<UnicodeCharacter> result = new List<UnicodeCharacter>();
         string ideographicDiscription = UtilityFunctions.ideographicCharacterRange();
-        string asciiStr = UtilityFunctions.GetAllAsciiCharacters();
         var ideographics = UtilityFunctions.CreateUnicodeCharacters(ideographicDiscription);
-        var ascii = UtilityFunctions.CreateUnicodeCharacters(asciiStr);
-        return ideographics.Concat(ascii).ToList();
+        var final = ideographics.Concat(latinCharcters()).ToList();
+        return final;
     }
-    
-    
+
+    private List<UnicodeCharacter> latinCharcters()
+    {
+        string asciiStr = UtilityFunctions.GetAllAsciiCharacters();
+        var ascii = UtilityFunctions.CreateUnicodeCharacters(asciiStr);
+        return ascii;
+    }
+
+
 }
