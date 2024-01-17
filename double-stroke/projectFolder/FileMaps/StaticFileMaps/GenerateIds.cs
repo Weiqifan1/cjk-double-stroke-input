@@ -1,9 +1,39 @@
 ﻿using double_stroke.projectFolder.FileMaps;
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace double_stroke.projectFolder.StaticFileMaps;
 
 public class GenerateIds
 {
+
+    public void generateAndSaveIdsMap(string idsPath, string newPathForSaveFile)
+    {
+        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = generateIdsMap(idsPath);
+        
+        JsonSerializerSettings settings = new JsonSerializerSettings();
+        settings.Converters.Add(new KeyAsStrConverter());
+        string json = JsonConvert.SerializeObject(idsMap);
+        File.WriteAllText(newPathForSaveFile, json);
+    }
+
+    public Dictionary<UnicodeCharacter, IdsBasicRecord> readIdsMap(string idsPath)
+    {
+        string jsonFromFile = File.ReadAllText(idsPath);
+
+        JsonSerializerSettings settings = new JsonSerializerSettings();
+        //settings.Converters.Add(new KeyAsStrConverter());
+        Dictionary<UnicodeCharacter, IdsBasicRecord> resultDictionary =
+            JsonConvert.DeserializeObject<Dictionary<UnicodeCharacter, IdsBasicRecord>>(jsonFromFile, settings);
+        
+        // Deserialize JSON to Dictionary
+        /*
+        Dictionary<UnicodeCharacter, IdsBasicRecord> resultDictionary =
+            JsonConvert.DeserializeObject<Dictionary<UnicodeCharacter, IdsBasicRecord>>(jsonFromFile);
+        */
+        return resultDictionary;
+    }
 
     public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
     {
@@ -41,7 +71,7 @@ public class GenerateIds
         
     }
     
-    public List<UnicodeCharacter> getRecursiveRawId(
+    private List<UnicodeCharacter> getRecursiveRawId(
         UnicodeCharacter character, 
         Dictionary<UnicodeCharacter, List<UnicodeCharacter>> rawIdsDict,
         List<UnicodeCharacter> unwanted)
@@ -82,7 +112,7 @@ public class GenerateIds
         }
      */
 
-    public Dictionary<UnicodeCharacter, List<UnicodeCharacter>> generateRawIdsMap(string idsPath)
+    private Dictionary<UnicodeCharacter, List<UnicodeCharacter>> generateRawIdsMap(string idsPath)
     {
         var idsLines = UtilityFunctions.removeIntroductionLines(idsPath, 2);
         Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
@@ -210,6 +240,24 @@ public class GenerateIds
         string asciiStr = UtilityFunctions.GetAllAsciiCharacters();
         var ascii = UtilityFunctions.CreateUnicodeCharacters(asciiStr);
         return ascii;
+    }
+    
+    public class KeyAsStrConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType.IsAssignableFrom(typeof(UnicodeCharacter));
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            return (UnicodeCharacter)reader.Value.ToString();
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value);
+        }
     }
 
 
