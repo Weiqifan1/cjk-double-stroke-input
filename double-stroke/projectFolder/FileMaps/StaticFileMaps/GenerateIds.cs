@@ -1,7 +1,9 @@
 ﻿using double_stroke.projectFolder.FileMaps;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
+using System.Text.Json;
+
+//using Newtonsoft.Json;
 
 namespace double_stroke.projectFolder.StaticFileMaps;
 
@@ -10,32 +12,23 @@ public class GenerateIds
 
     public void generateAndSaveIdsMap(string idsPath, string newPathForSaveFile)
     {
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = generateIdsMap(idsPath);
-        
-        JsonSerializerSettings settings = new JsonSerializerSettings();
-        settings.Converters.Add(new KeyAsStrConverter());
-        string json = JsonConvert.SerializeObject(idsMap);
+        Dictionary<string, IdsBasicRecord> idsMap = generateIdsMap(idsPath);
+        string json = JsonSerializer.Serialize(idsMap);
         File.WriteAllText(newPathForSaveFile, json);
     }
 
-    public Dictionary<UnicodeCharacter, IdsBasicRecord> readIdsMap(string idsPath)
+    public Dictionary<string, IdsBasicRecord> readIdsMap(string idsPath)
     {
+        
         string jsonFromFile = File.ReadAllText(idsPath);
 
-        JsonSerializerSettings settings = new JsonSerializerSettings();
-        //settings.Converters.Add(new KeyAsStrConverter());
-        Dictionary<UnicodeCharacter, IdsBasicRecord> resultDictionary =
-            JsonConvert.DeserializeObject<Dictionary<UnicodeCharacter, IdsBasicRecord>>(jsonFromFile, settings);
-        
-        // Deserialize JSON to Dictionary
-        /*
-        Dictionary<UnicodeCharacter, IdsBasicRecord> resultDictionary =
-            JsonConvert.DeserializeObject<Dictionary<UnicodeCharacter, IdsBasicRecord>>(jsonFromFile);
-        */
+        JsonSerializerOptions options = new JsonSerializerOptions();
+        Dictionary<string, IdsBasicRecord> resultDictionary = 
+            JsonSerializer.Deserialize<Dictionary<string, IdsBasicRecord>>(jsonFromFile, options);
         return resultDictionary;
     }
 
-    public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
+    public Dictionary<string, IdsBasicRecord> generateIdsMap(string idsPath)
     {
         //IdsBasicRecord(
         //string rawIds,
@@ -43,8 +36,8 @@ public class GenerateIds
         //List<UnicodeCharacter> rolledOutIdsWithNoShape
         var latin = latinCharcters();
         var allUnwanted = irrelevantShapeAndLatinCharacters();
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> genRawIds = generateRawIdsMap(idsPath);
-        var endResult = new Dictionary<UnicodeCharacter, IdsBasicRecord>();
+        Dictionary<string, List<UnicodeCharacter>> genRawIds = generateRawIdsMap(idsPath);
+        var endResult = new Dictionary<string, IdsBasicRecord>();
         foreach (var item in genRawIds)
         {
             if (item.Key.Equals("𠞂"))
@@ -52,7 +45,8 @@ public class GenerateIds
                 var testRes = "";
             }
 
-            List<UnicodeCharacter> rollOut = getRecursiveRawId(item.Key, genRawIds, latin);
+            List<UnicodeCharacter> rollOut = getRecursiveRawId(
+                new UnicodeCharacter(item.Key), genRawIds, latin);
             List<UnicodeCharacter> rollOutNoUnwanted = rollOut.Where(n => !allUnwanted.Contains(n)).ToList();
             if (rollOutNoUnwanted.Count > 0)
             {
@@ -73,7 +67,7 @@ public class GenerateIds
     
     private List<UnicodeCharacter> getRecursiveRawId(
         UnicodeCharacter character, 
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> rawIdsDict,
+        Dictionary<string, List<UnicodeCharacter>> rawIdsDict,
         List<UnicodeCharacter> unwanted)
     {
         List<UnicodeCharacter> resultSet = new List<UnicodeCharacter>();
@@ -81,13 +75,13 @@ public class GenerateIds
         {
             var test = "";
         }
-        if (!rawIdsDict.TryGetValue(character, out List<UnicodeCharacter> listValues))
+        if (!rawIdsDict.TryGetValue(character.Value, out List<UnicodeCharacter> listValues))
             return resultSet; //character not in dictionary
         foreach (var item in listValues)
         {
             if (!unwanted.Contains(item)) //ignore self-references
             {
-                if (!rawIdsDict.ContainsKey(item) || item.Equals(character))
+                if (!rawIdsDict.ContainsKey(item.Value) || item.Equals(character))
                 {
                     resultSet.Add(item);
                 }
@@ -112,11 +106,11 @@ public class GenerateIds
         }
      */
 
-    private Dictionary<UnicodeCharacter, List<UnicodeCharacter>> generateRawIdsMap(string idsPath)
+    private Dictionary<string, List<UnicodeCharacter>> generateRawIdsMap(string idsPath)
     {
         var idsLines = UtilityFunctions.removeIntroductionLines(idsPath, 2);
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
-            new Dictionary<UnicodeCharacter, List<UnicodeCharacter>>();
+        Dictionary<string, List<UnicodeCharacter>> tempDictionary = 
+            new Dictionary<string, List<UnicodeCharacter>>();
         var charsToRemove = irrelevantShapeAndLatinCharacters();
 
         foreach (string eachRawIdsLine in idsLines)
@@ -131,19 +125,19 @@ public class GenerateIds
                 string testWeird = "";
             }
 
-            tempDictionary.TryAdd(character, strSplitIds);
+            tempDictionary.TryAdd(character.Value, strSplitIds);
         }
         return tempDictionary;
     }
     
     /*
-    public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap(string idsPath)
+    public Dictionary<string, IdsBasicRecord> generateIdsMap(string idsPath)
     {
         var idsLines = UtilityFunctions.removeIntroductionLines(idsPath, 2);
-        Dictionary<UnicodeCharacter, IdsBasicRecord> tempResult = 
-            new Dictionary<UnicodeCharacter, IdsBasicRecord>();
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
-            new Dictionary<UnicodeCharacter, List<UnicodeCharacter>>();
+        Dictionary<string, IdsBasicRecord> tempResult = 
+            new Dictionary<string, IdsBasicRecord>();
+        Dictionary<string, List<UnicodeCharacter>> tempDictionary = 
+            new Dictionary<string, List<UnicodeCharacter>>();
         var charsToRemove = irrelevantShapeAndLatinCharacters();
 
         foreach (string input in idsLines)
@@ -166,7 +160,7 @@ public class GenerateIds
             tempResult.TryAdd(character, basic);
         }
 
-        Dictionary<UnicodeCharacter, IdsBasicRecord> endResult = new Dictionary<UnicodeCharacter, IdsBasicRecord>();
+        Dictionary<string, IdsBasicRecord> endResult = new Dictionary<string, IdsBasicRecord>();
         foreach (var item in tempResult)
         {
             //TODO use the old dictonary and generateRolledOutids function 
@@ -180,7 +174,7 @@ public class GenerateIds
     
     private List<UnicodeCharacter> generateRolledOutids(
         UnicodeCharacter character,
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
+        Dictionary<string, List<UnicodeCharacter>> tempDictionary)
     {
         List<UnicodeCharacter> temporaryRollOut = new List<UnicodeCharacter>();
         if (tempDictionary.ContainsKey(character))
@@ -197,7 +191,7 @@ public class GenerateIds
     
     private List<UnicodeCharacter> Helper(
         List<UnicodeCharacter> temporaryRollOut,
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary)
+        Dictionary<string, List<UnicodeCharacter>> tempDictionary)
     {
         List<List<UnicodeCharacter>> rolledOutSingleLines = 
             new List<List<UnicodeCharacter>>();
@@ -241,24 +235,5 @@ public class GenerateIds
         var ascii = UtilityFunctions.CreateUnicodeCharacters(asciiStr);
         return ascii;
     }
-    
-    public class KeyAsStrConverter : JsonConverter
-    {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType.IsAssignableFrom(typeof(UnicodeCharacter));
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            return (UnicodeCharacter)reader.Value.ToString();
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            writer.WriteValue(value);
-        }
-    }
-
 
 }

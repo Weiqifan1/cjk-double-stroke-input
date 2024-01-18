@@ -1,9 +1,23 @@
 ﻿namespace double_stroke.projectFolder.StaticFileMaps;
+//using Newtonsoft.Json;
+using System.ComponentModel;
 
 public class UnicodeCharacter
 {
+    
     private string value;
-
+    
+    
+    public string Value
+    {
+        get { return this.value; }
+        private set { this.value = value; }  // Added this set accessor
+    }
+    
+    public UnicodeCharacter()
+    {
+    }
+    
     public UnicodeCharacter(string value)
     {
         if (value.Length < 1 || value.Length > 2)
@@ -15,11 +29,6 @@ public class UnicodeCharacter
             throw new ArgumentException("Invalid length for Unicode character");
         }
         this.value = value;
-    }
-
-    public string Value
-    {
-        get { return this.value; }
     }
     
     private bool IsSurrogatePair(string input)  

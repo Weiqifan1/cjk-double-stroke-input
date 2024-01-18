@@ -5,41 +5,6 @@ using test_double_stroke;
 
 public class Tests : testSetup
 {
-    /*
-    private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-    private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
-    private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint;
-    private Dictionary<UnicodeCharacter, FrequencyRecord> junda;
-    private Dictionary<UnicodeCharacter, FrequencyRecord> tzai;
-    
-    [SetUp]
-    public void Setup()
-    {
-        string testDirectory = TestContext.CurrentContext.TestDirectory;
-
-        string idsPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
-        string codepointPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\codepoint-character-sequence.txt");
-        
-        GenerateFileMaps gen = new GenerateFileMaps();
-        CodeExceptions exp = new CodeExceptions();
-        codeExceptionsFromIds = exp.generateCodeExceptionsFromCharacter();
-        codeExceptionsFromCodepoint = exp.generateCodeExceptionsFromCodepoint();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateIdsMap(idsPath);
-        var codepointMap = gen.generateCodepointMap(
-            codeExceptionsFromIds, idsMap, codepointPath);
-        foundExceptions = gen.generateFoundEsceptionsMap(codepointMap, codeExceptionsFromIds, codeExceptionsFromCodepoint, idsMap);
-
-        //var jundaPath = "../../../projectFolder/StaticFiles/Junda2005.txt";
-        //var tzaiPath = "../../../projectFolder/StaticFiles/Tzai2006.txt";
-        
-        string jundaPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\Junda2005.txt");
-        string tzaiPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\Tzai2006.txt");
-        
-        junda = gen.generateJundaMap(jundaPath);
-        tzai = gen.generateTzaiMap(tzaiPath);
-        
-    }*/
-
     [Test]
     public void IdentifyMissingJundaAndTzaiCharacters()
     {
@@ -49,8 +14,8 @@ public class Tests : testSetup
         Console.WriteLine("next");
 
 
-        Dictionary<UnicodeCharacter, FrequencyRecord> missingJunda = new Dictionary<UnicodeCharacter, FrequencyRecord>();
-        Dictionary<UnicodeCharacter, FrequencyRecord> missingTzai = new Dictionary<UnicodeCharacter, FrequencyRecord>();
+        Dictionary<string, FrequencyRecord> missingJunda = new Dictionary<string, FrequencyRecord>();
+        Dictionary<string, FrequencyRecord> missingTzai = new Dictionary<string, FrequencyRecord>();
         
         foreach (var VARIABLE in junda.Keys)
         {
@@ -73,10 +38,10 @@ public class Tests : testSetup
         //missing tzai:
         // 兀  119  嗀  11
 
-        var result1 = foundExceptions.GetValueOrDefault(new UnicodeCharacter("裏"));
-        var result2 = foundExceptions.GetValueOrDefault(new UnicodeCharacter("秊"));
-        var result3 = foundExceptions.GetValueOrDefault(new UnicodeCharacter("兀"));
-        var result4 = foundExceptions.GetValueOrDefault(new UnicodeCharacter("嗀"));
+        var result1 = foundExceptions.GetValueOrDefault("裏");
+        var result2 = foundExceptions.GetValueOrDefault("秊");
+        var result3 = foundExceptions.GetValueOrDefault("兀");
+        var result4 = foundExceptions.GetValueOrDefault("嗀");
         
         Assert.AreEqual(missingJunda.Count, 0);
         Assert.AreEqual(missingTzai.Count, 0);

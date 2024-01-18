@@ -16,7 +16,7 @@ public class test_handFull : testSetup
 
         var handFull =
             exceptionHelper.FiltDict_hasCodeNotIds(
-                mydict, new() {"3112"}, new() {new UnicodeCharacter("手")});
+                mydict, new() {"3112"}, new() {"手"});
         var handfullClean = exceptionHelper.displayDict(handFull);
 
         //handfullClean have been looked through and no characters seem missing

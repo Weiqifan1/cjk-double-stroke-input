@@ -24,13 +24,13 @@ public class ExceptionHelper
     
     
     private bool idsMatchMatch(
-        List<UnicodeCharacter> initialIds, 
-        KeyValuePair<UnicodeCharacter, CodepointWithExceptionRecord> kv)
+        List<string> initialIds, 
+        KeyValuePair<string, CodepointWithExceptionRecord> kv)
     {
         bool result = false;
         for (int i = 0; i < initialIds.Count; i++)
         {
-            var matchEach = kv.Value.idsLookup.rolledOutIdsWithNoShape[0].Equals(initialIds[i]);
+            var matchEach = kv.Value.idsLookup.rolledOutIdsWithNoShape[0].Value.Equals(initialIds[i]);
             if (matchEach)
             {
                 result = true;
@@ -53,10 +53,10 @@ public class ExceptionHelper
         return result;
     }
     
-    public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> FiltDict_hasCodeHasIds(
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions, 
+    public Dictionary<string, CodepointWithExceptionRecord> FiltDict_hasCodeHasIds(
+        Dictionary<string, CodepointWithExceptionRecord> foundExceptions, 
         List<string> initialCodepoint, 
-        List<UnicodeCharacter> initialIds)
+        List<string> initialIds)
     {
         var result = foundExceptions
             .Where(kv => 
@@ -67,10 +67,10 @@ public class ExceptionHelper
     }
 
 
-    public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> FiltDict_hasCodeNotIds(
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions, 
+    public Dictionary<string, CodepointWithExceptionRecord> FiltDict_hasCodeNotIds(
+        Dictionary<string, CodepointWithExceptionRecord> foundExceptions, 
         List<string> initialCodepoint, 
-        List<UnicodeCharacter> initialIds)
+        List<string> initialIds)
     {
         var result = foundExceptions
             .Where(kv =>
@@ -85,10 +85,10 @@ public class ExceptionHelper
     
 
 
-    public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> FiltDict_NotCodeHasIds(
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions, 
+    public Dictionary<string, CodepointWithExceptionRecord> FiltDict_NotCodeHasIds(
+        Dictionary<string, CodepointWithExceptionRecord> foundExceptions, 
         List<string> initialCodepoint, 
-        List<UnicodeCharacter> initialIds)
+        List<string> initialIds)
     {
         var result = foundExceptions
             .Where(kv => 
@@ -98,10 +98,10 @@ public class ExceptionHelper
         return result;
     }
     
-    public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> FiltDict_NotCodeNotIds(
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions, 
+    public Dictionary<string, CodepointWithExceptionRecord> FiltDict_NotCodeNotIds(
+        Dictionary<string, CodepointWithExceptionRecord> foundExceptions, 
         List<string> initialCodepoint, 
-        List<UnicodeCharacter> initialIds)
+        List<string> initialIds)
     {
         var result = foundExceptions
             .Where(kv => 
@@ -111,13 +111,13 @@ public class ExceptionHelper
         return result;
     }
 
-    public List<string> displayDict(Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> dict)
+    public List<string> displayDict(Dictionary<string, CodepointWithExceptionRecord> dict)
     {
         var resultlist = new List<string>();
         foreach (var keyval in dict)
         {
             var eachstr = "";
-            eachstr += keyval.Key.Value + " ";
+            eachstr += keyval.Key + " ";
             eachstr += keyval.Value.codepointExceptions.rawCodepoint + " ";
             string rolledOutToStr = rolledOutToStrFunc(keyval.Value.idsLookup.rolledOutIdsWithNoShape);
             eachstr += rolledOutToStr + " ";
@@ -165,8 +165,8 @@ public class ExceptionHelper
 public void IdentifyDetectedExceptionsThatShouldntBeThere()
 {
     Console.WriteLine("test start");
-    //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-    //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+    //private Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
+    //private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
     //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
 
     Assert.AreEqual(2+2, 4);
@@ -178,8 +178,8 @@ public void IdentifyDetectedExceptionsThatShouldntBeThere()
 public void IdentifyExceptionsThatShouldHaveBeenADifferetException()
 {
     Console.WriteLine("test start");
-    //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-    //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+    //private Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
+    //private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
     //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
 
     Assert.AreEqual(2+2, 4);

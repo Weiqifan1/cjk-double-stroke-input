@@ -15,33 +15,3 @@ class Program
         Console.WriteLine("end");
     }
 }
-
-/*
-
-    [Test]
-    public void Test1()
-    {
-        
-        /*
-        var codeExceptions = gen.generateCodeExceptions();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateBasicIdsMap();
-        var codepointMap = gen.generateCodepointMap(codeExceptions, idsMap);
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions = 
-            gen.generateFoundEsceptionsMap(codepointMap, codeExceptions, idsMap);* /
-        
-        var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
-        const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
-
-        GenerateFileMaps gen = new GenerateFileMaps(); 
-        var codeExceptions = gen.generateCodeExceptions();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateIdsMap(idsPath);
-        var codepointMap = gen.generateCodepointMap(
-            codeExceptions, idsMap, codepointPath);
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions = 
-            gen.generateFoundEsceptionsMap(codepointMap, codeExceptions, idsMap);
-        
-        // Test code here
-        Assert.Pass();
-        
-    }
- */

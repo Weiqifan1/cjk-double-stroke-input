@@ -28,11 +28,11 @@ public class GenerateFileMaps
         const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
 
         var codeExceptionsFromCharacter = exp.generateCodeExceptionsFromCharacter();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
+        Dictionary<string, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
         var codepointMap = generateCodepointMap(
             codeExceptionsFromCharacter, idsMap, codepointPath);
         var codeExceptionsFromCodepoint = exp.generateCodeExceptionsFromCodepoint();
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions = 
+        Dictionary<string, CodepointWithExceptionRecord> foundExceptions = 
             generateFoundEsceptionsMap(codepointMap, codeExceptionsFromCharacter, codeExceptionsFromCodepoint, idsMap);
         
         //
@@ -95,19 +95,19 @@ public class GenerateFileMaps
     }
 
     
-    public Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> generateFoundEsceptionsMap(
-        Dictionary<UnicodeCharacter, CodepointBasicRecord> codepointMap, 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromids,
+    public Dictionary<string, CodepointWithExceptionRecord> generateFoundEsceptionsMap(
+        Dictionary<string, CodepointBasicRecord> codepointMap, 
+        Dictionary<string, CodepointExceptionRecord> codeExceptionsFromids,
         Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint,
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
+        Dictionary<string, IdsBasicRecord> idsMap)
     {
-        Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> result =
-            new Dictionary<UnicodeCharacter, CodepointWithExceptionRecord>();
+        Dictionary<string, CodepointWithExceptionRecord> result =
+            new Dictionary<string, CodepointWithExceptionRecord>();
 
         int numberofmissing = 0;
-        foreach (KeyValuePair<UnicodeCharacter, CodepointBasicRecord> item in codepointMap)
+        foreach (KeyValuePair<string, CodepointBasicRecord> item in codepointMap)
         {
-            UnicodeCharacter key = item.Key;
+            string key = item.Key;
             CodepointBasicRecord value = item.Value;
 
             CodepointWithExceptionRecord newitem = generateCodepointWithExceptionRecord(
@@ -125,11 +125,11 @@ public class GenerateFileMaps
 
     private CodepointWithExceptionRecord generateCodepointWithExceptionRecord(
         int numberofmissing,
-        UnicodeCharacter key, 
+        string key, 
         CodepointBasicRecord value, 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsIds,
+        Dictionary<string, CodepointExceptionRecord> codeExceptionsIds,
         Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint,
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
+        Dictionary<string, IdsBasicRecord> idsMap)
     {
         var localtestvalue = key;
         //CodepointWithExceptionRecord? record = null;
@@ -145,14 +145,16 @@ public class GenerateFileMaps
         CodepointExceptionRecord? exceptionMatchByIds = 
             getExceptionMatchByIdsElement(numberofmissing, key, value, idsLookup, codeExceptionsIds);
         CodepointExceptionRecord? exceptionMatchByCodepoint = 
-            getExceptionMatchByCodepoint(numberofmissing, key, value, idsLookup, codeExceptionsFromCodepoint);
+            getExceptionMatchByCodepoint(
+                numberofmissing, new UnicodeCharacter(key),
+                value, idsLookup, codeExceptionsFromCodepoint);
         string codepointAfterExp = getCodepointAfterExp(value, exceptionMatchByCodepoint, exceptionMatchByIds, idsLookup);
         CodepointWithExceptionRecord record = new CodepointWithExceptionRecord(
             exceptionMatchByIds,
             exceptionMatchByCodepoint,
             value,
             codepointAfterExp,
-            key,
+            new UnicodeCharacter(key),
             idsLookup);
         return record;
     }
@@ -215,10 +217,10 @@ public class GenerateFileMaps
     
     private CodepointExceptionRecord? getExceptionMatchByIdsElement(
         int numberofmissing, 
-        UnicodeCharacter key, 
+        string key, 
         CodepointBasicRecord value, 
         IdsBasicRecord? idsLookup, 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions)
+        Dictionary<string, CodepointExceptionRecord> codeExceptions)
     {
         if (idsLookup.Equals(null)  && numberofmissing < 10) 
         {
@@ -226,7 +228,7 @@ public class GenerateFileMaps
         }
         else if (idsLookup != null)
         {
-            var firstIdsMatch = idsLookup.rolledOutIdsWithNoShape[0];
+            var firstIdsMatch = idsLookup.rolledOutIdsWithNoShape[0].Value;
             var exceptionMatch = codeExceptions.GetValueOrDefault(firstIdsMatch);
             return exceptionMatch;
         }
@@ -239,15 +241,15 @@ public class GenerateFileMaps
     
     
     /*
-    public Dictionary<UnicodeCharacter, IdsBasicRecord> generateIdsMap()
+    public Dictionary<string, IdsBasicRecord> generateIdsMap()
     {
         var idsPath = "../../../projectFolder/StaticFiles/ids.txt";
         var idsLines = removeIntroductionLines(idsPath, 2);
         UtilityFunctions util = new UtilityFunctions();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> result = 
-            new Dictionary<UnicodeCharacter, IdsBasicRecord>();
-        Dictionary<UnicodeCharacter, List<UnicodeCharacter>> tempDictionary = 
-            new Dictionary<UnicodeCharacter, List<UnicodeCharacter>>();
+        Dictionary<string, IdsBasicRecord> result = 
+            new Dictionary<string, IdsBasicRecord>();
+        Dictionary<string, List<UnicodeCharacter>> tempDictionary = 
+            new Dictionary<string, List<UnicodeCharacter>>();
         var charsToRemove = irrelevantShapeAndLatinCharacters();
         //List<UnicodeCharacter> rolledOutIds(character, )
         //IdsBasicRecord record = new IdsBasicRecord(input, );
@@ -275,9 +277,9 @@ public class GenerateFileMaps
 */
     
     
-    public Dictionary<UnicodeCharacter, CodepointBasicRecord> generateCodepointMap(
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions,
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap,
+    public Dictionary<string, CodepointBasicRecord> generateCodepointMap(
+        Dictionary<string, CodepointExceptionRecord> codeExceptions,
+        Dictionary<string, IdsBasicRecord> idsMap,
         string codepointPath)
     {
         const int introLinesCount = 87;
@@ -288,12 +290,12 @@ public class GenerateFileMaps
         return result;
     }
 
-    private Dictionary<UnicodeCharacter, CodepointBasicRecord> GenerateFinalUnicodeMap(
+    private Dictionary<string, CodepointBasicRecord> GenerateFinalUnicodeMap(
         Dictionary<string, List<string>> uniDict, 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
+        Dictionary<string, CodepointExceptionRecord> codeExceptions, 
+        Dictionary<string, IdsBasicRecord> idsMap)
     {
-        var finalUnicodeMap = new Dictionary<UnicodeCharacter, CodepointBasicRecord>();
+        var finalUnicodeMap = new Dictionary<string, CodepointBasicRecord>();
         foreach (var entry in uniDict)
         {
             if (entry.Key.Equals("鰠"))
@@ -303,15 +305,15 @@ public class GenerateFileMaps
 
             var character = new UnicodeCharacter(entry.Key);
             CodepointBasicRecord prelimEntry = generateCodepointRecord(entry, codeExceptions, idsMap);
-            finalUnicodeMap[character] = prelimEntry; 
+            finalUnicodeMap[character.Value] = prelimEntry; 
         }
         return finalUnicodeMap;
     }
 
     private CodepointBasicRecord generateCodepointRecord(
         KeyValuePair<string, List<string>> entry, 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptions, 
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap)
+        Dictionary<string, CodepointExceptionRecord> codeExceptions, 
+        Dictionary<string, IdsBasicRecord> idsMap)
     {
         //TODO: implement codeRecord
         if (entry.Value.Count != 1)
@@ -327,11 +329,11 @@ public class GenerateFileMaps
     }
 
     /*
-    public Dictionary<UnicodeCharacter, CodepointBasicRecord> generateCodepointMap()
+    public Dictionary<string, CodepointBasicRecord> generateCodepointMap()
     {
         var codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
         var codepointLines = removeIntroductionLines(codepointPath, 87);
-        //var dictionary = new Dictionary<UnicodeCharacter, CodepointBasicRecord>();
+        //var dictionary = new Dictionary<string, CodepointBasicRecord>();
         UtilityFunctions util = new UtilityFunctions();
         Dictionary<string, List<string>> uniDict = new Dictionary<string, List<string>>();
         
@@ -356,8 +358,8 @@ public class GenerateFileMaps
             }
         }
 
-        Dictionary<UnicodeCharacter, CodepointBasicRecord> finalUnicodeMap =
-            new Dictionary<UnicodeCharacter, CodepointBasicRecord>();
+        Dictionary<string, CodepointBasicRecord> finalUnicodeMap =
+            new Dictionary<string, CodepointBasicRecord>();
         foreach (var entry in uniDict)
         {
             var character = new UnicodeCharacter(entry.Key, entry.Value[0]);
@@ -378,7 +380,7 @@ public class GenerateFileMaps
         return finalUnicodeMap;
     }
 */
-    public Dictionary<UnicodeCharacter, HeisigRecord> generateHeisigTradMap()
+    public Dictionary<string, HeisigRecord> generateHeisigTradMap()
     {
         var heisigTradPath = "../../../projectFolder/StaticFiles/heisigTrad.txt";
         var heisigTrad = 
@@ -386,7 +388,7 @@ public class GenerateFileMaps
         return heisigTrad;
     }
     
-    public Dictionary<UnicodeCharacter, HeisigRecord> generateHeisigSimpMap()
+    public Dictionary<string, HeisigRecord> generateHeisigSimpMap()
     {
         var heisigSimpPath = "../../../projectFolder/StaticFiles/heisigSimp.txt";
         var heisigSimp = 
@@ -394,19 +396,19 @@ public class GenerateFileMaps
         return heisigSimp;
     }
 
-    public Dictionary<UnicodeCharacter, FrequencyRecord> generateTzaiMap(string tzaiPath)
+    public Dictionary<string, FrequencyRecord> generateTzaiMap(string tzaiPath)
     {
         //var tzaiPath = "../../../projectFolder/StaticFiles/Tzai2006.txt";
         var tzaiLines = UtilityFunctions.ReadLinesFromFile(tzaiPath);
 
         var allOccurrences = CalculateSumTzai(tzaiLines);
-        var dictionary = new Dictionary<UnicodeCharacter, FrequencyRecord>();
+        var dictionary = new Dictionary<string, FrequencyRecord>();
 
         foreach (string input in tzaiLines)
         {
             string[] splitstr = 
                 input.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-            var character = new UnicodeCharacter(splitstr[0]);
+            var character = splitstr[0];
             var freqRecord = new FrequencyRecord(
                 WritingSystemEnum.Traditional,
                 long.Parse(splitstr[1]),
@@ -417,12 +419,12 @@ public class GenerateFileMaps
         return dictionary;
     }
     
-    public Dictionary<UnicodeCharacter, FrequencyRecord> generateJundaMap(string jundaPath)
+    public Dictionary<string, FrequencyRecord> generateJundaMap(string jundaPath)
     {
         //var jundaPath = "../../../projectFolder/StaticFiles/Junda2005.txt";
         var jundaLines = UtilityFunctions.ReadLinesFromFile(jundaPath);
         var allOccurrences = CalculateSumJunda(jundaLines);
-        var dictionary = new Dictionary<UnicodeCharacter, FrequencyRecord>();
+        var dictionary = new Dictionary<string, FrequencyRecord>();
 
         foreach (string input in jundaLines)
         {
@@ -433,7 +435,7 @@ public class GenerateFileMaps
                 long.Parse(splitstr[2]),
                 allOccurrences
             );
-            dictionary.Add(character, freqRecord);
+            dictionary.Add(character.Value, freqRecord);
         }
         return dictionary;
     }
@@ -469,11 +471,11 @@ public class GenerateFileMaps
     
     
     
-    private Dictionary<UnicodeCharacter, HeisigRecord> generateHeisigMap(WritingSystemEnum system, string path)
+    private Dictionary<string, HeisigRecord> generateHeisigMap(WritingSystemEnum system, string path)
     {
         var heisigSimpLines = UtilityFunctions.removeIntroductionLines(path, 3);
 
-        var dictionary = new Dictionary<UnicodeCharacter, HeisigRecord>();
+        var dictionary = new Dictionary<string, HeisigRecord>();
         int linenumber = 0;
 
         foreach (string input in heisigSimpLines)
@@ -487,7 +489,7 @@ public class GenerateFileMaps
                 stringToInd(splitstr[0], splitstr, linenumber)
             );
             System.Console.WriteLine(linenumber + " " + splitstr[0]);
-            dictionary.Add(character, freqRecord);
+            dictionary.Add(character.Value, freqRecord);
         }
         return dictionary;
     }

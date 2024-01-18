@@ -6,11 +6,11 @@ public class testMissingCorrectExceptions : testSetup
 {
     //TODO: change initials to be a list and ids matches to be a list
     /*
-    private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-    private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+    private Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
+    private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
     private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint;
-    private Dictionary<UnicodeCharacter, FrequencyRecord> junda;
-    private Dictionary<UnicodeCharacter, FrequencyRecord> tzai;
+    private Dictionary<string, FrequencyRecord> junda;
+    private Dictionary<string, FrequencyRecord> tzai;
     private ExceptionHelper exceptionHelper = new ExceptionHelper();
     
     [SetUp]
@@ -25,7 +25,7 @@ public class testMissingCorrectExceptions : testSetup
         CodeExceptions exp = new CodeExceptions();
         codeExceptionsFromIds = exp.generateCodeExceptionsFromCharacter();
         codeExceptionsFromCodepoint = exp.generateCodeExceptionsFromCodepoint();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = gen.generateIdsMap(idsPath);
+        Dictionary<string, IdsBasicRecord> idsMap = gen.generateIdsMap(idsPath);
         var codepointMap = gen.generateCodepointMap(
             codeExceptionsFromIds, idsMap, codepointPath);
         foundExceptions = gen.generateFoundEsceptionsMap(codepointMap, codeExceptionsFromIds, codeExceptionsFromCodepoint, idsMap);
@@ -47,8 +47,8 @@ public class testMissingCorrectExceptions : testSetup
     {
         Console.WriteLine("test start IdentifyLackOfExceptionsThatShouldHaveBeenThere");
         
-        //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-        //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+        //private Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
+        //private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
         //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
         
         Assert.AreEqual(2+2, 4);
@@ -62,14 +62,14 @@ public class testMissingCorrectExceptions : testSetup
     {
         Console.WriteLine("test start TesthandFullSize");
         
-        //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-        //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+        //private Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
+        //private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
         //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
 
         var handFull = 
             exceptionHelper.FiltDict_hasCodeNotIds(foundExceptions, 
                 new() {"3112"},
-                new() {new UnicodeCharacter("手")});
+                new() {"手"});
 
         var finalres = exceptionHelper.displayDict(handFull);
 
@@ -106,8 +106,8 @@ public class testMissingCorrectExceptions : testSetup
     public void IdentifyDetectedExceptionsThatShouldntBeThere()
     {
         Console.WriteLine("test start");
-        //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-        //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+        //private Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
+        //private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
         //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
         
         Assert.AreEqual(2+2, 4);
@@ -119,8 +119,8 @@ public class testMissingCorrectExceptions : testSetup
     public void IdentifyExceptionsThatShouldHaveBeenADifferetException()
     {
         Console.WriteLine("test start");
-        //private Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-        //private Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+        //private Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
+        //private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
         //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
         
         Assert.AreEqual(2+2, 4);

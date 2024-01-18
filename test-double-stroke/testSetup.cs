@@ -9,12 +9,12 @@ public class testSetup
     
     //TODO: change initials to be a list and ids matches to be a list
 
-    protected static Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap;
-    protected static Dictionary<UnicodeCharacter, CodepointWithExceptionRecord> foundExceptions;
-    protected static  Dictionary<UnicodeCharacter, CodepointExceptionRecord> codeExceptionsFromIds;
+    protected static Dictionary<string, IdsBasicRecord> idsMap;
+    protected static Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
+    protected static  Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
     protected static  Dictionary<string, CodepointExceptionRecord> codeExceptionsFromCodepoint;
-    protected static  Dictionary<UnicodeCharacter, FrequencyRecord> junda;
-    protected static  Dictionary<UnicodeCharacter, FrequencyRecord> tzai;
+    protected static  Dictionary<string, FrequencyRecord> junda;
+    protected static  Dictionary<string, FrequencyRecord> tzai;
     protected static  ExceptionHelper exceptionHelper = new ExceptionHelper();
     
     [OneTimeSetUp]

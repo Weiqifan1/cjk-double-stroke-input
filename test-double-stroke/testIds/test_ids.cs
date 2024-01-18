@@ -16,10 +16,10 @@ public class test_ids
 
         //var idsPath = "../../../double-stroke/projectFolder/StaticFiles/ids.txt"; 
         GenerateIds genIds = new GenerateIds();
-        Dictionary<UnicodeCharacter, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
+        Dictionary<string, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
         
         //𢺓
-        var basic = idsMap.GetValueOrDefault(new UnicodeCharacter("𢺓"));
+        var basic = idsMap.GetValueOrDefault("𢺓");
         Assert.AreEqual(12, basic.rolledOutIdsWithNoShape.Count);
         Assert.AreEqual(new UnicodeCharacter("八"), basic.rolledOutIdsWithNoShape[5]);
         Assert.AreEqual(new UnicodeCharacter("一"), basic.rolledOutIdsWithNoShape[11]);
@@ -36,10 +36,10 @@ public class test_ids
         string newPathForSaveFile = Path.Combine(testDirectory, 
             @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
         GenerateIds genIds = new GenerateIds();
-        Dictionary<UnicodeCharacter, IdsBasicRecord>  idsMap = genIds.readIdsMap(newPathForSaveFile);
+        Dictionary<string, IdsBasicRecord>  idsMap = genIds.readIdsMap(newPathForSaveFile);
         
         //𢺓
-        var basic = idsMap.GetValueOrDefault(new UnicodeCharacter("𢺓"));
+        var basic = idsMap.GetValueOrDefault("𢺓");
         Assert.AreEqual(12, basic.rolledOutIdsWithNoShape.Count);
         Assert.AreEqual(new UnicodeCharacter("八"), basic.rolledOutIdsWithNoShape[5]);
         Assert.AreEqual(new UnicodeCharacter("一"), basic.rolledOutIdsWithNoShape[11]);
@@ -55,6 +55,6 @@ public class test_ids
             @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
         GenerateIds genIds = new GenerateIds();
         //cjk-double-stroke-input\double-stroke\projectFolder\GeneratedFiles\idsMap.txt
-        //genIds.generateAndSaveIdsMap(idsPath, newPathForSaveFile);
+        genIds.generateAndSaveIdsMap(idsPath, newPathForSaveFile);
     }
 }

@@ -3,7 +3,7 @@
 public class CodeExceptions
 {
     
-    public Dictionary<UnicodeCharacter, CodepointExceptionRecord> generateCodeExceptionsFromCharacter()
+    public Dictionary<string, CodepointExceptionRecord> generateCodeExceptionsFromCharacter()
     {
         
         UnicodeCharacter uniHandOne = new UnicodeCharacter("手");
@@ -205,29 +205,29 @@ public class CodeExceptions
             new List<UnicodeCharacter>()
         );
 
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> result =
-            new Dictionary<UnicodeCharacter, CodepointExceptionRecord>();
-        result.Add(uniHandOne, uniHandOne_except);
-        result.Add(uniHandTwo, uniHandTwo_except);
-        result.Add(uniEye, uniEye_except);
-        result.Add(uniFootOne, uniFootOne_except);
-        result.Add(uniFootTwo, uniFootTwo_except);
-        result.Add(uniInsect, uniInsect_except);
-        result.Add(uniTreeOne, uniTreeOne_except);
+        Dictionary<string, CodepointExceptionRecord> result =
+            new Dictionary<string, CodepointExceptionRecord>();
+        result.Add(uniHandOne.Value, uniHandOne_except);
+        result.Add(uniHandTwo.Value, uniHandTwo_except);
+        result.Add(uniEye.Value, uniEye_except);
+        result.Add(uniFootOne.Value, uniFootOne_except);
+        result.Add(uniFootTwo.Value, uniFootTwo_except);
+        result.Add(uniInsect.Value, uniInsect_except);
+        result.Add(uniTreeOne.Value, uniTreeOne_except);
         //result.Add(uniTreeTwo, uniTreeTwo_except);
-        result.Add(uniBambooOne, uniBambooOne_except);
-        result.Add(uniBambooTwo, uniBambooTwo_except);
-        result.Add(uniGold, uniGold_except);
-        result.Add(uniEatOne, uniEatOne_except);
-        result.Add(uniEatTwo, uniEatTwo_except);
-        result.Add(uniCar, uniCar_except);
-        result.Add(uniThread, uniThread_except);
-        result.Add(uniSayOne, uniSayOne_except);
+        result.Add(uniBambooOne.Value, uniBambooOne_except);
+        result.Add(uniBambooTwo.Value, uniBambooTwo_except);
+        result.Add(uniGold.Value, uniGold_except);
+        result.Add(uniEatOne.Value, uniEatOne_except);
+        result.Add(uniEatTwo.Value, uniEatTwo_except);
+        result.Add(uniCar.Value, uniCar_except);
+        result.Add(uniThread.Value, uniThread_except);
+        result.Add(uniSayOne.Value, uniSayOne_except);
         //result.Add(uniSayTwo, uniSayTwo_except);
-        result.Add(uniHorse, uniHorse_except);
-        result.Add(uniGateOne, uniGateOne_except);
+        result.Add(uniHorse.Value, uniHorse_except);
+        result.Add(uniGateOne.Value, uniGateOne_except);
         //result.Add(uniGateTwo, uniGateTwo_except);
-        result.Add(uniGateThree, uniGateThree_except);
+        result.Add(uniGateThree.Value, uniGateThree_except);
         return result;
 
         //UnicodeCharacter character,
@@ -261,11 +261,11 @@ public class CodeExceptions
     
     public Dictionary<string, CodepointExceptionRecord> generateCodeExceptionsFromCodepoint()
     {
-        Dictionary<UnicodeCharacter, CodepointExceptionRecord> exceptFromChar = 
+        Dictionary<string, CodepointExceptionRecord> exceptFromChar = 
             generateCodeExceptionsFromCharacter();
         Dictionary<string, CodepointExceptionRecord> result =
             new Dictionary<string, CodepointExceptionRecord>();
-        foreach (KeyValuePair<UnicodeCharacter, CodepointExceptionRecord> item in exceptFromChar)
+        foreach (KeyValuePair<string, CodepointExceptionRecord> item in exceptFromChar)
         {
             result[item.Value.rawCodepoint] = item.Value;
         }
