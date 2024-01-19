@@ -2,5 +2,5 @@
 
 public record CodepointBasicRecord(
     //UnicodeCharacter[] codepointNumbers,
-    HashSet<string> rawCodepoint
+    string rawCodepoint
     );

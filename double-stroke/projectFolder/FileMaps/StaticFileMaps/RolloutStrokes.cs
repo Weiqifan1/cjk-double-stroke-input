@@ -2,16 +2,13 @@
 
 public static class RolloutStrokes
 {
-    public static HashSet<string> rolloutString(HashSet<string> inputStrings)
+    public static HashSet<string> rolloutString(string inputStrings)
     {
-        //the input is a set because each character in the codepoint file
-        //can have multiple codes
+        //the input is a single string because each character in the codepoint file
+        //can ONLY have one character code.
         HashSet<string> result = new HashSet<string>();
-        foreach (string VARIABLE in inputStrings)
-        {
-            HashSet<string> doRollout = rolloutSingleCode(VARIABLE);
-            result.UnionWith(doRollout);
-        }
+        
+        
         return result;
     }
 
