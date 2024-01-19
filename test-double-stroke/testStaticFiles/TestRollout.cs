@@ -12,16 +12,31 @@ public class TestRollout: testSetup
         var test2 = foundExceptions.GetValueOrDefault("留");
         //(35352|35453)25121
         HashSet<string> result = RolloutStrokes.rolloutString(test2.originalCodepoint.rawCodepoint);
-    }
 
+        HashSet<string> compare = new HashSet<string>();
+        compare.Add("3535225121");
+        compare.Add("3545325121");
+        Assert.IsTrue(result.SetEquals(compare));
+    }
+    
+    public void TwoParenTest()
+    {
+        var test2 = foundExceptions.GetValueOrDefault("甑");
+        //(34|43)25243125111(5|21)54
+        HashSet<string> result = RolloutStrokes.rolloutString(test2.originalCodepoint.rawCodepoint);
+
+        HashSet<string> compare = new HashSet<string>();
+        compare.Add("3425243125111554");
+        compare.Add("34252431251112154");
+        compare.Add("4325243125111554");
+        compare.Add("43252431251112154");
+        Assert.IsTrue(result.SetEquals(compare));
+    }
+    
+    
     [Test]
     public void IdentifyMissingJundaAndTzaiCharacters()
     {
-        var test1 = foundExceptions.GetValueOrDefault("甑");
-        //(34|43)25243125111(5|21)54
-        
-        var test2 = foundExceptions.GetValueOrDefault("留");
-        //(35352|35453)25121
         
         var test3 = foundExceptions.GetValueOrDefault("鰠");
         //35251214444544(|4)251214
