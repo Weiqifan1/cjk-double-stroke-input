@@ -7,8 +7,8 @@ public record CodepointExceptionRecord(
     UnicodeCharacter character,
     UnicodeCharacter alphabetLetter,
     string rawCodepoint,
-    List<UnicodeCharacter> allAcceptableElems,
-    List<UnicodeCharacter> mistakenMatches
+    List<string> allAcceptableElems,
+    List<string> mistakenMatches
     );
 
 

@@ -11,8 +11,8 @@ public class CodeExceptions
             uniHandOne, 
             new UnicodeCharacter("s"),
             "3112",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("手")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("手").Value},
+            new List<string>()
             );
         
         UnicodeCharacter uniHandTwo = new UnicodeCharacter("扌");
@@ -20,8 +20,8 @@ public class CodeExceptions
             uniHandTwo, 
             new UnicodeCharacter("s"),
             "121",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("扌")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("扌").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniEye = new UnicodeCharacter("目");
@@ -29,8 +29,8 @@ public class CodeExceptions
             uniEye, 
             new UnicodeCharacter("d"),
             "25111",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("目")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("目").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniFootOne = new UnicodeCharacter("足");
@@ -38,8 +38,8 @@ public class CodeExceptions
             uniFootOne, 
             new UnicodeCharacter("f"),
             "2512134",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("足")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("足").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniFootTwo = new UnicodeCharacter("𧾷");
@@ -47,8 +47,8 @@ public class CodeExceptions
             uniFootTwo, 
             new UnicodeCharacter("f"),
             "251(215|2121)",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("𧾷")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("𧾷").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniInsect = new UnicodeCharacter("虫");
@@ -56,8 +56,8 @@ public class CodeExceptions
             uniInsect, 
             new UnicodeCharacter("j"),
             "251214",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("虫")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("虫").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniTreeOne = new UnicodeCharacter("木");
@@ -65,11 +65,11 @@ public class CodeExceptions
             uniTreeOne, 
             new UnicodeCharacter("k"),
             "1234",
-            new List<UnicodeCharacter>()
+            new List<string>()
             {
-                new UnicodeCharacter("木"), new UnicodeCharacter("朩")
+                new UnicodeCharacter("木").Value, new UnicodeCharacter("朩").Value
             },
-            new List<UnicodeCharacter>()
+            new List<string>()
         );
         /*
         UnicodeCharacter uniTreeTwo = new UnicodeCharacter("朩");
@@ -86,8 +86,8 @@ public class CodeExceptions
             uniBambooOne, 
             new UnicodeCharacter("l"),
             "312312",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("竹")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("竹").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniBambooTwo = new UnicodeCharacter("⺮");
@@ -95,8 +95,8 @@ public class CodeExceptions
             uniBambooTwo, 
             new UnicodeCharacter("l"),
             "314314",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("⺮")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("⺮").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniGold = new UnicodeCharacter("金");
@@ -104,8 +104,8 @@ public class CodeExceptions
             uniGold, 
             new UnicodeCharacter("t"),
             "34112431",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("金")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("金").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniEatOne = new UnicodeCharacter("食");
@@ -113,8 +113,8 @@ public class CodeExceptions
             uniEatOne, 
             new UnicodeCharacter("y"),
             "34(1|4)511534",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("食")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("食").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniEatTwo = new UnicodeCharacter("飠");
@@ -122,8 +122,8 @@ public class CodeExceptions
             uniEatTwo, 
             new UnicodeCharacter("y"),
             "34(1|4)51154",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("飠")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("飠").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniCar = new UnicodeCharacter("車");
@@ -131,8 +131,8 @@ public class CodeExceptions
             uniCar, 
             new UnicodeCharacter("g"),
             "1251112",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("車")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("車").Value},
+            new List<string>()
         );
 
         
@@ -141,8 +141,8 @@ public class CodeExceptions
             uniThread, 
             new UnicodeCharacter("h"),
             "(554234|554444)",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("糸")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("糸").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniSayOne = new UnicodeCharacter("言");
@@ -150,11 +150,11 @@ public class CodeExceptions
             uniSayOne, 
             new UnicodeCharacter("v"),
             "(1|4)111251",
-            new List<UnicodeCharacter>()
+            new List<string>()
             {
-                new UnicodeCharacter("言"), new UnicodeCharacter("訁")
+                new UnicodeCharacter("言").Value, new UnicodeCharacter("訁").Value
             },
-            new List<UnicodeCharacter>()
+            new List<string>()
         );
         /*
         UnicodeCharacter uniSayTwo = new UnicodeCharacter("訁");
@@ -171,8 +171,8 @@ public class CodeExceptions
             uniHorse, 
             new UnicodeCharacter("b"),
             "(12|21)11254444",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("馬")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("馬").Value},
+            new List<string>()
         );
         
         UnicodeCharacter uniGateOne = new UnicodeCharacter("門");
@@ -180,8 +180,8 @@ public class CodeExceptions
             uniGateOne, 
             new UnicodeCharacter("n"),
             "25112511",
-            new List<UnicodeCharacter>(){new UnicodeCharacter("門")},
-            new List<UnicodeCharacter>()
+            new List<string>(){new UnicodeCharacter("門").Value},
+            new List<string>()
         );
         /*
         UnicodeCharacter uniGateTwo = new UnicodeCharacter("𠁣");
@@ -198,11 +198,11 @@ public class CodeExceptions
             uniGateThree, 
             new UnicodeCharacter("n"),
             "25112511",
-            new List<UnicodeCharacter>()
+            new List<string>()
             {
-                new UnicodeCharacter("𠁣"), new UnicodeCharacter("𠃛")
+                new UnicodeCharacter("𠁣").Value, new UnicodeCharacter("𠃛").Value
             },
-            new List<UnicodeCharacter>()
+            new List<string>()
         );
 
         Dictionary<string, CodepointExceptionRecord> result =

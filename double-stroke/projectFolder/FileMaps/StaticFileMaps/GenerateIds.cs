@@ -12,9 +12,11 @@ public class GenerateIds
 
     public void generateAndSaveIdsMap(string idsPath, string newPathForSaveFile)
     {
+        /*
         Dictionary<string, IdsBasicRecord> idsMap = generateIdsMap(idsPath);
         string json = JsonSerializer.Serialize(idsMap);
         File.WriteAllText(newPathForSaveFile, json);
+        */
     }
 
     public Dictionary<string, IdsBasicRecord> readIdsMap(string idsPath)
@@ -40,7 +42,7 @@ public class GenerateIds
         var endResult = new Dictionary<string, IdsBasicRecord>();
         foreach (var item in genRawIds)
         {
-            if (item.Key.Equals("𠞂"))
+            if (item.Key.Equals("𢺓"))
             {
                 var testRes = "";
             }
@@ -51,9 +53,9 @@ public class GenerateIds
             if (rollOutNoUnwanted.Count > 0)
             {
                 IdsBasicRecord basicRec = new IdsBasicRecord(
-                    genRawIds.GetValueOrDefault(item.Key),
-                    rollOut, 
-                    rollOutNoUnwanted);
+                    genRawIds.GetValueOrDefault(item.Key).Select(uc => uc.Value).ToList(),
+                    rollOut.Select(uc => uc.Value).ToList(), 
+                    rollOutNoUnwanted.Select(uc => uc.Value).ToList());
                 endResult.Add(item.Key, basicRec);
             }
             //var rolledOutIds = generateRolledOutids(item.Key, tempDictionary);

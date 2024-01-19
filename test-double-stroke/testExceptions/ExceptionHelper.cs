@@ -30,7 +30,7 @@ public class ExceptionHelper
         bool result = false;
         for (int i = 0; i < initialIds.Count; i++)
         {
-            var matchEach = kv.Value.idsLookup.rolledOutIdsWithNoShape[0].Value.Equals(initialIds[i]);
+            var matchEach = kv.Value.idsLookup.rolledOutIdsWithNoShape[0].Equals(initialIds[i]);
             if (matchEach)
             {
                 result = true;
@@ -126,12 +126,12 @@ public class ExceptionHelper
         return resultlist;
     }
 
-    public string rolledOutToStrFunc(List<UnicodeCharacter> idsLookupRolledOutIdsWithNoShape)
+    public string rolledOutToStrFunc(List<string> idsLookupRolledOutIdsWithNoShape)
     {
         string resultStr = "";
         foreach (var VARIABLE in idsLookupRolledOutIdsWithNoShape)
         {
-            resultStr += VARIABLE.Value;
+            resultStr += VARIABLE;
         }
         return resultStr;
         throw new NotImplementedException();

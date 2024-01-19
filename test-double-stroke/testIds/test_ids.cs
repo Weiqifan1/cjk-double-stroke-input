@@ -21,8 +21,8 @@ public class test_ids
         //𢺓
         var basic = idsMap.GetValueOrDefault("𢺓");
         Assert.AreEqual(12, basic.rolledOutIdsWithNoShape.Count);
-        Assert.AreEqual(new UnicodeCharacter("八"), basic.rolledOutIdsWithNoShape[5]);
-        Assert.AreEqual(new UnicodeCharacter("一"), basic.rolledOutIdsWithNoShape[11]);
+        Assert.AreEqual(new UnicodeCharacter("八").Value, basic.rolledOutIdsWithNoShape[5]);
+        Assert.AreEqual(new UnicodeCharacter("一").Value, basic.rolledOutIdsWithNoShape[11]);
         
     }
     
@@ -41,8 +41,8 @@ public class test_ids
         //𢺓
         var basic = idsMap.GetValueOrDefault("𢺓");
         Assert.AreEqual(12, basic.rolledOutIdsWithNoShape.Count);
-        Assert.AreEqual(new UnicodeCharacter("八"), basic.rolledOutIdsWithNoShape[5]);
-        Assert.AreEqual(new UnicodeCharacter("一"), basic.rolledOutIdsWithNoShape[11]);
+        Assert.AreEqual(new UnicodeCharacter("八").Value, basic.rolledOutIdsWithNoShape[5]);
+        Assert.AreEqual(new UnicodeCharacter("一").Value, basic.rolledOutIdsWithNoShape[11]);
     }
     
     [Test]
@@ -55,6 +55,6 @@ public class test_ids
             @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
         GenerateIds genIds = new GenerateIds();
         //cjk-double-stroke-input\double-stroke\projectFolder\GeneratedFiles\idsMap.txt
-        //genIds.generateAndSaveIdsMap(idsPath, newPathForSaveFile);
+        genIds.generateAndSaveIdsMap(idsPath, newPathForSaveFile);
     }
 }

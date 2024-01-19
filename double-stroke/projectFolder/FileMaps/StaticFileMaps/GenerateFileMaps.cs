@@ -228,7 +228,7 @@ public class GenerateFileMaps
         }
         else if (idsLookup != null)
         {
-            var firstIdsMatch = idsLookup.rolledOutIdsWithNoShape[0].Value;
+            var firstIdsMatch = idsLookup.rolledOutIdsWithNoShape[0];
             var exceptionMatch = codeExceptions.GetValueOrDefault(firstIdsMatch);
             return exceptionMatch;
         }
