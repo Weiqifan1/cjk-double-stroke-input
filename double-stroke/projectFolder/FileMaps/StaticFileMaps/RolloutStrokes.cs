@@ -1,19 +1,36 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace double_stroke.projectFolder.StaticFileMaps;
 
 public static class RolloutStrokes
 {
-    public static HashSet<string> rolloutString(string inputStrings)
+    public static HashSet<string> rolloutString(string input)
     {
         //the input is a single string because each character in the codepoint file
         //can ONLY have one character code.
-        HashSet<string> result = PrepareCombinations(inputStrings);
         
-        
+        //replace backslashes with dasg
+        var dashString = input.Replace("\\", "-");
+        var replaceDashNumPair = ReplaceWithParenPair(dashString);
+        HashSet<string> result = PrepareCombinations(replaceDashNumPair);
         return result;
     }
     
+    public static string ReplaceWithParenPair(string input)
+    {
+        // extract parenthetical groups
+        var matches = Regex.Matches(input, @"\(([^)]*)\)");
+        var replacements = matches.Cast<Match>().Select(m => m.Value).ToArray();
+    
+        // replace '-' followed by number with the corresponding parenthetical group
+        var replacedInput = Regex.Replace(input, @"-\d", m => {
+            var index = int.Parse(m.Value.Substring(1)) - 1;
+            return index >= 0 && index < replacements.Length ? replacements[index] : m.Value;
+        });
+    
+        return replacedInput;
+    }
     
     private static HashSet<string> PrepareCombinations(string input)
     {
@@ -51,7 +68,4 @@ public static class RolloutStrokes
         return results;
     }
 
-    
-    
-    
 }

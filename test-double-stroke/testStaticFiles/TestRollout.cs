@@ -5,7 +5,6 @@ namespace test_double_stroke.testStaticFiles;
 public class TestRollout: testSetup
 {
 
-
     [Test]
     public void singleParenTest()
     {
@@ -18,6 +17,7 @@ public class TestRollout: testSetup
         compare.Add("3545325121");
         Assert.IsTrue(result.SetEquals(compare));
     }
+    
     
     [Test]
     public void TwoParenTest()
@@ -61,7 +61,6 @@ public class TestRollout: testSetup
         Assert.IsTrue(result.SetEquals(compare));
     }
     
-/*
     [Test]
     public void TestHandleRepetition1Symbol()
     {
@@ -71,28 +70,122 @@ public class TestRollout: testSetup
         HashSet<string> result = RolloutStrokes.rolloutString(test9.originalCodepoint.rawCodepoint);
 
         HashSet<string> compare = new HashSet<string>();
-        compare.Add("34112431(122|1212|2112)1\\1112");
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  122  1  122   112", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  122  1  1212   112", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  122  1  2112   112", @"\s", ""));
+        
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  1212  1  122   112", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  1212  1  1212   112", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  1212  1  2112   112", @"\s", ""));
+        
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  2112  1  122   112", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  2112  1  1212   112", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "34112431  2112  1  2112   112", @"\s", ""));
         
         Assert.IsTrue(result.SetEquals(compare));
     }
-    */
-    /*
+    
     [Test]
-    public void IdentifyMissingJundaAndTzaiCharacters()
+    public void TestHandleRepetitionMultipleSymbols()
     {
+        string test = "1(1|2)2(4|5)3(6|7)4\\15\\36";
+        HashSet<string> result = RolloutStrokes.rolloutString(test);
+
+        HashSet<string> compare = new HashSet<string>();
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1   1   2   4   3   6   4  1  5  6    6", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1   1   2   5   3   7   4  2  5  6    6", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1   1   2   5   3   6   4  1  5  6    6", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1   2   2   5   3   7   4  2  5  7    6", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1   2   2   5   3   6   4  1  5  7    6", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1   2   2   5   3   7   4  2  5  7    6", @"\s", ""));
+
+        foreach (var VARIABLE in compare)
+        {
+            Assert.IsTrue(result.Contains(VARIABLE));
+        }
         
+        Assert.IsTrue(result.Count.Equals(32));
+    }
+
+
+    [Test]
+    public void TestHandleRepetitionOfThirdParen()
+    {
         var test6 = foundExceptions.GetValueOrDefault("藣");
         //(122|1212|2112)2522154(2511|3511|3541)(15|35|53)\3
         
-        var test7 = foundExceptions.GetValueOrDefault("藦");
-        //(122|1212|2112)413(1234|1235)\23112
+        HashSet<string> result = RolloutStrokes.rolloutString(test6.originalCodepoint.rawCodepoint);
         
+        HashSet<string> compare = new HashSet<string>();
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1212  2522154  3511  35   53", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1212  2522154  3541  35   35", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1212  2522154  3541  35   53", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1212  2522154  3541  53   53", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "2112  2522154  3541  53   35", @"\s", ""));
+        
+
+        foreach (var VARIABLE in compare)
+        {
+            Assert.IsTrue(result.Contains(VARIABLE));
+        }
+        
+        Assert.IsTrue(result.Count.Equals(81));
+    }
+
+    
+    [Test]
+    public void TestHandleTwoIdenticalRepetitionInSuccession()
+    {
         var test8 = foundExceptions.GetValueOrDefault("譶");
         //(1111251|4111251)\1\1
         
-        //HashSet<string> test1 = RolloutStrokes.rolloutString();
         
-        Console.WriteLine("test end");
-    }*/
+        HashSet<string> result = RolloutStrokes.rolloutString(test8.originalCodepoint.rawCodepoint);
+        
+        HashSet<string> compare = new HashSet<string>();
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1111251  1111251  1111251", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1111251  1111251  4111251", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1111251  4111251  1111251", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "1111251  4111251  4111251", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "4111251  1111251  1111251", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "4111251  1111251  4111251", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "4111251  4111251  1111251", @"\s", ""));
+        compare.Add(System.Text.RegularExpressions.Regex.Replace(
+            "4111251  4111251  4111251", @"\s", ""));
+
+        foreach (var VARIABLE in compare)
+        {
+            Assert.IsTrue(result.Contains(VARIABLE));
+        }
+        
+        Assert.IsTrue(result.Count.Equals(8));
+    }
     
 }
