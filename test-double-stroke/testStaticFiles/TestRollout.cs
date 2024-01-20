@@ -19,6 +19,7 @@ public class TestRollout: testSetup
         Assert.IsTrue(result.SetEquals(compare));
     }
     
+    [Test]
     public void TwoParenTest()
     {
         var test2 = foundExceptions.GetValueOrDefault("甑");
@@ -33,19 +34,52 @@ public class TestRollout: testSetup
         Assert.IsTrue(result.SetEquals(compare));
     }
     
+    [Test]
+    public void TestEmptyAlternative()
+    {
+        var test3 = foundExceptions.GetValueOrDefault("鰠");
+        //35251214444544(|4)251214
+        HashSet<string> result = RolloutStrokes.rolloutString(test3.originalCodepoint.rawCodepoint);
+
+        HashSet<string> compare = new HashSet<string>();
+        compare.Add("352512144445444251214");
+        compare.Add("35251214444544251214");
+        Assert.IsTrue(result.SetEquals(compare));
+    }
     
+    [Test]
+    public void TestTrippleAlternative()
+    {
+        var test4 = foundExceptions.GetValueOrDefault("鵑");
+        //251(2511|3511|3541)32511154444
+        HashSet<string> result = RolloutStrokes.rolloutString(test4.originalCodepoint.rawCodepoint);
+
+        HashSet<string> compare = new HashSet<string>();
+        compare.Add("251251132511154444");
+        compare.Add("251351132511154444");
+        compare.Add("251354132511154444");
+        Assert.IsTrue(result.SetEquals(compare));
+    }
+    
+/*
+    [Test]
+    public void TestHandleRepetition1Symbol()
+    {
+        var test9 = foundExceptions.GetValueOrDefault("鏵");
+        //34112431(122|1212|2112)1\1112
+        
+        HashSet<string> result = RolloutStrokes.rolloutString(test9.originalCodepoint.rawCodepoint);
+
+        HashSet<string> compare = new HashSet<string>();
+        compare.Add("34112431(122|1212|2112)1\\1112");
+        
+        Assert.IsTrue(result.SetEquals(compare));
+    }
+    */
+    /*
     [Test]
     public void IdentifyMissingJundaAndTzaiCharacters()
     {
-        
-        var test3 = foundExceptions.GetValueOrDefault("鰠");
-        //35251214444544(|4)251214
-        
-        var test4 = foundExceptions.GetValueOrDefault("鵑");
-        //251(2511|3511|3541)32511154444
-        
-        var test5 = foundExceptions.GetValueOrDefault("枈");
-        //(1515|1535|1553|3535|5353)1234
         
         var test6 = foundExceptions.GetValueOrDefault("藣");
         //(122|1212|2112)2522154(2511|3511|3541)(15|35|53)\3
@@ -56,13 +90,9 @@ public class TestRollout: testSetup
         var test8 = foundExceptions.GetValueOrDefault("譶");
         //(1111251|4111251)\1\1
         
-        var test9 = foundExceptions.GetValueOrDefault("鏵");
-        //34112431(122|1212|2112)1\1112
-        
-        
         //HashSet<string> test1 = RolloutStrokes.rolloutString();
         
         Console.WriteLine("test end");
-    }
+    }*/
     
 }
