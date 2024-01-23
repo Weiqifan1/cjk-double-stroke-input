@@ -133,8 +133,8 @@ public class GenerateFileMaps
     {
         var localtestvalue = key;
         //CodepointWithExceptionRecord? record = null;
-        var newUnicode = new UnicodeCharacter("劧");
-        var mybool1 = localtestvalue.Equals(newUnicode);
+        var newUnicode = new UnicodeCharacter("丠");//new UnicodeCharacter("劧");
+        var mybool1 = localtestvalue.Equals(newUnicode.Value);
         if (mybool1)
         {
             var mybool2 = localtestvalue.Equals(newUnicode);
