@@ -4,10 +4,6 @@ namespace test_double_stroke.testSchemeDict;
 
 public class TestScheme: testSetup
 {
-    //List<string> testStr = new List<string>{"扔", "丠", "甑"};
-    
-    //  手目足   虫木竹   扔  眤 趵  虾 松 签    丠  甑        
-    
     private List<SchemeRecord> schemeRecList;
     
     [OneTimeSetUp]
@@ -22,7 +18,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "手");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 1);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -30,7 +36,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "扔");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -38,7 +54,18 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "目");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+        
     }
     
     [Test]
@@ -46,7 +73,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "眤");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -54,7 +91,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "足");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -62,7 +109,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "趵");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -70,7 +127,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "虫");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -78,7 +145,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "虾");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -86,7 +163,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "木");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     //朩
@@ -95,7 +182,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "朩");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -103,7 +200,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "松");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -111,7 +218,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "竹");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
     [Test]
@@ -119,17 +236,341 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "签");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
     
+    [Test]
+    public void goldNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "金");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
     
+    [Test]
+    public void goldCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "錯");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void eatNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "食");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void eatAlternativeNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "飠");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void eatCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "飼");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+
+    [Test]
+    public void carNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "車");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void carCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "軒");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+
+    [Test]
+    public void threadNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "糸");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void threadCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "絆");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void sayNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "言");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void sayAlternativeNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "訁");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void sayCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "謬");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void horseNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "馬");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void horseCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "騎");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void gateNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "門");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void gateAlternativeNoCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "𠁣");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
+    
+    [Test]
+    public void gateCombo()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "閥");
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
+    }
     
     [Test]
     public void noExceptOne()
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "丠");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
 
     [Test]
@@ -137,8 +578,17 @@ public class TestScheme: testSetup
     {
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "甑");
-        Assert.AreEqual(2,2);
+        
+        Assert.IsTrue(hand.code4.Count == 1);
+        Assert.IsTrue(hand.code4.Contains("s"));
+        Assert.IsTrue(hand.code6.Count == 2);
+        Assert.IsTrue(hand.code6.Contains("tf"));
+        Assert.IsTrue(hand.exceptionLetter == "s");
+        Assert.IsTrue(hand.foundExceptionElems.Count == 1);
+        Assert.IsTrue(hand.foundExceptionElems.Contains("手"));
+        Assert.IsTrue(hand.rawCodepoint == "3112");
+        Assert.IsTrue(hand.jundaNumber == 280442);
+        Assert.IsTrue(hand.tzaiNumber == 236673);
     }
-    
     
 }
