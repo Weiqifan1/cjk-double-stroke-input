@@ -10,7 +10,7 @@ public static class generateTestSchemeDict
         Dictionary<string, FrequencyRecord> tzai)
     {
         AlphabetGenerator alphaGen = new AlphabetGenerator(CodeAlphabet.generateStandardOneAlphabet());
-        List<string> testStr = new List<string>{"扔", "丠", "甑"};
+        List<string> testStr = new List<string>{"签", "扔", "丠", "甑"};
 
         List<SchemeRecord> result = new List<SchemeRecord>();
         foreach (var VARIABLE in foundExceptions)
@@ -67,6 +67,11 @@ public static class generateTestSchemeDict
         KeyValuePair<string, CodepointWithExceptionRecord> variable, 
         AlphabetGenerator alphaGen)
     {
+        if (variable.Key.Equals("𧾷"))
+        {
+            string test = "";
+        }
+
         if (variable.Value.codepointExceptions != null)
         {
             string firstLetter = variable.Value.codepointExceptions.alphabetLetter.Value;

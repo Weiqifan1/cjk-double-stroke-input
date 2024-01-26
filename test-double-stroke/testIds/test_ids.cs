@@ -4,6 +4,8 @@ namespace test_double_stroke.testIds;
 
 public class test_ids
 {
+
+    private HashSet<string> priviledgedExceptions = CodeExceptions.getPriviledgedExceptionCharacters();
     
     [Test]
     public void handFull_ThatShouldHaveBeenThere()
@@ -16,7 +18,7 @@ public class test_ids
 
         //var idsPath = "../../../double-stroke/projectFolder/StaticFiles/ids.txt"; 
         GenerateIds genIds = new GenerateIds();
-        Dictionary<string, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
+        Dictionary<string, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath, priviledgedExceptions);
         
         //𢺓
         var basic = idsMap.GetValueOrDefault("𢺓");

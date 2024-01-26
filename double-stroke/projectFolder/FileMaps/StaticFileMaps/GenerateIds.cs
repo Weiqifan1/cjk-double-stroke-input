@@ -10,10 +10,12 @@ namespace double_stroke.projectFolder.StaticFileMaps;
 public class GenerateIds
 {
 
+    private HashSet<string> priviledgedExceptions = CodeExceptions.getPriviledgedExceptionCharacters();
+
     public void generateAndSaveIdsMap(string idsPath, string newPathForSaveFile)
     {
         /*
-        Dictionary<string, IdsBasicRecord> idsMap = generateIdsMap(idsPath);
+        Dictionary<string, IdsBasicRecord> idsMap = generateIdsMap(idsPath, priviledgedExceptions);
         string json = JsonSerializer.Serialize(idsMap);
         File.WriteAllText(newPathForSaveFile, json);
         */
@@ -30,7 +32,7 @@ public class GenerateIds
         return resultDictionary;
     }
 
-    public Dictionary<string, IdsBasicRecord> generateIdsMap(string idsPath)
+    public Dictionary<string, IdsBasicRecord> generateIdsMap(string idsPath, HashSet<string> priviledgedElemn)
     {
         //IdsBasicRecord(
         //string rawIds,
@@ -42,7 +44,7 @@ public class GenerateIds
         var endResult = new Dictionary<string, IdsBasicRecord>();
         foreach (var item in genRawIds)
         {
-            if (item.Key.Equals("𢺓"))
+            if (item.Key.Equals("𧾷"))//"𢺓"))
             {
                 var testRes = "";
             }
@@ -50,6 +52,12 @@ public class GenerateIds
             List<UnicodeCharacter> rollOut = getRecursiveRawId(
                 new UnicodeCharacter(item.Key), genRawIds, latin);
             List<UnicodeCharacter> rollOutNoUnwanted = rollOut.Where(n => !allUnwanted.Contains(n)).ToList();
+            if (priviledgedElemn.Contains(item.Key))
+            {
+                rollOut = new List<UnicodeCharacter> { new UnicodeCharacter(item.Key)};
+                rollOutNoUnwanted = new List<UnicodeCharacter> { new UnicodeCharacter(item.Key)};
+            }
+
             if (rollOutNoUnwanted.Count > 0)
             {
                 IdsBasicRecord basicRec = new IdsBasicRecord(

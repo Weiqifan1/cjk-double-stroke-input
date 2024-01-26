@@ -2,7 +2,17 @@
 
 public class CodeExceptions
 {
-    
+
+    public static HashSet<string> getPriviledgedExceptionCharacters()
+    {
+        var result = new HashSet<string>();
+        result.Add("𧾷");
+        result.Add("足");
+        result.Add("竹");
+        result.Add("⺮");
+        return result;
+    }
+
     public Dictionary<string, CodepointExceptionRecord> generateCodeExceptionsFromCharacter()
     {
         
@@ -86,7 +96,7 @@ public class CodeExceptions
             uniBambooOne, 
             new UnicodeCharacter("l"),
             "312312",
-            new List<string>(){new UnicodeCharacter("竹").Value},
+            new List<string>(){new UnicodeCharacter("⺮").Value, new UnicodeCharacter("竹").Value},
             new List<string>()
         );
         
@@ -95,7 +105,7 @@ public class CodeExceptions
             uniBambooTwo, 
             new UnicodeCharacter("l"),
             "314314",
-            new List<string>(){new UnicodeCharacter("⺮").Value},
+            new List<string>(){new UnicodeCharacter("⺮").Value, new UnicodeCharacter("竹").Value},
             new List<string>()
         );
         

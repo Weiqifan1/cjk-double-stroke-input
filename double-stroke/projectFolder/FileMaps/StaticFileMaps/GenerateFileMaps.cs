@@ -16,6 +16,8 @@ public class GenerateFileMaps
 {
     private CodeExceptions exp = new CodeExceptions();
     private GenerateIds genIds = new GenerateIds();
+    private HashSet<string> priviledgedExceptions = CodeExceptions.getPriviledgedExceptionCharacters();
+    
     public void Run()
     {
         Console.WriteLine("Run - GenerateFileMaps.");
@@ -28,7 +30,7 @@ public class GenerateFileMaps
         const string codepointPath = "../../../projectFolder/StaticFiles/codepoint-character-sequence.txt";
 
         var codeExceptionsFromCharacter = exp.generateCodeExceptionsFromCharacter();
-        Dictionary<string, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath);
+        Dictionary<string, IdsBasicRecord> idsMap = genIds.generateIdsMap(idsPath, priviledgedExceptions);
         var codepointMap = generateCodepointMap(
             codeExceptionsFromCharacter, idsMap, codepointPath);
         var codeExceptionsFromCodepoint = exp.generateCodeExceptionsFromCodepoint();
@@ -107,6 +109,11 @@ public class GenerateFileMaps
         int numberofmissing = 0;
         foreach (KeyValuePair<string, CodepointBasicRecord> item in codepointMap)
         {
+            if (item.Key.Equals("𧾷"))
+            {
+                string test = "";
+            }
+
             string key = item.Key;
             CodepointBasicRecord value = item.Value;
 
