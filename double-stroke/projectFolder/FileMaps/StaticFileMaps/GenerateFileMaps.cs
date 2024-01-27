@@ -16,7 +16,7 @@ public class GenerateFileMaps
 {
     private CodeExceptions exp = new CodeExceptions();
     private GenerateIds genIds = new GenerateIds();
-    private HashSet<string> priviledgedExceptions = CodeExceptions.getPriviledgedExceptionCharacters();
+    private Dictionary<string, string> priviledgedExceptions = CodeExceptions.getPriviledgedExceptionCharacters();
     
     public void Run()
     {
@@ -106,11 +106,14 @@ public class GenerateFileMaps
         Dictionary<string, CodepointWithExceptionRecord> result =
             new Dictionary<string, CodepointWithExceptionRecord>();
 
+        //main debugpoint
+        
         int numberofmissing = 0;
         foreach (KeyValuePair<string, CodepointBasicRecord> item in codepointMap)
         {
-            if (item.Key.Equals("𧾷"))
+            if (item.Key.Equals("木"))
             {
+                
                 string test = "";
             }
 
@@ -140,7 +143,7 @@ public class GenerateFileMaps
     {
         var localtestvalue = key;
         //CodepointWithExceptionRecord? record = null;
-        var newUnicode = new UnicodeCharacter("丠");//new UnicodeCharacter("劧");
+        var newUnicode = new UnicodeCharacter("签");//new UnicodeCharacter("劧");
         var mybool1 = localtestvalue.Equals(newUnicode.Value);
         if (mybool1)
         {
@@ -176,12 +179,15 @@ public class GenerateFileMaps
         int longestNum = 0;
         if (exceptionsByCodepoint != null)
         {
-            if (value.rawCodepoint.StartsWith(exceptionsByCodepoint.rawCodepoint) && 
-                idsLookup != null &&
-                exceptionsByCodepoint.allAcceptableElems.Contains(idsLookup.rolledOutIdsWithNoShape[0]) &&
-                exceptionsByCodepoint.rawCodepoint.Length > longestNum)
+            foreach (var VARIABLE in exceptionsByCodepoint.rawCodepoint)
             {
-                longestNum = exceptionsByCodepoint.rawCodepoint.Length;
+                if (value.rawCodepoint.StartsWith(VARIABLE) && 
+                    idsLookup != null &&
+                    exceptionsByCodepoint.allAcceptableElems.Contains(idsLookup.rolledOutIdsWithNoShape[0]) &&
+                    VARIABLE.Length > longestNum)
+                {
+                    longestNum = VARIABLE.Length;
+                }
             }
         }
         string result = value.rawCodepoint.Substring(longestNum);
@@ -193,13 +199,22 @@ public class GenerateFileMaps
         CodepointBasicRecord value, 
         CodepointExceptionRecord exceptionMatch)
     {
-        if (!value.rawCodepoint.StartsWith(exceptionMatch.rawCodepoint))
+        bool noMatch = true;
+        string remainder = null;
+        foreach (var VARIABLE in exceptionMatch.rawCodepoint)
         {
-            throw new FormatException("The found exception doesnt match the original full codepoint for character: " + 
+            if (value.rawCodepoint.StartsWith(VARIABLE))
+            {
+                noMatch = false;
+                remainder = value.rawCodepoint.Substring(VARIABLE.Length);
+                return remainder;
+            }
+        }
+        if (noMatch || remainder == null)
+        {
+            throw new FormatException("The found exception doesnt match the original full codepoint for character: " +
                                       key.Value + " val: " + value.rawCodepoint + " exception: " + exceptionMatch.character);
         }
-
-        string remainder = value.rawCodepoint.Substring(exceptionMatch.rawCodepoint.Length);
         return remainder;
     }
 
@@ -235,14 +250,19 @@ public class GenerateFileMaps
         }
         else if (idsLookup != null)
         {
-            var firstIdsMatch = idsLookup.rolledOutIdsWithNoShape[0];
-            var exceptionMatch = codeExceptions.GetValueOrDefault(firstIdsMatch);
-            return exceptionMatch;
+            var joinedExceptions = String.Join("", idsLookup.rolledOutIdsWithNoShape);
+            foreach (var VARIABLE in codeExceptions)
+            {
+                if (joinedExceptions.StartsWith(VARIABLE.Key))
+                {
+                    return VARIABLE.Value;
+                }
+            }
+            //var firstIdsMatch = idsLookup.rolledOutIdsWithNoShape[0];//𠂊亅𠂊亅
+            //var exceptionMatch = codeExceptions.GetValueOrDefault(firstIdsMatch);
+            //return exceptionMatch;
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     

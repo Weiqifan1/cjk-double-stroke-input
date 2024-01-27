@@ -10,15 +10,24 @@ namespace double_stroke.projectFolder.StaticFileMaps;
 public class GenerateIds
 {
 
-    private HashSet<string> priviledgedExceptions = CodeExceptions.getPriviledgedExceptionCharacters();
+    private Dictionary<string, string> priviledgedExceptions = CodeExceptions.getPriviledgedExceptionCharacters();
 
     public void generateAndSaveIdsMap(string idsPath, string newPathForSaveFile)
     {
-        /*
         Dictionary<string, IdsBasicRecord> idsMap = generateIdsMap(idsPath, priviledgedExceptions);
-        string json = JsonSerializer.Serialize(idsMap);
-        File.WriteAllText(newPathForSaveFile, json);
-        */
+        //string json = JsonSerializer.Serialize(idsMap);
+        //File.WriteAllText(newPathForSaveFile, json);
+
+        var bamboo = idsMap.GetValueOrDefault("竹");
+
+        var tre2 = idsMap.GetValueOrDefault("金");
+        
+        string test = "";
+        /*
+        result.Add("𧾷");
+        result.Add("足");
+        result.Add("竹");
+        result.Add("⺮");*/
     }
 
     public Dictionary<string, IdsBasicRecord> readIdsMap(string idsPath)
@@ -32,7 +41,8 @@ public class GenerateIds
         return resultDictionary;
     }
 
-    public Dictionary<string, IdsBasicRecord> generateIdsMap(string idsPath, HashSet<string> priviledgedElemn)
+    public Dictionary<string, IdsBasicRecord> generateIdsMap(
+        string idsPath, Dictionary<string, string> priviledgedElemn)
     {
         //IdsBasicRecord(
         //string rawIds,
@@ -40,11 +50,11 @@ public class GenerateIds
         //List<UnicodeCharacter> rolledOutIdsWithNoShape
         var latin = latinCharcters();
         var allUnwanted = irrelevantShapeAndLatinCharacters();
-        Dictionary<string, List<UnicodeCharacter>> genRawIds = generateRawIdsMap(idsPath);
+        Dictionary<string, List<UnicodeCharacter>> genRawIds = generateRawIdsMap(idsPath, priviledgedElemn);
         var endResult = new Dictionary<string, IdsBasicRecord>();
         foreach (var item in genRawIds)
         {
-            if (item.Key.Equals("𧾷"))//"𢺓"))
+            if (item.Key.Equals("朩"))//"𢺓")) 签
             {
                 var testRes = "";
             }
@@ -52,16 +62,19 @@ public class GenerateIds
             List<UnicodeCharacter> rollOut = getRecursiveRawId(
                 new UnicodeCharacter(item.Key), genRawIds, latin);
             List<UnicodeCharacter> rollOutNoUnwanted = rollOut.Where(n => !allUnwanted.Contains(n)).ToList();
+            List<string> rawitems = genRawIds.GetValueOrDefault(item.Key).Select(uc => uc.Value).ToList();
+            /*
             if (priviledgedElemn.Contains(item.Key))
             {
                 rollOut = new List<UnicodeCharacter> { new UnicodeCharacter(item.Key)};
                 rollOutNoUnwanted = new List<UnicodeCharacter> { new UnicodeCharacter(item.Key)};
-            }
+                rawitems = new List<string> { item.Key };
+            }*/
 
             if (rollOutNoUnwanted.Count > 0)
             {
                 IdsBasicRecord basicRec = new IdsBasicRecord(
-                    genRawIds.GetValueOrDefault(item.Key).Select(uc => uc.Value).ToList(),
+                    rawitems,
                     rollOut.Select(uc => uc.Value).ToList(), 
                     rollOutNoUnwanted.Select(uc => uc.Value).ToList());
                 endResult.Add(item.Key, basicRec);
@@ -116,7 +129,8 @@ public class GenerateIds
         }
      */
 
-    private Dictionary<string, List<UnicodeCharacter>> generateRawIdsMap(string idsPath)
+    private Dictionary<string, List<UnicodeCharacter>> generateRawIdsMap(
+        string idsPath, Dictionary<string, string> priviledgedElemn)
     {
         var idsLines = UtilityFunctions.removeIntroductionLines(idsPath, 2);
         Dictionary<string, List<UnicodeCharacter>> tempDictionary = 
@@ -130,12 +144,21 @@ public class GenerateIds
             UnicodeCharacter character = UtilityFunctions.firstUnicodeCharacter(splitstr[1]);
             List<UnicodeCharacter> strSplitIds = UtilityFunctions.CreateUnicodeCharacters(splitstr[2]);
 
-            if (character.Equals(new UnicodeCharacter("𬔦")))
+            if (character.Equals(new UnicodeCharacter("朩")))
             {
                 string testWeird = "";
             }
 
-            tempDictionary.TryAdd(character.Value, strSplitIds);
+            if (priviledgedElemn.Keys.Contains(character.Value))
+            {
+                string priviledgeVal = priviledgedElemn.GetValueOrDefault(character.Value);
+                tempDictionary.TryAdd(character.Value, new List<UnicodeCharacter>{new UnicodeCharacter(priviledgeVal)});
+            }
+            else
+            {
+                tempDictionary.TryAdd(character.Value, strSplitIds);
+            }
+
         }
         return tempDictionary;
     }

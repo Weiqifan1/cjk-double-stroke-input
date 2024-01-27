@@ -15,8 +15,18 @@ public class TestFoundExceptionsDictionary : testSetup
         
         Dictionary<string, CodepointWithExceptionRecord> codepointWithExceptionsRec = foundExceptions;
 
+        CodepointWithExceptionRecord unknow = codepointWithExceptionsRec.GetValueOrDefault("签");
         CodepointWithExceptionRecord cookingPot = codepointWithExceptionsRec.GetValueOrDefault("甑");
         CodepointWithExceptionRecord throwing = codepointWithExceptionsRec.GetValueOrDefault("扔");
+        
+        /*
+        //test content of 'unknow'
+        Assert.AreEqual(unknow.originalCodepoint.rawCodepoint, "121(35|53)");
+        Assert.AreEqual(unknow.codepointAfterExceptionremoval,  "(35|53)");
+        Assert.AreEqual(unknow.codepointExceptions.allAcceptableElems.Count, 1);
+        Assert.AreEqual(unknow.codepointExceptions.allAcceptableElems[0], "扌");
+        Assert.AreEqual(unknow.codepointExceptions.alphabetLetter.Value, "s");
+        Assert.AreEqual(unknow.letter.Value, "竹");*/
         
         //test content of cookingPot
         Assert.AreEqual(cookingPot.originalCodepoint.rawCodepoint, "(34|43)25243125111(5|21)54");

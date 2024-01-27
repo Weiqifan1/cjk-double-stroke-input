@@ -3,78 +3,89 @@
 public class CodeExceptions
 {
 
-    public static HashSet<string> getPriviledgedExceptionCharacters()
+    public static Dictionary<string, string> getPriviledgedExceptionCharacters()
     {
-        var result = new HashSet<string>();
-        result.Add("𧾷");
-        result.Add("足");
-        result.Add("竹");
-        result.Add("⺮");
+        var result = new Dictionary<string, string>();
+        result.Add("金", "金");
+        result.Add("𧾷", "𧾷");
+        result.Add("足", "足");
+        result.Add("竹", "竹");
+        result.Add("⺮", "竹");
+        result.Add("朩", "木");
+        result.Add("食", "食");
+        result.Add("飠", "飠");
+        result.Add("門", "門");
+        result.Add("馬", "馬");
+        result.Add("糸", "糸");
+        result.Add("糹", "糹");
         return result;
     }
 
     public Dictionary<string, CodepointExceptionRecord> generateCodeExceptionsFromCharacter()
     {
         
-        UnicodeCharacter uniHandOne = new UnicodeCharacter("手");
+        //TODO alle foelgende skal laves om til strings saa jeg kan have laengere kombinationer eg 
+        //   𠂊亅𠂊亅
+        
+        string uniHandOne = new UnicodeCharacter("手").Value;
         CodepointExceptionRecord uniHandOne_except = new CodepointExceptionRecord(
             uniHandOne, 
             new UnicodeCharacter("s"),
-            "3112",
+            new HashSet<string>(){"3112"},
             new List<string>(){new UnicodeCharacter("手").Value},
             new List<string>()
             );
         
-        UnicodeCharacter uniHandTwo = new UnicodeCharacter("扌");
+        string uniHandTwo = new UnicodeCharacter("扌").Value;
         CodepointExceptionRecord uniHandTwo_except = new CodepointExceptionRecord(
             uniHandTwo, 
             new UnicodeCharacter("s"),
-            "121",
+            new HashSet<string>(){"121"},
             new List<string>(){new UnicodeCharacter("扌").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniEye = new UnicodeCharacter("目");
+        string uniEye = new UnicodeCharacter("目").Value;
         CodepointExceptionRecord uniEye_except = new CodepointExceptionRecord(
             uniEye, 
             new UnicodeCharacter("d"),
-            "25111",
+            new HashSet<string>(){"25111"},
             new List<string>(){new UnicodeCharacter("目").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniFootOne = new UnicodeCharacter("足");
+        string uniFootOne = new UnicodeCharacter("足").Value;
         CodepointExceptionRecord uniFootOne_except = new CodepointExceptionRecord(
             uniFootOne, 
             new UnicodeCharacter("f"),
-            "2512134",
+            new HashSet<string>(){"2512134"},
             new List<string>(){new UnicodeCharacter("足").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniFootTwo = new UnicodeCharacter("𧾷");
+        string uniFootTwo = new UnicodeCharacter("𧾷").Value;
         CodepointExceptionRecord uniFootTwo_except = new CodepointExceptionRecord(
             uniFootTwo, 
             new UnicodeCharacter("f"),
-            "251(215|2121)",
+            new HashSet<string>(){"251(215|2121)"},
             new List<string>(){new UnicodeCharacter("𧾷").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniInsect = new UnicodeCharacter("虫");
+        string uniInsect = new UnicodeCharacter("虫").Value;
         CodepointExceptionRecord uniInsect_except = new CodepointExceptionRecord(
             uniInsect, 
             new UnicodeCharacter("j"),
-            "251214",
+            new HashSet<string>(){"251214"},
             new List<string>(){new UnicodeCharacter("虫").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniTreeOne = new UnicodeCharacter("木");
+        string uniTreeOne = new UnicodeCharacter("木").Value;
         CodepointExceptionRecord uniTreeOne_except = new CodepointExceptionRecord(
             uniTreeOne, 
             new UnicodeCharacter("k"),
-            "1234",
+            new HashSet<string>(){"1234"},
             new List<string>()
             {
                 new UnicodeCharacter("木").Value, new UnicodeCharacter("朩").Value
@@ -82,84 +93,84 @@ public class CodeExceptions
             new List<string>()
         );
         /*
-        UnicodeCharacter uniTreeTwo = new UnicodeCharacter("朩");
+        string uniTreeTwo = new UnicodeCharacter("朩").Value;
         CodepointExceptionRecord uniTreeTwo_except = new CodepointExceptionRecord(
             uniTreeTwo, 
             new UnicodeCharacter("k"),
-            "1234",
-            new List<UnicodeCharacter>(){new UnicodeCharacter()},
-            new List<UnicodeCharacter>()
+            new HashSet<string>(){"1234"},
+            new List<string>(){new UnicodeCharacter("朩").Value},
+            new List<string>()
         );*/
-        
-        UnicodeCharacter uniBambooOne = new UnicodeCharacter("竹");
+
+        string uniBambooOne = new UnicodeCharacter("竹").Value;//"𠂊亅𠂊亅";//new UnicodeCharacter("竹");
         CodepointExceptionRecord uniBambooOne_except = new CodepointExceptionRecord(
             uniBambooOne, 
             new UnicodeCharacter("l"),
-            "312312",
-            new List<string>(){new UnicodeCharacter("⺮").Value, new UnicodeCharacter("竹").Value},
+            new HashSet<string>(){"312312", "314314"},
+            new List<string>(){"竹"},
             new List<string>()
         );
         
-        UnicodeCharacter uniBambooTwo = new UnicodeCharacter("⺮");
-        CodepointExceptionRecord uniBambooTwo_except = new CodepointExceptionRecord(
-            uniBambooTwo, 
-            new UnicodeCharacter("l"),
-            "314314",
-            new List<string>(){new UnicodeCharacter("⺮").Value, new UnicodeCharacter("竹").Value},
-            new List<string>()
-        );
-        
-        UnicodeCharacter uniGold = new UnicodeCharacter("金");
+        string uniGold = new UnicodeCharacter("金").Value;
         CodepointExceptionRecord uniGold_except = new CodepointExceptionRecord(
             uniGold, 
             new UnicodeCharacter("t"),
-            "34112431",
+            new HashSet<string>(){"34112431"},
             new List<string>(){new UnicodeCharacter("金").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniEatOne = new UnicodeCharacter("食");
+        string uniEatOne = new UnicodeCharacter("食").Value;
         CodepointExceptionRecord uniEatOne_except = new CodepointExceptionRecord(
             uniEatOne, 
             new UnicodeCharacter("y"),
-            "34(1|4)511534",
-            new List<string>(){new UnicodeCharacter("食").Value},
+            new HashSet<string>(){"34(1|4)(51154|511211)", "34(1|4)511534", "34(1|4)51154"},
+            new List<string>(){new UnicodeCharacter("飠").Value, new UnicodeCharacter("食").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniEatTwo = new UnicodeCharacter("飠");
+        string uniEatTwo = new UnicodeCharacter("飠").Value;
         CodepointExceptionRecord uniEatTwo_except = new CodepointExceptionRecord(
             uniEatTwo, 
             new UnicodeCharacter("y"),
-            "34(1|4)51154",
-            new List<string>(){new UnicodeCharacter("飠").Value},
+            new HashSet<string>(){"34(1|4)(51154|511211)", "34(1|4)511534", "34(1|4)51154"},
+            new List<string>(){new UnicodeCharacter("飠").Value, new UnicodeCharacter("食").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniCar = new UnicodeCharacter("車");
+        string uniCar = new UnicodeCharacter("車").Value;
         CodepointExceptionRecord uniCar_except = new CodepointExceptionRecord(
             uniCar, 
             new UnicodeCharacter("g"),
-            "1251112",
+            new HashSet<string>(){"1251112"},
             new List<string>(){new UnicodeCharacter("車").Value},
             new List<string>()
         );
 
         
-        UnicodeCharacter uniThread = new UnicodeCharacter("糸");
+        string uniThread = new UnicodeCharacter("糸").Value;
         CodepointExceptionRecord uniThread_except = new CodepointExceptionRecord(
             uniThread, 
             new UnicodeCharacter("h"),
-            "(554234|554444)",
-            new List<string>(){new UnicodeCharacter("糸").Value},
+            new HashSet<string>(){"(554234|554444)", "554234", "554444"},
+            new List<string>(){new UnicodeCharacter("糸").Value, new UnicodeCharacter("糹").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniSayOne = new UnicodeCharacter("言");
+        string uniThreadAlternative = new UnicodeCharacter("糹").Value;
+        CodepointExceptionRecord uniThreadAlternative_except = new CodepointExceptionRecord(
+            uniThread, 
+            new UnicodeCharacter("h"),
+            new HashSet<string>(){"(554234|554444)", "554234", "554444"},
+            new List<string>(){new UnicodeCharacter("糸").Value, new UnicodeCharacter("糹").Value},
+            new List<string>()
+        );
+        
+        string uniSayOne = new UnicodeCharacter("言").Value;
         CodepointExceptionRecord uniSayOne_except = new CodepointExceptionRecord(
             uniSayOne, 
             new UnicodeCharacter("v"),
-            "(1|4)111251",
+            new HashSet<string>(){"(1|4)111251"},
             new List<string>()
             {
                 new UnicodeCharacter("言").Value, new UnicodeCharacter("訁").Value
@@ -176,20 +187,20 @@ public class CodeExceptions
             new List<UnicodeCharacter>()
         );*/
         
-        UnicodeCharacter uniHorse = new UnicodeCharacter("馬");
+        string uniHorse = new UnicodeCharacter("馬").Value;
         CodepointExceptionRecord uniHorse_except = new CodepointExceptionRecord(
             uniHorse, 
             new UnicodeCharacter("b"),
-            "(12|21)11254444",
+            new HashSet<string>(){"(12|21)11254444"},
             new List<string>(){new UnicodeCharacter("馬").Value},
             new List<string>()
         );
         
-        UnicodeCharacter uniGateOne = new UnicodeCharacter("門");
+        string uniGateOne = new UnicodeCharacter("門").Value;
         CodepointExceptionRecord uniGateOne_except = new CodepointExceptionRecord(
             uniGateOne, 
             new UnicodeCharacter("n"),
-            "25112511",
+            new HashSet<string>(){"25112511"},
             new List<string>(){new UnicodeCharacter("門").Value},
             new List<string>()
         );
@@ -202,42 +213,44 @@ public class CodeExceptions
             new List<UnicodeCharacter>(){new UnicodeCharacter("𠁣")},
             new List<UnicodeCharacter>()
         );*/
-        
-        UnicodeCharacter uniGateThree = new UnicodeCharacter("𠃛");
+        /*
+        string uniGateThree = new UnicodeCharacter("𠃛").Value;
         CodepointExceptionRecord uniGateThree_except = new CodepointExceptionRecord(
             uniGateThree, 
             new UnicodeCharacter("n"),
-            "25112511",
+            new HashSet<string>(){"25112511"},
             new List<string>()
             {
                 new UnicodeCharacter("𠁣").Value, new UnicodeCharacter("𠃛").Value
             },
             new List<string>()
-        );
+        );*/
 
         Dictionary<string, CodepointExceptionRecord> result =
             new Dictionary<string, CodepointExceptionRecord>();
-        result.Add(uniHandOne.Value, uniHandOne_except);
-        result.Add(uniHandTwo.Value, uniHandTwo_except);
-        result.Add(uniEye.Value, uniEye_except);
-        result.Add(uniFootOne.Value, uniFootOne_except);
-        result.Add(uniFootTwo.Value, uniFootTwo_except);
-        result.Add(uniInsect.Value, uniInsect_except);
-        result.Add(uniTreeOne.Value, uniTreeOne_except);
+        result.Add(uniHandOne, uniHandOne_except);
+        result.Add(uniHandTwo, uniHandTwo_except);
+        result.Add(uniEye, uniEye_except);
+        result.Add(uniFootOne, uniFootOne_except);
+        result.Add(uniFootTwo, uniFootTwo_except);
+        result.Add(uniInsect, uniInsect_except);
+        result.Add(uniTreeOne, uniTreeOne_except);
         //result.Add(uniTreeTwo, uniTreeTwo_except);
-        result.Add(uniBambooOne.Value, uniBambooOne_except);
-        result.Add(uniBambooTwo.Value, uniBambooTwo_except);
-        result.Add(uniGold.Value, uniGold_except);
-        result.Add(uniEatOne.Value, uniEatOne_except);
-        result.Add(uniEatTwo.Value, uniEatTwo_except);
-        result.Add(uniCar.Value, uniCar_except);
-        result.Add(uniThread.Value, uniThread_except);
-        result.Add(uniSayOne.Value, uniSayOne_except);
+        result.Add(uniBambooOne, uniBambooOne_except);
+        //result.Add(uniBambooTwo, uniBambooTwo_except);
+        result.Add(uniGold, uniGold_except);
+        result.Add(uniEatOne, uniEatOne_except);
+        result.Add(uniEatTwo, uniEatTwo_except);
+        result.Add(uniCar, uniCar_except);
+        result.Add(uniThread, uniThread_except);
+        result.Add(uniThreadAlternative, uniThreadAlternative_except);
+        
+        result.Add(uniSayOne, uniSayOne_except);
         //result.Add(uniSayTwo, uniSayTwo_except);
-        result.Add(uniHorse.Value, uniHorse_except);
-        result.Add(uniGateOne.Value, uniGateOne_except);
+        result.Add(uniHorse, uniHorse_except);
+        result.Add(uniGateOne, uniGateOne_except);
         //result.Add(uniGateTwo, uniGateTwo_except);
-        result.Add(uniGateThree.Value, uniGateThree_except);
+        //result.Add(uniGateThree, uniGateThree_except);
         return result;
 
         //UnicodeCharacter character,
@@ -277,7 +290,10 @@ public class CodeExceptions
             new Dictionary<string, CodepointExceptionRecord>();
         foreach (KeyValuePair<string, CodepointExceptionRecord> item in exceptFromChar)
         {
-            result[item.Value.rawCodepoint] = item.Value;
+            foreach (var VARIABLE in item.Value.rawCodepoint)
+            {
+                result[VARIABLE] = item.Value;
+            }
         }
         return result;
     }

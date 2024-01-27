@@ -4,9 +4,9 @@
 //hvor element er UnicodeCodepoint, dvs. der skal bruge
 //flere 
 public record CodepointExceptionRecord(
-    UnicodeCharacter character,
+    string character,
     UnicodeCharacter alphabetLetter,
-    string rawCodepoint,
+    HashSet<string> rawCodepoint,
     List<string> allAcceptableElems,
     List<string> mistakenMatches
     );
