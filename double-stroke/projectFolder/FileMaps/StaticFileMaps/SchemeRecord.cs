@@ -1,6 +1,8 @@
 ﻿namespace double_stroke.projectFolder.StaticFileMaps;
 
 public record SchemeRecord(
+    List<string> rolledOutNoShape,
+    List<string> rolledOutWithShape,
     string character,
     string rawCodepoint,
     HashSet<string> foundExceptionElems,

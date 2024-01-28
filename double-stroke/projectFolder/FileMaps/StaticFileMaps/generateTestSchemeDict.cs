@@ -25,6 +25,8 @@ public static class generateTestSchemeDict
                     string test1 = "";
                 }
 
+                List<string> rolledOutNoShape = generateRolledOutNoShape(VARIABLE);
+                List<string> rolledOutWithShape = generateRolledOutWithShape(VARIABLE);
                 string characterForScheme = generateCharacterForAcheme(VARIABLE, alphaGen);
                 string rawCodepointForScheme = generateRawCodepointForScheme(VARIABLE, alphaGen);
                 HashSet<string> foundExceptionElemsForScheme = generateFoundExceptionsForScheme(VARIABLE, alphaGen);
@@ -36,6 +38,8 @@ public static class generateTestSchemeDict
                 
                 //VARIABLE.Value.codepointExceptions ?? throw new InvalidOperationException("Object cannot be null.");
                 result.Add(new SchemeRecord(
+                    rolledOutNoShape,
+                    rolledOutWithShape,
                     characterForScheme,
                     rawCodepointForScheme,
                     foundExceptionElemsForScheme,
@@ -46,6 +50,32 @@ public static class generateTestSchemeDict
                     code6ForScheme
                 ));
         }
+        return result;
+    }
+
+    private static List<string> generateRolledOutNoShape(KeyValuePair<string, CodepointWithExceptionRecord> variable)
+    {
+        List<string> result = new List<string>();
+        if (variable.Value != null 
+            && variable.Value.idsLookup != null 
+            && variable.Value.idsLookup.rolledOutIdsWithNoShape != null)
+        {
+            return variable.Value.idsLookup.rolledOutIdsWithNoShape;
+        }
+
+        return result;
+    }
+
+    private static List<string> generateRolledOutWithShape(KeyValuePair<string, CodepointWithExceptionRecord> variable)
+    {
+        List<string> result = new List<string>();
+        if (variable.Value != null 
+            && variable.Value.idsLookup != null 
+            && variable.Value.idsLookup.rolledOutIds != null)
+        {
+            return variable.Value.idsLookup.rolledOutIds;
+        }
+
         return result;
     }
 
