@@ -521,9 +521,9 @@ public class TestScheme: testSetup
         SchemeRecord hand = schemeRecList.FirstOrDefault(
             x => x.character == "甑");
         
-        Assert.IsTrue(hand.rolledOutNoShape.Equals(
+        Assert.IsTrue(hand.rolledOutNoShape.SequenceEqual(
             new List<string>{"丷", "囗", "⺌", "日", "瓦"}));
-        Assert.IsTrue(hand.rolledOutWithShape.Equals(
+        Assert.IsTrue(hand.rolledOutWithShape.SequenceEqual(
             new List<string>{"⿰", "⿱", "丷", "⿱", "⿴", "囗", "⺌", "日", "瓦"}));
         Assert.IsTrue(hand.code4.SetEquals(new HashSet<string>{"wnbl", "inbl"}));
         Assert.IsTrue(hand.code6.SetEquals(new HashSet<string>{"wnbtnl", "inbtnl"}));
