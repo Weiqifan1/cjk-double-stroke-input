@@ -24,9 +24,6 @@ public class CodeExceptions
     public Dictionary<string, CodepointExceptionRecord> generateCodeExceptionsFromCharacter()
     {
         
-        //TODO alle foelgende skal laves om til strings saa jeg kan have laengere kombinationer eg 
-        //   𠂊亅𠂊亅
-        
         string uniHandOne = new UnicodeCharacter("手").Value;
         CodepointExceptionRecord uniHandOne_except = new CodepointExceptionRecord(
             uniHandOne, 

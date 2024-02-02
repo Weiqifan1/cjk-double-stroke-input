@@ -6,8 +6,7 @@ using double_stroke.projectFolder.StaticFileMaps;
 
 public class test_handFull : testSetup
 {
-    //TODO: change initials to be a list and ids matches to be a list
-   
+    
     
     [Test]
     public void handFull_ThatShouldHaveBeenThere()

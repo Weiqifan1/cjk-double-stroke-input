@@ -7,8 +7,6 @@ using double_stroke.projectFolder.StaticFileMaps;
 public class testSetup
 {
     
-    //TODO: change initials to be a list and ids matches to be a list
-
     protected static Dictionary<string, IdsBasicRecord> idsMap;
     protected static Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
     protected static  Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;

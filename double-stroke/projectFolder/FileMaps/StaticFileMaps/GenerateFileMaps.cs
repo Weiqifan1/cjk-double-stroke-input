@@ -342,7 +342,6 @@ public class GenerateFileMaps
         Dictionary<string, CodepointExceptionRecord> codeExceptions, 
         Dictionary<string, IdsBasicRecord> idsMap)
     {
-        //TODO: implement codeRecord
         if (entry.Value.Count != 1)
         {
             throw new FormatException("CodepointBasicRecord is given badly formatted: " + entry);
