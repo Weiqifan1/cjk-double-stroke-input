@@ -8,9 +8,10 @@ public record SchemeRecord(
     HashSet<string> foundExceptionElems,
     string exceptionLetter,
     long? jundaNumber,
-    long? tzaiNumber, 
+    long? tzaiNumber,
     HashSet<string> code4,
     HashSet<string> code6);
+
     /*
         SchemeRecord(
     string character,
@@ -19,7 +20,7 @@ public record SchemeRecord(
     string exceptionLetter,
     HashSet<string> code4,
     HashSet<string> code6);
-        
+
 //test content of 'throwing'
 Assert.AreEqual(throwing.originalCodepoint.rawCodepoint, "121(35|53)");
 Assert.AreEqual(throwing.codepointAfterExceptionremoval,  "(35|53)");
