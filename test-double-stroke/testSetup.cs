@@ -39,6 +39,8 @@ public class testSetup
             codeExceptionsFromIds, idsMap, codepointPath);
         foundExceptions = gen.generateFoundEsceptionsMap(codepointMap, codeExceptionsFromIds, codeExceptionsFromCodepoint, idsMap);
 
+        var isCharFoundExcep = foundExceptions.GetValueOrDefault("是");
+
         //var jundaPath = "../../../projectFolder/StaticFiles/Junda2005.txt";
         //var tzaiPath = "../../../projectFolder/StaticFiles/Tzai2006.txt";
         

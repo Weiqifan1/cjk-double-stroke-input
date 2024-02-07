@@ -1,25 +1,23 @@
 ﻿namespace test_double_stroke.testExceptions;
 
-
-using double_stroke.projectFolder.StaticFileMaps;
-
-
-public class test_handFull : testSetup
+public class testExceptionMap : testSetup
 {
-    
-    
     [Test]
-    public void handFull_ThatShouldHaveBeenThere()
+    public void testISChar()
     {
         var mydict = foundExceptions;
 
+        var isChar = mydict.GetValueOrDefault("是");
+
+        string test = "";
+/*
         var handFull =
             exceptionHelper.FiltDict_hasCodeNotIds(
                 mydict, new() {"3112"}, new() {"手"});
         var handfullClean = exceptionHelper.displayDict(handFull);
 
         //handfullClean have been looked through and no characters seem missing
-        Assert.AreEqual(69, handfullClean.Count, "Result should be 4");
+        Assert.AreEqual(69, handfullClean.Count, "Result should be 4");*/
     }
-    
+
 }

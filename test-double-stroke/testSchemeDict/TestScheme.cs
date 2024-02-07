@@ -534,4 +534,24 @@ public class TestScheme: testSetup
         Assert.IsTrue(hand.tzaiNumber == 14);
     }
     
+    //是
+    [Test]
+    public void noException_IS()
+    {
+        SchemeRecord hand = schemeRecList.FirstOrDefault(
+            x => x.character == "是");
+        
+        Assert.IsTrue(hand.rolledOutNoShape.SequenceEqual(
+            new List<string>{"日", "一", "龰"}));
+        Assert.IsTrue(hand.rolledOutWithShape.SequenceEqual(
+            new List<string>{"⿱", "日", "⿱", "一", "龰"}));
+        Assert.IsTrue(hand.code4.SetEquals(new HashSet<string>{"ngfw"}));
+        Assert.IsTrue(hand.code6.SetEquals(new HashSet<string>{"wnbtnl", "inbtnl"}));
+        Assert.IsTrue(hand.exceptionLetter == null);
+        Assert.IsTrue(hand.foundExceptionElems == null);
+        Assert.IsTrue(hand.rawCodepoint == "(34|43)25243125111(5|21)54");
+        Assert.IsTrue(hand.jundaNumber == 209);
+        Assert.IsTrue(hand.tzaiNumber == 14);
+    }
+    
 }

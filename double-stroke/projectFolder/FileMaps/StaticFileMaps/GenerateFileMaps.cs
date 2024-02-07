@@ -111,7 +111,7 @@ public class GenerateFileMaps
         int numberofmissing = 0;
         foreach (KeyValuePair<string, CodepointBasicRecord> item in codepointMap)
         {
-            if (item.Key.Equals("木"))
+            if (item.Key.Equals("是"))
             {
                 
                 string test = "";
@@ -130,6 +130,9 @@ public class GenerateFileMaps
             result.Add(key, newitem);
         }
         Console.WriteLine(numberofmissing);
+
+        var isChar = result.GetValueOrDefault("是");
+
         return result;
     }
 
@@ -143,7 +146,7 @@ public class GenerateFileMaps
     {
         var localtestvalue = key;
         //CodepointWithExceptionRecord? record = null;
-        var newUnicode = new UnicodeCharacter("签");//new UnicodeCharacter("劧");
+        var newUnicode = new UnicodeCharacter("是");//new UnicodeCharacter("劧");
         var mybool1 = localtestvalue.Equals(newUnicode.Value);
         if (mybool1)
         {

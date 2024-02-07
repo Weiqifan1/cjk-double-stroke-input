@@ -10,7 +10,7 @@ public static class generateTestSchemeDict
         Dictionary<string, FrequencyRecord> tzai)
     {
         AlphabetGenerator alphaGen = new AlphabetGenerator(CodeAlphabet.generateStandardOneAlphabet());
-        List<string> testStr = new List<string> { "糸" };//{"飼"};  //{"签", "扔", "丠", "甑"};
+        List<string> testStr = new List<string> { "是" };//{"飼"};  //{"签", "扔", "丠", "甑"};
 
         List<SchemeRecord> result = new List<SchemeRecord>();
         foreach (var VARIABLE in foundExceptions)
@@ -102,7 +102,7 @@ public static class generateTestSchemeDict
             string test = "";
         }
 
-        if (variable.Value.codepointExceptions != null)
+        if (variable.Value.codepointExceptions != null && variable.Value.idsException != null)
         {
             string firstLetter = variable.Value.codepointExceptions.alphabetLetter.Value;
             HashSet<string> tailRollout =
@@ -164,6 +164,10 @@ public static class generateTestSchemeDict
         {
             result = null;
         }
+        else if (variable.Value.idsException == null)
+        {
+            result = null;
+        }
         else
         {
             result = variable.Value.codepointExceptions.alphabetLetter.Value;
@@ -176,6 +180,10 @@ public static class generateTestSchemeDict
     {
         HashSet<string> result = new HashSet<string>();
         if (variable.Value.codepointExceptions == null)
+        {
+            result = null;
+        }
+        else if (variable.Value.idsException == null)
         {
             result = null;
         }

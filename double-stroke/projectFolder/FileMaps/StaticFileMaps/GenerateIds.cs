@@ -20,7 +20,7 @@ public class GenerateIds
 
         var bamboo = idsMap.GetValueOrDefault("竹");
 
-        var tre2 = idsMap.GetValueOrDefault("金");
+        var tre2 = idsMap.GetValueOrDefault("是");
         
         string test = "";
         /*
@@ -54,7 +54,7 @@ public class GenerateIds
         var endResult = new Dictionary<string, IdsBasicRecord>();
         foreach (var item in genRawIds)
         {
-            if (item.Key.Equals("朩"))//"𢺓")) 签
+            if (item.Key.Equals("是")) //"朩"))//"𢺓")) 签
             {
                 var testRes = "";
             }
@@ -144,7 +144,7 @@ public class GenerateIds
             UnicodeCharacter character = UtilityFunctions.firstUnicodeCharacter(splitstr[1]);
             List<UnicodeCharacter> strSplitIds = UtilityFunctions.CreateUnicodeCharacters(splitstr[2]);
 
-            if (character.Equals(new UnicodeCharacter("朩")))
+            if (character.Equals(new UnicodeCharacter("是")))//"朩")))
             {
                 string testWeird = "";
             }
