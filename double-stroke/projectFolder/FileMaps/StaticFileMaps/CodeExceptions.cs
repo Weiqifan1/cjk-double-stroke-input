@@ -167,13 +167,17 @@ public class CodeExceptions
         CodepointExceptionRecord uniSayOne_except = new CodepointExceptionRecord(
             uniSayOne, 
             new UnicodeCharacter("v"),
-            new HashSet<string>(){"(1|4)111251"},
+            new HashSet<string>(){"(1|4)111251"}, //, "(1|4)111251(554234|554444)"
             new List<string>()
             {
-                new UnicodeCharacter("言").Value, new UnicodeCharacter("訁").Value
+                new UnicodeCharacter("言").Value, 
+                new UnicodeCharacter("訁").Value,
+                new UnicodeCharacter("糸").Value,
+                new UnicodeCharacter("火").Value
             },
             new List<string>()
         );
+        
         /*
         UnicodeCharacter uniSayTwo = new UnicodeCharacter("訁");
         CodepointExceptionRecord uniSayTwo_except = new CodepointExceptionRecord(
