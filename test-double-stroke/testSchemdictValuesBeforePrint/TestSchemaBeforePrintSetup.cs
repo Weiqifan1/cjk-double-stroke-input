@@ -1,4 +1,6 @@
-﻿namespace test_double_stroke.testSchemdictValuesBeforePrint;
+﻿using double_stroke.projectFolder.FileMaps.GenerateFilesController;
+
+namespace test_double_stroke.testSchemdictValuesBeforePrint;
 
 using double_stroke.projectFolder.StaticFileMaps;
 using System.Collections.Generic;
@@ -14,9 +16,11 @@ public class TestSchemaBeforePrintSetup
     public static JsonSerializerOptions options = new JsonSerializerOptions();
     public static string testDirectory = TestContext.CurrentContext.TestDirectory;
     public static string charToSchemaPath = Path.Combine(testDirectory,
-        @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\charToSchemaMap.txt");
+        @"..\..\..\..\" + FilePaths.charToSchemaPathStr);    
+    //@"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\charToSchemaMap.txt");
     public static string codeToSchemaPath = Path.Combine(testDirectory,
-        @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\codeToSchemaMap.txt");
+        @"..\..\..\..\" + FilePaths.codeToSchemaPathStr);    
+    //@"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\codeToSchemaMap.txt");
     public Dictionary<string, SchemeRecord> charToSchemaDict;
     public Dictionary<string, HashSet<SchemeRecord>> codeToSchemaDich;
 

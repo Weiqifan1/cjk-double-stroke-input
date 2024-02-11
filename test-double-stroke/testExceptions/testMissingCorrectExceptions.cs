@@ -90,7 +90,7 @@ public class testMissingCorrectExceptions : testSetup
         //private Dictionary<string, CodepointWithExceptionRecord> foundExceptions;
         //private Dictionary<string, CodepointExceptionRecord> codeExceptionsFromIds;
         //private Dictionary<string, List<CodepointExceptionRecord>> codeExceptionsFromCodepoint;
-        Assert.IsTrue(new HashSet<string>{""}.SetEquals(result.Keys.ToHashSet()));
+        Assert.IsTrue(new HashSet<string>{}.SetEquals(result.Keys.ToHashSet()));
     }
     
     [Test] 

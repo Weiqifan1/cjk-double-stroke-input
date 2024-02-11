@@ -1,4 +1,5 @@
-﻿using test_double_stroke.testExceptions;
+﻿using double_stroke.projectFolder.FileMaps.GenerateFilesController;
+using test_double_stroke.testExceptions;
 
 namespace test_double_stroke;
 
@@ -23,11 +24,14 @@ public class testSetup
         string testDirectory = TestContext.CurrentContext.TestDirectory;
 
         string idsPath = Path.Combine(testDirectory, 
-            @"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
+            @"..\..\..\..\" + FilePaths.idsPathStr);
+            //@"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
         string codepointPath = Path.Combine(testDirectory, 
-            @"..\..\..\..\double-stroke\projectFolder\StaticFiles\codepoint-character-sequence.txt");
+            @"..\..\..\..\" + FilePaths.codepointPathStr);
+            //@"..\..\..\..\double-stroke\projectFolder\StaticFiles\codepoint-character-sequence.txt");
         string newPathForSaveFile = Path.Combine(testDirectory, 
-            @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
+            @"..\..\..\..\" + FilePaths.newPathForSaveFileStr);
+            //@"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
         
         GenerateIds genIds = new GenerateIds();
         GenerateFileMaps gen = new GenerateFileMaps();
@@ -44,8 +48,12 @@ public class testSetup
         //var jundaPath = "../../../projectFolder/StaticFiles/Junda2005.txt";
         //var tzaiPath = "../../../projectFolder/StaticFiles/Tzai2006.txt";
         
-        string jundaPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\Junda2005.txt");
-        string tzaiPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\Tzai2006.txt");
+        string jundaPath = Path.Combine(testDirectory, 
+            @"..\..\..\..\" + FilePaths.jundaPathStr);
+            //@"..\..\..\..\double-stroke\projectFolder\StaticFiles\Junda2005.txt");
+        string tzaiPath = Path.Combine(testDirectory, 
+            @"..\..\..\..\" + FilePaths.tzaiPathStr);
+            //@"..\..\..\..\double-stroke\projectFolder\StaticFiles\Tzai2006.txt");
         
         junda = gen.generateJundaMap(jundaPath);
         tzai = gen.generateTzaiMap(tzaiPath);

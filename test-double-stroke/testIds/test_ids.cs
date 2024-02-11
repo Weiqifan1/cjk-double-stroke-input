@@ -1,4 +1,5 @@
-﻿using double_stroke.projectFolder.StaticFileMaps;
+﻿using double_stroke.projectFolder.FileMaps.GenerateFilesController;
+using double_stroke.projectFolder.StaticFileMaps;
 
 namespace test_double_stroke.testIds;
 
@@ -12,9 +13,12 @@ public class test_ids
     {
         //DONT DELETE!
         string testDirectory = TestContext.CurrentContext.TestDirectory;
-        string idsPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
-        string newPathForSaveFile = Path.Combine(testDirectory, 
-            @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
+        string idsPath = Path.Combine(testDirectory, 
+            @"..\..\..\..\" + FilePaths.idsPathStr);
+            //@"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
+        string newPathForSaveFile = Path.Combine(testDirectory,
+            @"..\..\..\..\" + FilePaths.newPathForSaveFileStr);
+            //@"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
         GenerateIds genIds = new GenerateIds();
         //cjk-double-stroke-input\double-stroke\projectFolder\GeneratedFiles\idsMap.txt
         genIds.generateAndSaveIdsMap(idsPath, newPathForSaveFile);
@@ -25,8 +29,9 @@ public class test_ids
     {
         //DONT DELETE!
         string testDirectory = TestContext.CurrentContext.TestDirectory;
-        string newPathForSaveFile = Path.Combine(testDirectory, 
-            @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
+        string newPathForSaveFile = Path.Combine(testDirectory,
+            @"..\..\..\..\" + FilePaths.newPathForSaveFileStr);
+            //@"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
         GenerateIds genIds = new GenerateIds();
         Dictionary<string, IdsBasicRecord>  idsMap = genIds.readIdsMap(newPathForSaveFile);
         
@@ -43,7 +48,8 @@ public class test_ids
         //DONT DELETE!
         string testDirectory = TestContext.CurrentContext.TestDirectory;
         string newPathForSaveFile = Path.Combine(testDirectory, 
-            @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
+            @"..\..\..\..\" + FilePaths.newPathForSaveFileStr);
+            //@"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\idsMap.txt");
         GenerateIds genIds = new GenerateIds();
         Dictionary<string, IdsBasicRecord>  idsMap = genIds.readIdsMap(newPathForSaveFile);
 
@@ -68,7 +74,7 @@ public class test_ids
         string testDirectory = TestContext.CurrentContext.TestDirectory;
         
         //string idsPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
-        string idsPath = Path.Combine(testDirectory, @"..\..\..\..\double-stroke\projectFolder\StaticFiles\ids.txt");
+        string idsPath = Path.Combine(testDirectory, @"..\..\..\..\" + FilePaths.idsPathStr);
 
         //var idsPath = "../../../double-stroke/projectFolder/StaticFiles/ids.txt"; 
         GenerateIds genIds = new GenerateIds();

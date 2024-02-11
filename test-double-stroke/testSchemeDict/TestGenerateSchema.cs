@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using double_stroke.projectFolder.FileMaps.GenerateFilesController;
 
 namespace test_double_stroke.testSchemeDict;
 
@@ -9,9 +10,11 @@ public class TestGenerateSchema : testSetup
 {
     private static string testDirectory = TestContext.CurrentContext.TestDirectory;
     private string charToSchemaPath = Path.Combine(testDirectory,
-        @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\charToSchemaMap.txt");
+        @"..\..\..\..\" + FilePaths.charToSchemaPathStr);
+        //@"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\charToSchemaMap.txt");
     private string codeToSchemaPath = Path.Combine(testDirectory,
-        @"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\codeToSchemaMap.txt");
+        @"..\..\..\..\" + FilePaths.codepointPathStr);
+        //@"..\..\..\..\double-stroke\projectFolder\GeneratedFiles\codeToSchemaMap.txt");
     
     
     
